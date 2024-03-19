@@ -10,12 +10,108 @@ router.get('/', (req, res)=>{
     //router.get('/', authController.isAuthenticated, (req, res)=>{    
    //     res.render('index', {user:req.user})
 })
-router.get('/login', (req, res)=>{
-    res.render('login', {alert:false})
+
+//aqui manejam,os para que se pueda redireccionar
+
+//condicones
+router.get('/condici', (req, res)=>{
+    res.render('condiciones', {alert:false})
 })
-router.get('/register', (req, res)=>{
-    res.render('register')
+
+router.get('/registroe', (req, res)=>{
+    res.render('registro_enfemera', {alert:false})
 })
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
 
 
 //router para los métodos del controller
