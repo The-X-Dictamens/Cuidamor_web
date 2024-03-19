@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const metodosEnfermeras = require('../controllers/authEnfermera')
 
 //const authController = require('../controllers/authController')
 
@@ -18,24 +19,17 @@ router.get('/condici', (req, res)=>{
     res.render('condiciones', {alert:false})
 })
 
-router.get('/registroe', (req, res)=>{
+router.get('/registroenfermera', (req, res)=>{
     res.render('registro_enfemera', {alert:false})
 })
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
+
+router.get('/vacantes', (req, res)=>{
+    res.render('vacante', {alert:false})
 })
 
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
-
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
-
+router.get('/loginEnfermera', (req, res)=>{
+    res.render('login', {alert:false})
+})/*
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })
@@ -111,12 +105,23 @@ router.get('/', (req, res)=>{
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+
+router.get('/', (req, res)=>{
+    res.render('', {alert:false})
+})
+*/
+
+
 
 
 
 //router para los métodos del controller
-//router.post('/register', authController.register)
-//router.post('/login', authController.login)
+router.post('/register', metodosEnfermeras.registerenfermera)
+router.post('/login', metodosEnfermeras.login)
 //router.get('/logout', authController.logout)
 
 module.exports = router

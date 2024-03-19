@@ -4,20 +4,18 @@ const conexion = require('../database/db')
 const {promisify} = require('util')
 
 //procedimiento para registrarnos
-exports.register = async (req, res)=>{    
+exports.registerenfermera = async (req, res)=>{    
     try {
-        const nombres = req.body.nom
 
+        const nombres = req.body.nom
         const correo = req.body.cor
         const pass = req.body.pass
         const tell = req.body.tel
         const vali = false
-
-
-
+        const rfcs   = req.body.rfc
+        const referencia    =   req.body.ref
         const apellidoPaterno   =   req.body.appat
         const apellidoMaterno   =   req.body.apmat
-        const direccion   =   req.body.dir
         const colonia   =   req.body.col
         const numExterior   =   req.body.nue
         const numInterior   =   req.body.nui
@@ -29,12 +27,119 @@ exports.register = async (req, res)=>{
         const aniosExperiencia = req.body.yxp
         
         let passHash = await bcryptjs.hash(pass, 8)    
+        console.log( nombres,
+            correo ,
+            pass ,
+            tell ,
+            vali ,
+            rfcs ,
+            referencia  ,
+            apellidoPaterno,
+            apellidoMaterno,
+            colonia, 
+            numExterior ,
+            numInterior ,
+            calle   ,   
+            codigoPostal,
+            aniosExperiencia
+            ,cedulaProfesional
+        )
         //console.log(passHash)   
-        conexion.query('INSERT INTO enfermeras SET ?', {enf_:, enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,enf_:,}, (error, results)=>{
+        conexion.query('INSERT INTO enfermeras SET ?', {enf_val:vali, enf_nom:nombres,enf_appat:apellidoPaterno,enf_apmat:apellidoMaterno,enf_col:colonia,enf_cal:calle,enf_cp:codigoPostal,enf_int:numInterior,enf_ext:numInterior,enf_ref:referencia,enf_pas:passHash,enf_corr:correo,enf_rfc:rfcs,enf_ced:cedulaProfesional,enf_yrxp:aniosExperiencia,enf_tel:tell}, (error, results)=>{
             if(error){console.log(error)}
-            res.redirect('/')
+            res.redirect('/vacantes')
         })
     } catch (error) {
         console.log(error)
     }       
+}
+
+exports.login = async (req, res)=>{
+    try {
+        const correo = req.body.cor
+        const pass = req.body.pass        
+
+        if (!correo || !pass) {
+            console.log(correo,pass)
+            res.render('login',{
+                alert:true,
+                alertTitle: "Advertencia",
+                alertMessage: "Ingrese un usuario y password",
+                alertIcon:'info',
+                showConfirmButton: true,
+                timer: false,
+                ruta: 'login'
+            })
+        } else {
+
+            console.log(correo,pass+'primero')
+
+            conexion.query('SELECT * FROM enfermeras WHERE enf_corr = ?', [correo], async (error, results)=>{
+                if (results.length == 0 || !(await bcryptjs.compare(pass, results[0].enf_pass))) {
+                    console.log(correo,pass+'4to')
+
+                    res.render('login', {
+                        alert: true,
+                        alertTitle: "Error",
+                        alertMessage: "Usuario y/o Password incorrectas",
+                        alertIcon:'error',
+                        showConfirmButton: true,
+                        timer: false,
+                        ruta: 'loginEnfermera'    
+                    })
+                } else {
+                    console.log(correo+pass+ 'segudno')
+ 
+                    //inicio de sesión OK
+                    const id = results[0].enf_id
+                    //const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
+                   //     expiresIn: process.env.JWT_TIEMPO_EXPIRA
+                   // })
+                    //generamos el token SIN fecha de expiracion
+                   //const token = jwt.sign({id: id}, process.env.JWT_SECRETO)
+                   console.log("TOKEN: "+token+" para el USUARIO : "+user)
+
+                   const cookiesOptions = {
+                        expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+                        httpOnly: true
+                   }
+                   res.cookie('jwt', token, cookiesOptions)
+                   res.render('loginss', {
+                        alert: true,
+                        alertTitle: "Conexión exitosa",
+                        alertMessage: "¡LOGIN CORRECTO!",
+                        alertIcon:'success',
+                        showConfirmButton: false,
+                        timer: 800,
+                        ruta: ''
+                   })
+                }
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.isAuthenticated = async (req, res, next)=>{
+    if (req.cookies.jwt) {
+        try {
+            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO)
+            conexion.query('SELECT * FROM enfermeras WHERE  enf_id = ?', [decodificada.id], (error, results)=>{
+                if(!results){return next()}
+                req.user = results[0]
+                return next()
+            })
+        } catch (error) {
+            console.log(error)
+            return next()
+        }
+    }else{
+        res.redirect('/login')        
+    }
+}
+
+exports.logout = (req, res)=>{
+    res.clearCookie('jwt')   
+    return res.redirect('/')
 }
