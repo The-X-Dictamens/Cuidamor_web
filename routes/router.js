@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const metodosEnfermeras = require('../controllers/authEnfermera')
 
+const admin = require('../controllers/authAdmin')
+
 //const authController = require('../controllers/authController')
 
 //router para las vistas
@@ -29,11 +31,11 @@ router.get('/vacantes', (req, res)=>{
 
 router.get('/loginEnfermera', (req, res)=>{
     res.render('login', {alert:false})
-})/*
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
 })
-
+router.get('/dictamen', (req, res)=>{
+    res.render('admin', {alert:false})
+})
+/*
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })
@@ -123,5 +125,9 @@ router.get('/', (req, res)=>{
 router.post('/register', metodosEnfermeras.registerenfermera)
 //router.post('/login', metodosEnfermeras.login)
 //router.get('/logout', authController.logout)
+
+//admin
+router.post('/AdminL', admin.login)
+
 
 module.exports = router
