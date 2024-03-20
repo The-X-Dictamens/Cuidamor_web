@@ -6,7 +6,7 @@ const metodosEnfermeras = require('../controllers/authEnfermera')
 
 //router para las vistas
 router.get('/', (req, res)=>{    
-    res.render('index', { user: req.user })
+    res.render('registro_enfemera', { user: req.user })
     
     //router.get('/', authController.isAuthenticated, (req, res)=>{    
    //     res.render('index', {user:req.user})
@@ -19,7 +19,7 @@ router.get('/condici', (req, res)=>{
     res.render('condiciones', {alert:false})
 })
 
-router.get('/registroenfermera', (req, res)=>{
+router.get('/registroenfermer', (req, res)=>{
     res.render('registro_enfemera', {alert:false})
 })
 
@@ -121,7 +121,7 @@ router.get('/', (req, res)=>{
 
 //router para los métodos del controller
 router.post('/register', metodosEnfermeras.registerenfermera)
-router.post('/login', metodosEnfermeras.login)
+//router.post('/login', metodosEnfermeras.login)
 //router.get('/logout', authController.logout)
 
 module.exports = router

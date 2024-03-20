@@ -27,25 +27,10 @@ exports.registerenfermera = async (req, res)=>{
         const aniosExperiencia = req.body.yxp
         
         let passHash = await bcryptjs.hash(pass, 8)    
-        console.log( nombres,
-            correo ,
-            pass ,
-            tell ,
-            vali ,
-            rfcs ,
-            referencia  ,
-            apellidoPaterno,
-            apellidoMaterno,
-            colonia, 
-            numExterior ,
-            numInterior ,
-            calle   ,   
-            codigoPostal,
-            aniosExperiencia
-            ,cedulaProfesional
-        )
-        //console.log(passHash)   
-        conexion.query('INSERT INTO enfermeras SET ?', {enf_val:vali, enf_nom:nombres,enf_appat:apellidoPaterno,enf_apmat:apellidoMaterno,enf_col:colonia,enf_cal:calle,enf_cp:codigoPostal,enf_int:numInterior,enf_ext:numInterior,enf_ref:referencia,enf_pas:passHash,enf_corr:correo,enf_rfc:rfcs,enf_ced:cedulaProfesional,enf_yrxp:aniosExperiencia,enf_tel:tell}, (error, results)=>{
+        console.log(passHash)
+        console.log( nombres,correo , pass ,tell ,vali ,rfcs ,referencia  ,apellidoPaterno,apellidoMaterno,colonia,numExterior ,numInterior ,calle   ,codigoPostal,aniosExperiencia,cedulaProfesional        )
+
+        conexion.query('INSERT INTO enfermeras SET ?', {enf_val:vali, enf_nom:nombres,enf_appat:apellidoPaterno,enf_apmat:apellidoMaterno,enf_col:colonia,enf_cal:calle,enf_cp:codigoPostal,enf_int:numInterior,enf_ext:numInterior,enf_ref:referencia,enf_pas:passHash,enf_corr:correo,enf_rfc:rfcs,enf_ced:cedulaProfesional,enf_yrxp:aniosExperiencia,enf_tel:tell,enf_pas:passHash}, (error, results)=>{
             if(error){console.log(error)}
             res.redirect('/vacantes')
         })
@@ -56,11 +41,10 @@ exports.registerenfermera = async (req, res)=>{
 
 exports.login = async (req, res)=>{
     try {
-        const correo = req.body.cor
-        const pass = req.body.pass        
+        const user1 = req.body.user
+        const pass1 = req.body.pass        
 
-        if (!correo || !pass) {
-            console.log(correo,pass)
+        if(!user1 || !pass1 ){
             res.render('login',{
                 alert:true,
                 alertTitle: "Advertencia",
@@ -70,14 +54,9 @@ exports.login = async (req, res)=>{
                 timer: false,
                 ruta: 'login'
             })
-        } else {
-
-            console.log(correo,pass+'primero')
-
-            conexion.query('SELECT * FROM enfermeras WHERE enf_corr = ?', [correo], async (error, results)=>{
-                if (results.length == 0 || !(await bcryptjs.compare(pass, results[0].enf_pass))) {
-                    console.log(correo,pass+'4to')
-
+        }else{
+            conexion.query('SELECT * FROM users WHERE user = ?', [user1], async (error, infoe)=>{
+                if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, infoe[0].pass)) ){
                     res.render('login', {
                         alert: true,
                         alertTitle: "Error",
@@ -85,26 +64,24 @@ exports.login = async (req, res)=>{
                         alertIcon:'error',
                         showConfirmButton: true,
                         timer: false,
-                        ruta: 'loginEnfermera'    
+                        ruta: 'login'    
                     })
-                } else {
-                    console.log(correo+pass+ 'segudno')
- 
+                }else{
                     //inicio de sesión OK
-                    const id = results[0].enf_id
-                    //const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
-                   //     expiresIn: process.env.JWT_TIEMPO_EXPIRA
-                   // })
+                    const id = infoe[0].id
+                    const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
+                        expiresIn: process.env.JWT_TIEMPO_EXPIRA
+                    })
                     //generamos el token SIN fecha de expiracion
                    //const token = jwt.sign({id: id}, process.env.JWT_SECRETO)
-                   console.log("TOKEN: "+token+" para el USUARIO : "+user)
+                   console.log("TOKEN: "+token+" para el USUARIO : "+user1)
 
                    const cookiesOptions = {
                         expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
                         httpOnly: true
                    }
                    res.cookie('jwt', token, cookiesOptions)
-                   res.render('loginss', {
+                   res.render('login', {
                         alert: true,
                         alertTitle: "Conexión exitosa",
                         alertMessage: "¡LOGIN CORRECTO!",
@@ -121,23 +98,29 @@ exports.login = async (req, res)=>{
     }
 }
 
-exports.isAuthenticated = async (req, res, next)=>{
+exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
-            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO)
-            conexion.query('SELECT * FROM enfermeras WHERE  enf_id = ?', [decodificada.id], (error, results)=>{
-                if(!results){return next()}
-                req.user = results[0]
-                return next()
-            })
+            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+            conexion.query('SELECT user FROM users WHERE id = ?', [decodificada.id], (error, infoe) => {
+                if (error) {
+                    console.log(error);
+                    return next();
+                }
+                if (infoe && infoe.length > 0) {
+                    req.user = infoe[0].user
+                }
+                return next();
+            });
         } catch (error) {
-            console.log(error)
-            return next()
+            console.log(error);
+            return next();
         }
-    }else{
-        res.redirect('/login')        
+    } else {
+        res.redirect('/login')
     }
 }
+
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
