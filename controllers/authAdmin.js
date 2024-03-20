@@ -20,8 +20,8 @@ exports.login = async (req, res) => {
                 ruta: 'admin'
             })
         }else{
-            conexion.query('SELECT * FROM users WHERE user = ?', [user1], async (error, infoe)=>{
-                if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, infoe[0].pass)) ){
+            conexion.query('SELECT * FROM users WHERE user = ? & user_rol = 99', [user1], async (error, infoe)=>{
+                if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, in2foe[0].pass)) ){
                     res.render('admin', {
                         alert: true,
                         alertTitle: "Error",

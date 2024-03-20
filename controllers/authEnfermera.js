@@ -136,6 +136,8 @@ exports.ShowforAdmin = (req, res) => {
         } else {
             listadoenf.forEach(listadoenf => {
                 req.enfermeras = listadoenf
+                console.log(listadoenf)
+                res.render()
                 
                 
             })
