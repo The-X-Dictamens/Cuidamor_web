@@ -1,0 +1,38 @@
+<%-include layouts/header.ejs %>
+
+    <div class="container">
+      <h1> <%= title %> </h1>
+
+<!--Aqui vamos a leer la info de la bd-->
+
+
+      <div class="row">
+
+        <% for(var libro = 0; libro<Libros.length;libro++ ) {%>
+          <!--Ahora cada vex que se agregue una nueva cosa de la base de datos ya se va a crear sola la tarjeta-->
+   
+          <div class="col-sm-6">
+            <div class="card">
+              <img src="<%=Libros[libro].imagen %>" class="card-img-top" alt=".si ves esto hubo un aborto esponteneo">
+              <div class="card-body">
+                <h5 class="card-title"><%=Libros[libro].titulo %></h5>
+                <p class="card-text"><%=Libros[libro].descripcion %>
+                <br>
+                Precio: $ <%=Libros[libro].precio %>
+              </p>
+                
+                <a href="#" class="btn btn-primary">Comprar en la dip wep</a>
+              </div>
+            </div>
+          </div>
+   
+           <% } %>
+           
+        
+       
+
+
+    </div>
+<%- include layouts/footer.ejs %>
+  </body>
+</html>
