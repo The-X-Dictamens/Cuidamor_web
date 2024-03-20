@@ -1,0 +1,89 @@
+/* styles.css */
+
+/* Estilos de la barra de navegación */
+nav.navbar-green {
+    background-color: #44EBA3 !important; 
+  }
+  
+  /* Estilos de las partes desplegables del menú */
+  .dropdown-menu {
+    background-color: #44EBA3;
+    max-width: calc(100vw - 40px); /* Establecer el ancho máximo relativo al ancho de la ventana del navegador */
+    right: 20px; /* Ajustar la posición del menú desplegable hacia la izquierda */
+  }
+  
+  
+  /* Estilos de las secciones */
+  section {
+    margin: 50px 0;
+    text-align: center;
+  }
+  
+  #section3 {
+    margin: 50px 0;
+  }
+  
+  #section3 h2 {
+    display: inline-block;
+    margin-bottom: 30px;
+    font-size: 2rem;
+  }
+  
+  /* Estilos de los beneficios */
+  #beneficios {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 50px;
+    text-align: center;
+  }
+  
+  #beneficios h2 {
+    grid-column: 1 / 3;
+    text-align: center;
+  }
+  
+  #beneficios .beneficio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #beneficios .beneficio img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el footer */
+  footer {
+    border-top: 1px solid #dee2e6;
+    background-color: #44EBA3; /* Cambio del color de fondo */
+    padding: 30px 0; /* Añadir relleno al footer */
+  }
+  
+  
+  
+  footer ul {
+    padding: 0;
+    margin-bottom: 20px; /* Añadir espacio entre las listas */
+  }
+  
+  footer ul li {
+    list-style: none;
+    margin-bottom: 10px;
+  }
+  
+  
+  
+  footer ul li a:hover {
+    color: #007bff;
+  }
+  
+  footer .col-md-6 {
+    margin-top: 0; /* Eliminar el margen superior */
+  }
+  
