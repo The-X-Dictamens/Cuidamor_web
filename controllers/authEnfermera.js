@@ -126,3 +126,20 @@ exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
     return res.redirect('/')
 }
+
+exports.ShowforAdmin = (req, res) => {
+    conexion.query('SELECT * FROM enfermeras', function (error, listadoenf) {
+        if (error) {
+            console.log(error)
+            return next()
+            
+        } else {
+            listadoenf.forEach(listadoenf => {
+                req.enfermeras = listadoenf
+                
+                
+            })
+            res.redirect('/dictamen')
+        }
+    })
+}

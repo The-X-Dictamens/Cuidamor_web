@@ -1,57 +1,38 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.87.0">
-    <title>LOGIN CON NODE + JWT</title>
+<%-include layouts/header.ejs %>
+
+    <div class="container">
+      <h1> <%= title %> </h1>
+
+<!--Aqui vamos a leer la info de la bd-->
 
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <div class="row">
 
-    
-    <!-- Custom styles for this template -->
-    <link href="css/signin.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-  </head>
-  <body class="text-center">
-    
-<main class="form-signin text-center shadow-lg p-3 mb-5">
+        <% for(var libro = 0; libro<Libros.length;libro++ ) {%>
+          <!--Ahora cada vex que se agregue una nueva cosa de la base de datos ya se va a crear sola la tarjeta-->
+   
+          <div class="col-sm-6">
+            <div class="card">
+              <img src="<%=Libros[libro].imagen %>" class="card-img-top" alt=".si ves esto hubo un aborto esponteneo">
+              <div class="card-body">
+                <h5 class="card-title"><%=Libros[libro].titulo %></h5>
+                <p class="card-text"><%=Libros[libro].descripcion %>
+                <br>
+                Precio: $ <%=Libros[libro].precio %>
+              </p>
+                
+                <a href="#" class="btn btn-primary">Comprar en la dip wep</a>
+              </div>
+            </div>
+          </div>
+   
+           <% } %>
+           
+        
+       
 
-  <form id="formLogin" action="/login" method="POST">
-    <img class="mb-4" src="img/bootstrap-logo.svg" alt="" width="72" height="57">
-    <div class="form-floating">
-      <input type="text" class="form-control" id="user" name="user" placeholder="User">
-      <label for="user">User</label>
+
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
-      <label for="pass">Password</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>    
-  </form>
-
-  <br>
-  <a href="/register" type="button" class="w-100 btn btn-lg btn-bd-primary">Registrarse</a>
-</main>
-
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <% if(alert) { %>
-    <script>
-      Swal.fire({
-        title: '<%= alertTitle %>',
-        text:'<%= alertMessage %>',
-        icon:'<%= alertIcon %>',
-        showConfirmButton: <%= showConfirmButton %>,
-        timer: <%= timer %>
-      }).then(()=>{
-        window.location = '/<%= ruta %>'
-      })
-    </script>
-  <% } %>
-
+<%- include layouts/footer.ejs %>
   </body>
 </html>
