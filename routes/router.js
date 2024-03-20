@@ -35,11 +35,11 @@ router.get('/loginEnfermera', (req, res)=>{
 router.get('/dictamen', (req, res)=>{
     res.render('admin', {alert:false})
 })
-/*
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
 
+router.get('/landin', (req, res)=>{
+    res.render('index', {alert:false})
+})
+/*
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })
