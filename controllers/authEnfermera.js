@@ -145,3 +145,14 @@ exports.ShowforAdmin = (req, res) => {
         }
     })
 }
+
+exports.view = function(req, res){
+    const enfermeras = conexion.query('SELECT * FROM enfermera', function(err, rows) {
+      if(err) throw err;
+      res.render('enfermera', {enfermeras : rows});
+    });
+};
+  
+//exports.infodpVista = function (req, res) {
+    //conexion.query('SELECT * FROM enfermera', (err, rows) {
+   // }}
