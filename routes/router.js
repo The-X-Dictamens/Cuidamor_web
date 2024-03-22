@@ -3,6 +3,7 @@ const router = express.Router()
 const metodosEnfermeras = require('../controllers/authEnfermera')
 
 const admin = require('../controllers/authAdmin')
+const conexion = require('../database/db')
 
 //const authController = require('../controllers/authController')
 
@@ -32,18 +33,26 @@ router.get('/vacantes', (req, res)=>{
 router.get('/loginEnfermera', (req, res)=>{
     res.render('login', {alert:false})
 })
-router.get('/dictamen', (req, res)=>{
-    res.render('admin', {alert:false})
+router.get('/dictamen', (req, res) => {
+    
+    conexion.query('select * from enfermeras ', (error, results) => {
+        if (error) {
+            throw error;
+            
+        } else {
+            res.render('admin', { variableEnfereras: results });
+        }
+    })
 })
 
 router.get('/landin', (req, res)=>{
     res.render('index', {alert:false})
 })
-/*
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
 
+router.get('/enfermerasrevisar',(req, res)=>{
+    res.render('perfil_enfermera', {alert:false})
+})
+/*
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })
@@ -128,6 +137,8 @@ router.post('/register', metodosEnfermeras.registerenfermera)
 
 //admin
 router.post('/AdminL', admin.login)
+
+router.get('/enfermera', metodosEnfermeras.view);
 
 
 module.exports = router
