@@ -56,13 +56,13 @@ router.get('/landin', (req, res)=>{
 router.get('/enfermerasrevisar',(req, res)=>{
     res.render('perfil_enfermera', {alert:false})
 })
-/*
 
 
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
+
+router.get('/chambitas', (req, res)=>{
+    res.render('vacantes', {alert:false})
 })
-
+/*
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
 })

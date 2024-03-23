@@ -89,7 +89,7 @@ exports.login = async (req, res)=>{
                         httpOnly: true
                    }
                    res.cookie('jwt', token, cookiesOptions)
-                   res.render('login', {
+                   res.render('vacantes', {
                         alert: true,
                         alertTitle: "Conexión exitosa",
                         alertMessage: "¡LOGIN CORRECTO!",
