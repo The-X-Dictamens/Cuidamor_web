@@ -55,7 +55,7 @@ exports.login = async (req, res)=>{
                 ruta: 'login'
             })
         }else{
-            conexion.query('SELECT * FROM users WHERE user = ?', [user1], async (error, infoe)=>{
+            conexion.query('SELECT * FROM enfermeras WHERE enf_corr = ?', [user1], async (error, infoe)=>{
                 if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, infoe[0].pass)) ){
                     res.render('login', {
                         alert: true,
