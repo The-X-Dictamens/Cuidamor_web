@@ -19,50 +19,74 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
   <body class="text-center">
+    <main class="form-signin">
+      <form action="/register" method="POST">
+        <h1 class="h3 mb-3 fw-normal">Registro Cuidamor</h1>
 
-    <form action="/register" method="POST">
-<label for="">Formulario Invisible</label>
-<label for=""></label>
-<label for="Nombre"></label>
-<input type="text" name="nom" id="nom">
-<label for="">Apellido P</label>
-<input type="text" name="cor" id="cor">
-<label for="">ApellidoM</label>
-<input type="text" name="pass" id="pass">
-<label for="">contra</label>
-<input type="number" name="tele" id="tele">
-<label for="">correo</label>
-<input type="text" name="rfc" id=rfc"">
-<label for="">10</label>
-<input type="text" name="ref" id="ref">
-<label for="">9</label>
-<input type="text" name="appat" id="appat">
-<label for="">8</label>
-<input type="text" name="apmat" id="apmat">
-<label for="">7</label>
-<input type="text" name="col" id="col">
-<label for="">6</label>
-
-<input type="text" name="nue" id="nue">
-<label for="">5</label>
-<input type="text" name="nui" id="nui">
-<label for="">4</label>
-<input type="text" name="cal" id="cal">
-<label for="">3</label>
-<input type="text" name="cp" id="cp">
-<label for="">2</label>
-<input type="text" name="cepro" id="cepro">
-<label for="">1</label>
-<input type="text" name="yxp" id="yxp">
-      
- 
-        <div class="col-sm-10">
-          <a href="/" type="button" class="btn btn-secondary">Abortar a los 260 </a>
-
-          <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+        <div class="form-floating">
+          <input type="text" name="nom" id="nom" class="form-control" placeholder="Nombre" required />
+          <label for="nom">Nombre</label>
         </div>
-      </div>
-    </form>
+        <div class="form-floating">
+          <input type="text" name="cor" id="cor" class="form-control" placeholder="Apellido Paterno" required />
+          <label for="cor">Apellido Paterno</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" name="apmat" id="apmat" class="form-control" placeholder="Apellido Materno" required />
+          <label for="apmat">Apellido Materno</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" name="pass" id="pass" class="form-control" placeholder="Contraseña" required />
+          <label for="pass">Contraseña</label>
+        </div>
+        <div class="form-floating">
+          <input type="number" name="tele" id="tele" class="form-control" placeholder="Teléfono" required />
+          <label for="tele">Teléfono</label>
+        </div>
+        <div class="form-floating">
+          <input type="email" name="rfc" id="rfc" class="form-control" placeholder="Correo electrónico" required />
+          <label for="rfc">Correo electrónico</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" name="ref" id="ref" class="form-control" placeholder="Referencia" required />
+          <label for="ref">Referencia</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" name="appat" id="appat" class="form-control" placeholder="Apellido Paterno (otro)" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="apmat" id="apmat" class="form-control" placeholder="Apellido Materno (otro)" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="col" id="col" class="form-control" placeholder="Colonia" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="nue" id="nue" class="form-control" placeholder="Número exterior" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="nui" id="nui" class="form-control" placeholder="Número interior" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="cal" id="cal" class="form-control" placeholder="Calle" />
+        </div>
+        <div class="form-floating">
+          <input type="number" name="cp" id="cp" class="form-control" placeholder="Código postal" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="cepro" id="cepro" class="form-control" placeholder="Ciudad / Población" />
+        </div>
+        <div class="form-floating">
+          <input type="text" name="yxp" id="yxp" class="form-control" placeholder="Estado / Provincia" />
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+          Crear Cuenta
+        </button>
+      </form>
+      <small class="d-block text-center mt-3">
+        ¿Ya tienes una cuenta? <a href="/">Iniciar Sesión</a>
+      </small>
+    </main>
   </body>
 </html>
 

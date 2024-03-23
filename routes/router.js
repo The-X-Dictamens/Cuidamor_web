@@ -8,7 +8,11 @@ const conexion = require('../database/db')
 //const authController = require('../controllers/authController')
 
 //router para las vistas
-router.get('/', (req, res)=>{    
+
+router.get('/', (req, res)=>{
+    res.render('index', {alert:false})
+})
+router.get('/registere', (req, res)=>{    
     res.render('registro_enfemera', { user: req.user })
     
     //router.get('/', authController.isAuthenticated, (req, res)=>{    
@@ -53,9 +57,7 @@ router.get('/enfermerasrevisar',(req, res)=>{
     res.render('perfil_enfermera', {alert:false})
 })
 /*
-router.get('/', (req, res)=>{
-    res.render('', {alert:false})
-})
+
 
 router.get('/', (req, res)=>{
     res.render('', {alert:false})
