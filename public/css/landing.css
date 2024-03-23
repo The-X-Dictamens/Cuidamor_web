@@ -4,25 +4,7 @@
 nav.navbar-green {
     background-color: #5BC0EB !important; 
   }
-  
-  .dropdown-menu.show {
-    display: block;
-    transition: all 0.3s ease;
-    opacity: 1;
-}
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
-    z-index: 10;
-    padding: 10px;
-}
 
   /* Estilos de las secciones */
   section {
