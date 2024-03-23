@@ -41,10 +41,10 @@ exports.registerenfermera = async (req, res)=>{
 
 exports.login = async (req, res)=>{
     try {
-        const user1 = req.body.user
-        const pass1 = req.body.pass        
+        const users = req.body.user
+        const passw = req.body.pass        
 
-        if(!user1 || !pass1 ){
+        if(!users || !passw ){
             res.render('login',{
                 alert:true,
                 alertTitle: "Advertencia",
@@ -55,8 +55,11 @@ exports.login = async (req, res)=>{
                 ruta: 'login'
             })
         }else{
-            conexion.query('SELECT * FROM enfermeras WHERE enf_corr = ?', [user1], async (error, infoe)=>{
-                if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, infoe[0].pass)) ){
+            conexion.query('SELECT * FROM enfermeras WHERE enf_corr = ?', [users], async (error, results) => {
+                console.log('tu error al nacer es '+error)
+                if (results.length == 0 || !(await bcryptjs.compare(passw, results[0].enf_pas))) {
+                    console.log(error)
+                    
                     res.render('login', {
                         alert: true,
                         alertTitle: "Error",
@@ -65,16 +68,21 @@ exports.login = async (req, res)=>{
                         showConfirmButton: true,
                         timer: false,
                         ruta: 'login'    
-                    })
-                }else{
+                    }
+                    )
+                } else {
+                    console.log(users+passw)
+
                     //inicio de sesión OK
-                    const id = infoe[0].id
+                    const id = results[0].id
                     const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
                         expiresIn: process.env.JWT_TIEMPO_EXPIRA
                     })
+                    console.log(this.login)
+
                     //generamos el token SIN fecha de expiracion
                    //const token = jwt.sign({id: id}, process.env.JWT_SECRETO)
-                   console.log("TOKEN: "+token+" para el USUARIO : "+user1)
+                   console.log("TOKEN: "+token+" para la enfermera : "+users)
 
                    const cookiesOptions = {
                         expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
@@ -97,6 +105,7 @@ exports.login = async (req, res)=>{
         console.log(error)
     }
 }
+
 
 exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
