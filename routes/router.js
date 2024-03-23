@@ -134,7 +134,7 @@ router.get('/', (req, res)=>{
 
 //router para los métodos del controller
 router.post('/register', metodosEnfermeras.registerenfermera)
-//router.post('/login', metodosEnfermeras.login)
+router.post('/login', metodosEnfermeras.login)
 //router.get('/logout', authController.logout)
 
 //admin
