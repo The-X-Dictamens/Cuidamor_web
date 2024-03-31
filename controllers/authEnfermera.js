@@ -111,18 +111,23 @@ exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
             const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            conexion.query('SELECT user FROM users WHERE id = ?', [decodificada.id], (error, infoe) => {
+            conexion.query('SELECT enfermeras FROM cuidamorfst WHERE id = ?', [decodificada.id], (error, infoe) => {
                 if (error) {
                     console.log(error);
                     return next();
                 }
                 if (infoe && infoe.length > 0) {
+                    console.log('cockrecto autenticado')
                     req.user = infoe[0].user
                 }
+                console.log('cockrecto autenticado1')
+
                 return next();
             });
         } catch (error) {
             console.log(error);
+            console.log('incockrecto autenticado')
+
             return next();
         }
     } else {

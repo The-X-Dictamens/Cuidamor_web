@@ -25,17 +25,17 @@ app.use('/', require('./routes/router'))
 
 //para que no se regrese y nos violin
 
-//app.use(function (req, res, next) {
-    //if (!req.user) 
-   //     res.header('Cache-Control', 'private', 'no-cache', 'no-store', 'must-revalidate');
-//});
+app.use(function (req, res, next) {
+    if (!req.user) 
+        res.header('Cache-Control', 'private', 'no-cache', 'no-store', 'must-revalidate');
+});
 
 //Para eliminar la cache 
-//app.use(function(req, res, next) {
-    //if (!req.user)
-    //    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    //next();
-//});
+app.use(function(req, res, next) {
+    if (!req.user)
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    next();
+});
 
 
 app.listen(2024, ()=>{
