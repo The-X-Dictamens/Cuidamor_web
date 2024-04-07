@@ -23,6 +23,19 @@ app.use(cookieParser())
 //llamar al router
 app.use('/', require('./routes/router'))
 
+//Admin
+app.use('/', require('./routes/routerAdmin'))
+
+//Usuario
+app.use('/', require('./routes/routerUsuario'))
+
+//Cuidador
+app.use('/', require('./routes/routerCuidador'))
+
+//Paciente
+app.use('/', require('./routes/routerPaciente'))
+
+
 //para que no se regrese y nos violin
 
 app.use(function (req, res, next) {
