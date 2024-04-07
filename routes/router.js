@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const metodosEnfermeras = require('../controllers/authEnfermera')
+const metodosEnfermeras = require('../controllers_Acces/authEnfermera')
 
-const admin = require('../controllers/authAdmin')
+const admin = require('../controllers_Acces/authAdmin')
 
-const metodosusers= require('../controllers/AuthUsers')
+const metodosusers= require('../controllers_Acces/AuthUsers')
 
 
 const conexion = require('../database/db')
