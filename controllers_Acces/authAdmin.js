@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken')
 const bcryptjs = require('bcryptjs')
-const conexion = require('../database/db')
+const conexion = require('../database/db');
 const {promisify} = require('util')
 
 
 exports.login = async (req, res) => {
     try {
-        const user1 = req.body.user
-        const pass1 = req.body.pass        
+        const userA = req.body.user
+        const passA = req.body.pass        
 
-        if(!user1 || !pass1 ){
+        if(!userA || !passA ){
             res.render('dictamen',{
                 alert:true,
                 alertTitle: "Advertencia",
@@ -20,8 +20,8 @@ exports.login = async (req, res) => {
                 ruta: 'admin'
             })
         }else{
-            conexion.query('SELECT * FROM users WHERE user = ? & user_rol = 99', [user1], async (error, infoe)=>{
-                if( infoe.length == 0 || ! (await bcryptjs.compare(pass1, in2foe[0].pass)) ){
+            conexion.query('SELECT * FROM users WHERE user = ? & user_rol = 99', [userA], async (error, infoe)=>{
+                if( infoe.length == 0 || ! (await bcryptjs.compare(passA, infoe[0].pass)) ){
                     res.render('admin', {
                         alert: true,
                         alertTitle: "Error",
@@ -39,21 +39,21 @@ exports.login = async (req, res) => {
                     })
                     //generamos el token SIN fecha de expiracion
                    //const token = jwt.sign({id: id}, process.env.JWT_SECRETO)
-                   console.log("TOKEN: "+token+" para el USUARIO : "+user1)
+                   console.log("TOKEN: "+token+" para el Admin : "+userA)
 
                    const cookiesOptions = {
                         expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
                         httpOnly: true
                    }
                    res.cookie('jwt', token, cookiesOptions)
-                   res.render('login', {
+                   res.render('vacantes', {
                         alert: true,
                         alertTitle: "Conexión exitosa",
                         alertMessage: "¡LOGIN CORRECTO!",
                         alertIcon:'success',
                         showConfirmButton: false,
                         timer: 800,
-                        ruta: ''
+                        ruta: 'vacantes'
                    })
                 }
             })
@@ -67,7 +67,7 @@ exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
             const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            conexion.query('SELECT user FROM users WHERE id = ?', [decodificada.id], (error, infoe) => {
+            conexion.query('SELECT user FROM admin WHERE adm_id = ?', [decodificada.id], (error, infoe) => {
                 if (error) {
                     console.log(error);
                     return next();

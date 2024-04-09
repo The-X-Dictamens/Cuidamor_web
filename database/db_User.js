@@ -1,6 +1,6 @@
 const mysql = require('mysql2')
 
-const conexionEmpresa = mysql.createConnection({
+const conexionUsers = mysql.createConnection({
 
     host: process.env.DB_HOST,
 
@@ -8,14 +8,14 @@ const conexionEmpresa = mysql.createConnection({
 
     password: process.env.DB_PASSw,
 
-    database: process.env.DB_DATABASE,
+    database: process.env.DB_DATABASEUSER,
     
 
 })
 
 conexion.connect( (error) => {
     if (error) {
-        console.log('EL error esta al nacer porque: ' + error)
+        console.log('EL error esta al nacer porque tu base de usuarios: ' + error)
         return
 
     }
@@ -25,4 +25,4 @@ conexion.connect( (error) => {
 
 
 
-module.exports = conexionEmpresa
+module.exports = conexionUsers

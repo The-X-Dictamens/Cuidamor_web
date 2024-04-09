@@ -1,1 +1,0 @@
-export const registerenfermera = (req, res) = > res.send('orueba1')

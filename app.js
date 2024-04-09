@@ -18,24 +18,37 @@ app.use(express.json())
 dotenv.config({ path: './env/.env' })
 
     //para poder trabajar con las cookies
-//app.use(cookieParser())
+app.use(cookieParser())
 
 //llamar al router
 app.use('/', require('./routes/router'))
 
+//Admin
+app.use('/', require('./routes/routerAdmin'))
+
+//Usuario
+app.use('/', require('./routes/routerUsuario'))
+
+//Cuidador
+app.use('/', require('./routes/routerCuidador'))
+
+//Paciente
+app.use('/', require('./routes/routerPaciente'))
+
+
 //para que no se regrese y nos violin
 
-//app.use(function (req, res, next) {
-    //if (!req.user) 
-   //     res.header('Cache-Control', 'private', 'no-cache', 'no-store', 'must-revalidate');
-//});
+app.use(function (req, res, next) {
+    if (!req.user) 
+        res.header('Cache-Control', 'private', 'no-cache', 'no-store', 'must-revalidate');
+});
 
 //Para eliminar la cache 
-//app.use(function(req, res, next) {
-    //if (!req.user)
-    //    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    //next();
-//});
+app.use(function(req, res, next) {
+    if (!req.user)
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    next();
+});
 
 
 app.listen(2024, ()=>{
