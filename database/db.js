@@ -13,7 +13,7 @@ const conexionEmpresa = mysql.createConnection({
 
 })
 
-conexion.connect( (error) => {
+conexionEmpresa.connect( (error) => {
     if (error) {
         console.log('EL error esta al nacer porque: ' + error)
         return

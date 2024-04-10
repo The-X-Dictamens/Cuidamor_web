@@ -20,9 +20,6 @@ dotenv.config({ path: './env/.env' })
     //para poder trabajar con las cookies
 app.use(cookieParser())
 
-//llamar al router
-app.use('/', require('./routes/router'))
-
 //Admin
 app.use('/', require('./routes/routerAdmin'))
 
