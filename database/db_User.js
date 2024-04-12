@@ -13,7 +13,7 @@ const conexionUsers = mysql.createConnection({
 
 })
 
-conexion.connect( (error) => {
+conexionUsers.connect( (error) => {
     if (error) {
         console.log('EL error esta al nacer porque tu base de usuarios: ' + error)
         return
