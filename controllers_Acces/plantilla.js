@@ -1,10 +1,10 @@
-const conexionU = require('../database/db_User');
+const conexion = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 // Convierte la función query en una función que devuelve una promesa
-const queryAsync = promisify(conexionU.query).bind(conexionU);
+const queryAsync = promisify(conexion.query).bind(conexion);
 
 //procedimiento para registrarnos
 exports.registrarUsuario = async (req, res)=>{    
@@ -39,8 +39,56 @@ exports.registrarUsuario = async (req, res)=>{
 
 exports.IniciarSesionUsuario = async (req, res) => {
     try {
+        const user1 = req.body.user
+        const pass1 = req.body.pass
+
+        // Consultar el usuario y la contraseña en la base de datos
+        const results = await queryAsync('SELECT idDatosA   , idDatosA FROM datosa WHERE CorreoA = ? AND PassA = ?', [user1, pass1]);
+
+
+        if (results.length === 0) {
+            // Si no se encuentra un usuario con las credenciales proporcionadas, retornar un mensaje de error
+            return res.render('login_usuario', {
+                alert: true,
+                alertTitle: "Error",
+                alertMessage: "Usuario y/o contraseña incorrectos",
+                alertIcon: 'error',
+                showConfirmButton: true,
+                timer: 1000,
+                ruta: 'Login'
+            });
+        }
+
+        // Generar el token JWT
+        const userId = results[0].idDatosA;
+        const token = jwt.sign({ userId: userId }, process.env.JWT_SECRETO, {
+            expiresIn: process.env.JWT_TIEMPO_EXPIRA
+        });
+
+          // Obtener el ID de usuario y el ID de datos de acceso
+        const datosAccesoId = results[0].idDatosA;
+
+        console.log(datosAccesoId)
+        res.render('Login_usuario', {
+            alert: true,
+            alertTitle: "Conexión exitosa",
+            alertMessage: "¡LOGIN CORRECTO!",
+            alertIcon:'success',
+            showConfirmButton: false,
+            timer: 800,
+            ruta: 'loginBien'
+       })
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.IniciarSesionUsuario2 = async (req, res) => {
+    try {
         const user = req.body.user;
         const pass = req.body.pass;
+
         // Consultar el usuario en la base de datos
         const results = await queryAsync('SELECT idDatosA, CorreoA, PassA FROM datosa WHERE CorreoA = ?', [user]);
 
@@ -64,19 +112,24 @@ exports.IniciarSesionUsuario = async (req, res) => {
 
         const resultadosUser = await queryAsync('SELECT idDatosG, NombreG FROM datosg WHERE idDatosA = ?', [userId]);
 
+
         const Id_usuario = resultadosUser[0].idDatosG;
         const nom_usuario = resultadosUser[0].NombreG;
+
 
         // Generar el token JWT con más información del usuario
         const token = jwt.sign({ idDatosG: Id_usuario, NombreG: nom_usuario, idDatosA:userId }, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
+
         // Enviar el token JWT al cliente
         res.cookie('jwt', token, {
            // expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-            httpOnly: true        
+            httpOnly: true
+        
         });
+
         // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
         res.render('vista_usuario', {
             alert: true,
@@ -96,7 +149,8 @@ exports.IniciarSesionUsuario = async (req, res) => {
 
 //https://chat.openai.com/share/016ea8e8-d7f7-4a18-9c0a-5f163dbfc1fa
 
-exports.UserAuth = async (req, res, next) => {
+
+exports.isAuthenticadosi = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
         try {
@@ -105,7 +159,7 @@ exports.UserAuth = async (req, res, next) => {
             console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
 
             // Consultar la base de datos para obtener los datos del usuario
-            conexionU.query('SELECT * FROM datosg WHERE idDatosA = ?', [cookieusuarioDeco.idDatosA], (error, resultsUser) => {
+            conexion.query('SELECT * FROM datosg WHERE idDatosA = ?', [cookieusuarioDeco.idDatosA], (error, resultsUser) => {
                 if (error) {
                     console.log(error);
                     return next();
@@ -146,7 +200,7 @@ exports.ObtenerInfo = async (req, res, next) => {
         const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
         console.log(cookieusuarioDeco+'primer tri cuqui deco');
         
-        conexionU.query('SELECT * FROM datosg WHERE idDatosA = ?', [cookieusuarioDeco.idDatosA], (error, resultsUser) => {
+        conexion.query('SELECT * FROM datosg WHERE idDatosA = ?', [cookieusuarioDeco.idDatosA], (error, resultsUser) => {
 
             // Asignar los datos del usuario a req.usuario
             usuario = resultsUser[0];

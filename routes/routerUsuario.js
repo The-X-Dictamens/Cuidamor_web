@@ -5,7 +5,7 @@ const routerU = express.Router()
 //primero pues las que nos mandan con la landingpage
 
 routerU.get('/', (req, res)=>{
-    res.render('./Landin/index', )
+    res.render('index', )
 })
 
 /**

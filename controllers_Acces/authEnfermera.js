@@ -41,11 +41,11 @@ exports.registrarUsuario = async (req, res)=>{
 
 exports.IniciarSesionUsuario = async (req, res) => {
     try {
-        const user1 = req.body.user
-        const pass1 = req.body.pass
+        const correo = req.body.cor
+        const pass = req.body.pass
 
         // Consultar el usuario y la contraseña en la base de datos
-        const results = await queryAsync('SELECT id_dat , idDatosA FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [user1, pass1]);
+        const results = await queryAsync('SELECT id_dat , idDatosA FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
 
 
         if (results.length === 0) {
@@ -68,7 +68,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         });
 
           // Obtener el ID de usuario y el ID de datos de acceso
-        const datosAccesoId = results[0].idDatosA;
+        const datosAccesoId = results[0].id_dat;
 
         console.log(datosAccesoId)
         res.render('Login_usuario', {
@@ -159,15 +159,15 @@ exports.EnfermeraAuth = async (req, res, next) => {
             console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
 
             // Consultar la base de datos para obtener los datos del usuario
-            conexion.query('SELECT * FROM datosg WHERE idDatosA = ?', [cookieusuarioDeco.idDatosA], (error, resultsUser) => {
+            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
                 if (error) {
                     console.log(error);
                     return next();
                 }
-                if (resultsUser && resultsUser.length > 0) {
+                if (resultsEnfer && resultsEnfer.length > 0) {
                     // Asignar los datos del usuario a req.usuario
                     
-                    req.usuario = resultsUser[0];
+                    req.usuario = resultsEnfer[0];
 
                     console.log(req.usuario)
 
