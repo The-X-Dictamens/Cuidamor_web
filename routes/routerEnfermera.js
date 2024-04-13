@@ -13,7 +13,7 @@ routerE.get('/Iniciar_sesion_enfermera', (req, res)=>{
 })
 //Vacantes
 routerE.get('/Visualizar_vacantes', (req, res)=>{
-    res.render('./Enfermera/Vacantes', {alert:false})
+    res.render('./Enfermera/VacantesE', {alert:false})
 })
 //Info Vacante
 routerE.get('/Informacion_detallada_vacante', (req, res)=>{
@@ -37,5 +37,8 @@ routerE.get('/Informacion_personal' , (req, res)=>{
 
 //metodos a usar
 routerE.post('/registerEn', metodosEnfermeras.registrarUsuario)
+
+routerE.post('/IniciarSesionE', metodosEnfermeras.IniciarSesionEnfermera)
+
 
 module.exports = routerE

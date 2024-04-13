@@ -86,6 +86,69 @@ exports.IniciarSesionUsuario = async (req, res) => {
     }
 }
 
+exports.IniciarSesionEnfermera = async (req, res) => {
+    try {
+        const correo = req.body.cor;
+        const pass = req.body.pass;
+
+        // Consultar el usuario en la base de datos
+        const resultadosEnfermeraLogin = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
+
+        if (resultadosEnfermeraLogin.length === 0 || !await bcryptjs.compare(pass, resultadosEnfermeraLogin[0].pas_dat)) {
+            console.log(resultadosEnfermeraLogin)
+            // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
+            return res.render('LoginE', {
+                alert: true,
+                alertTitle: "Error",
+                alertMessage: "Usuario y/o contraseña incorrectos",
+                alertIcon: 'error',
+                showConfirmButton: true,
+                timer: 1000,
+                ruta: 'Iniciar_sesion_enfermera'
+            });
+        }
+
+        // Obtener información del usuario para incluir en el token JWT
+        const userId = results[0].id_dat;
+
+        const resultadosEnfermeraInfo = await queryAsync('SELECT id_emplo, nom_emplo,veri_user FROM datosg WHERE id_dat = ?', [userId]);
+
+
+        const Id_Enfermera = resultadosEnfermeraInfo[0].id_emplo;
+        const nom_Enfermera = resultadosEnfermeraInfo[0].nom_emplo;
+        let perm_Enfermera = resultadosEnfermeraInfo[0].veri_user;
+
+
+        // Generar el token JWT con más información del usuario
+        const token = jwt.sign({ id_emplo: Id_Enfermera, nom_emplo: nom_Enfermera, id_dat:userId, veri_user:perm_Enfermera }, process.env.JWT_SECRETO, {
+            //expiresIn: process.env.JWT_COOKIE_EXPIRES
+        });
+        console.log(token+' tokensin')
+
+        // Enviar el token JWT al cliente
+        res.cookie('jwt', token, {
+           // expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+            httpOnly: true
+        
+        });
+
+        // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
+        res.render('VacantesE', {
+            alert: true,
+            alertTitle: "Conexión exitosa",
+            alertMessage: "¡LOGIN CORRECTO!",
+            alertIcon: 'success',
+            showConfirmButton: false,
+            timer: 800,
+            ruta: 'Visualizar_vacantes'
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Hubo un error al iniciar sesión' });
+    }
+};
+
 exports.IniciarSesionUsuario = async (req, res) => {
     try {
         const user = req.body.user;
@@ -209,4 +272,7 @@ exports.ObtenerInfo = async (req, res, next) => {
         console.log(error+'error al obtener la info')
     }
     
+}
+exports.DocsVerify = async (req, res, next) => {
+    console.log('entrando a la verificacion de los documentos ')
 }
