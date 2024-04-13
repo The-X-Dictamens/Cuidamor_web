@@ -2,7 +2,9 @@ const express = require('express')
 const routerE = express.Router()
 const metodosEnfermeras = require('../controllers_Acces/authEnfermera')
 //Registro
-routerE.get('/Registrarme_como_enfermera', (req, res)=>{
+routerE.get('/Registrarme_como_enfermera', (req, res) => {
+    console.log('aqui pensando')
+    console.time()
     res.render('./Enfermera/RegisterE', {alert:false})
 })
 //Login
@@ -16,6 +18,11 @@ routerE.get('/Visualizar_vacantes', (req, res)=>{
 //Info Vacante
 routerE.get('/Informacion_detallada_vacante', (req, res)=>{
     res.render('./Enfermera/InfoVacanteE',)
+})
+
+//Despues del registro
+routerE.get('/postRegistro', (req, res)=>{
+    res.render('./Enfermera/registrada',)
 })
 //sin Verificar
 /**
