@@ -10,24 +10,26 @@ const queryAsync = promisify(conexion.query).bind(conexion);
 exports.registrarUsuario = async (req, res)=>{    
     try {
         const name = req.body.name;
-        const user = req.body.user;
+        const correo = req.body.user;
         const pass = req.body.pass;
         const appat = req.body.appat; 
         const apmat = req.body.apmat;
+        const tele =  req.body.tel;
+        const celu =  req.body.cel;
 
         let passHash = await bcryptjs.hash(pass, 8) 
          
         // Insertar los datos de acceso
-        await queryAsync('INSERT INTO datosa (CorreoA, PassA) VALUES (?, ?)', [user, passHash]);
+        await queryAsync('INSERT INTO datos_acceso (cor_dat, pas_dat) VALUES (?, ?)', [correo, passHash]);
 
         // Obtener el ID generado automáticamente
-        const resultsAcceso = await queryAsync('SELECT LAST_INSERT_ID() AS idAcceso');
+        const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_dat');
 
         // El ID generado automáticamente
-        const idAcceso = resultsAcceso[0].idAcceso;
+        const idAcceso = resultsAccesoE[0].id_dat;
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
-        await queryAsync('INSERT INTO datosg (NombreG, ApellidoP, ApellidoM, idDatosA) VALUES (?, ?, ?, ?)', [name, appat, apmat, idAcceso]);
+        await queryAsync('INSERT INTO empleado (id_dat, nom_emplo, appat_emplo, apmat_emplo, cel_emplo,tel_emplo) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
@@ -43,7 +45,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         const pass1 = req.body.pass
 
         // Consultar el usuario y la contraseña en la base de datos
-        const results = await queryAsync('SELECT idDatosA   , idDatosA FROM datosa WHERE CorreoA = ? AND PassA = ?', [user1, pass1]);
+        const results = await queryAsync('SELECT id_dat , idDatosA FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [user1, pass1]);
 
 
         if (results.length === 0) {
@@ -60,8 +62,8 @@ exports.IniciarSesionUsuario = async (req, res) => {
         }
 
         // Generar el token JWT
-        const userId = results[0].idDatosA;
-        const token = jwt.sign({ userId: userId }, process.env.JWT_SECRETO, {
+        const userId = results[0].id_dat;
+        const token = jwt.sign({ userId: id_dat }, process.env.JWT_SECRETO, {
             expiresIn: process.env.JWT_TIEMPO_EXPIRA
         });
 
