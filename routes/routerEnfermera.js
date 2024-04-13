@@ -1,6 +1,6 @@
 const express = require('express')
 const routerE = express.Router()
-
+const metodosEnfermeras = require('../controllers_Acces/authEnfermera')
 //Registro
 routerE.get('/Registrarme_como_enfermera', (req, res)=>{
     res.render('./Enfermera/RegisterE', {alert:false})
@@ -27,5 +27,8 @@ routerE.get('/Informacion_personal' , (req, res)=>{
     res.render('./Enfermera/InfoE', )
 })
  */
+
+//metodos a usar
+routerE.post('/registerEn', metodosEnfermeras.registrarUsuario)
 
 module.exports = routerE
