@@ -9,7 +9,7 @@ routerU.get('/', (req, res)=>{
 })
 
 /**
- * Condiciones de uso
+ * Condiciones de uso 
  */
 routerU.get('/Condiciones_de_uso', (req, res)=>{
     res.render('./Landin/condiciones', {alert:false})
