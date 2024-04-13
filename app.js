@@ -1,46 +1,36 @@
+//variables para el servidor con express
 const express = require('express')
-const dotenv = require('dotenv')
-const cookieParser = require('cookie-parser')
-
+const path = require('path')
 const app = express()
-
-//seteamos el motor de plantillas
-app.set('view engine', 'ejs')
-
-//seteamos la carpeta public para archivos estáticos
-app.use(express.static('public'))
-
-//para procesar datos enviados desde forms
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
-
-//seteamos las variables de entorno
-dotenv.config({ path: './env/.env' })
-
-    //para poder trabajar con las cookies
-app.use(cookieParser())
-
-//Admin
-app.use('/', require('./routes/routerAdmin'))
-
-//Usuario
-app.use('/', require('./routes/routerUsuario'))
-
-//Cuidador
-app.use('/', require('./routes/routerCuidador'))
-
-//Paciente
-app.use('/', require('./routes/routerPaciente'))
+var router = express.Router();
+const bodyParser= require('body-parser')
+const cookieParser = require('cookie-parser')
+//obtener el cuerpo de una petición POST "req.body"
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+// configura el motor de visualizacion ejs
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+//configuracion del uso de la carpeta publica del cliente (estilos de pajina css, imagenes y scripts)
+app.use(express.static('public'));
+//uso de la carpeta de views para la obtencion de los archivos ejs
+app.set('views', path.join(__dirname, 'views'));
+//para capturar los datos del formulario
+app.use(express.urlencoded({extended:false}));
 
 
-//para que no se regrese y nos violin
+//////////////////////rutas//////////////////////////
+//ruta de accesos principales//
+app.use('/', require('./routes/routerUsers'))
 
-app.use(function (req, res, next) {
-    if (!req.user) 
-        res.header('Cache-Control', 'private', 'no-cache', 'no-store', 'must-revalidate');
-});
 
-//Para eliminar la cache 
+
+
+
+
+
+
 app.use(function(req, res, next) {
     if (!req.user)
         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
@@ -48,6 +38,6 @@ app.use(function(req, res, next) {
 });
 
 
-app.listen(2024, ()=>{
-    console.log('SERVER UP runnung in http://localhost:2024')
+app.listen(1999, ()=>{
+    console.log('SERVER UP runnung in http://localhost:1999')
 })
