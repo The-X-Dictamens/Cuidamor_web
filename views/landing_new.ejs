@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuidamor - Servicios de Enfermería y Cuidado a Domicilio</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header >
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-green">
+
+            <a class="navbar-brand" href="/">
+                <img src="imgs/logito.png" alt="Cuidamor Logo" style="width: 80px;">
+            </a>
+
+            <h1 class="navbar-brand ml-2" href="#">Cuidamor</h1>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Servicios
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Cuidado a Domicilio</a>
+                            <a class="dropdown-item" href="#">Enfermería</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Preguntas Frecuentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/postular">Postularme a Empleado</a>
+                    </li>
+                    
+                    
+                
+                </ul>
+                
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item divider"></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Iniciar Sesion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registrarme</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <!-- Descripción -->
+    <section id="descripcion" class="bg-light py-4">
+        <div class="container">
+            <h2 class="text-center mb-4">¿Qué hacemos?</h2>
+            <p class="text-center">Breve descripción de los servicios que ofrece tu empresa y lo que queremos lograr.</p>
+        </div>
+    </section>
+
+
+
+    <!-- Banner -->
+    <section id="banner" style="padding: 20px;">
+        <!-- Contenedor para limitar el ancho del carrusel -->
+        <div class="container">
+            <!-- Carousel -->
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="https://via.placeholder.com/1500x800" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://via.placeholder.com/1500x800" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://via.placeholder.com/1500x800" alt="Third slide">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Servicios -->
+    <section id="servicios">
+        <div class="container">
+            <h2 class="text-center mb-4">Servicios</h2>
+            <!-- Utilizamos la clase "row" para crear una fila -->
+            <div class="row">
+                <!-- Cada servicio ocupará 6 columnas (mitad del espacio en pantallas medianas y grandes) -->
+                <div class="col-md-6">
+                    <!-- Agregamos un padding de 10px alrededor del servicio -->
+                    <div class="card mb-4" style="padding: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuidado a Domicilio</h5>
+                            <p class="card-text">Descripción del servicio...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4" style="padding: 10px;">
+                        <div class="card-body">
+                            <h5 class="card-title">Enfermería</h5>
+                            <p class="card-text">Descripción del servicio...</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Puedes agregar más servicios aquí -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Perfiles de Enfermeros -->
+    <section id="perfiles">
+        <div class="container">
+            <h2>Perfiles de Trabajadores Destacados</h2>
+            <!-- Aquí puedes mostrar algunos perfiles de enfermeros -->
+            <div class="card-deck">
+                <div class="card mb-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;" alt="Foto del enfermero 1">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre del Enfermero 1</h5>
+                        <p class="card-text">Descripción del trabajo del enfermero. Puedes incluir información sobre su experiencia, habilidades, áreas de especialización, etc.</p>
+                        <p class="card-text">Tarifa: $XX por hora</p>
+                    </div>
+                </div>
+            
+                <div class="card mb-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;" alt="Foto del enfermero 2">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre del Enfermero 2</h5>
+                        <p class="card-text">Descripción del trabajo del enfermero. Puedes incluir información sobre su experiencia, habilidades, áreas de especialización, etc.</p>
+                        <p class="card-text">Tarifa: $XX por hora</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck">
+                <div class="card mb-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;" alt="Foto del enfermero 1">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre del Enfermero 3</h5>
+                        <p class="card-text">Descripción del trabajo del enfermero. Puedes incluir información sobre su experiencia, habilidades, áreas de especialización, etc.</p>
+                        <p class="card-text">Tarifa: $XX por hora</p>
+                    </div>
+                </div>
+            
+                <div class="card mb-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/150" class="card-img-top rounded-circle border border-primary" style="width: 150px; height: 150px; object-fit: cover;" alt="Foto del enfermero 2">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Nombre del Enfermero 4</h5>
+                        <p class="card-text">Descripción del trabajo del enfermero. Puedes incluir información sobre su experiencia, habilidades, áreas de especialización, etc.</p>
+                        <p class="card-text">Tarifa: $XX por hora</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto">
+        
+    
+
+        <!-- Footer -->
+        <footer class="bg-light py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4 text-center">
+                        <div id="map" style="width: 100%; height: 300px;"></div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h3 class="mb-3">Contacto</h3>
+                        <ul class="list-unstyled mb-0">
+                            <li>Phone: (123) 456-7890</li>
+                            <li>Email: info@cuidamor.com</li>
+                            <li>Address: Calle Falsa 123, Ciudad, País</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5 class="mb-3">Enlaces útiles</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="#">Política de Privacidad</a></li>
+                            <li><a href="#">Condiciones de Uso</a></li>
+                            <li><a href="#">Trabaja con nosotros</a></li>
+                        </ul>
+                        <p class="mt-3">Si quieres formar parte de nuestro equipo de trabajo, mándanos tu curriculum a <a href="mailto:jobs@cuidamor.com">jobs@cuidamor.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Scripts para el mapa -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHhvbWJ5IiwiYSI6ImNsaWo4c3d6NzA1NnMzZXBiZjE2a2I0aDAifQ.nVog7tI8-GkimJfWeb-hIg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-99.17491900, 19.45388900], // Nuevas coordenadas del CECYT 9
+            zoom: 17 // Ajusta el nivel de zoom según sea necesario
+        });
+    
+        var marker = new mapboxgl.Marker()
+            .setLngLat([-99.17491901, 19.45388901]) // Nuevas coordenadas del marcador
+            .addTo(map);
+    </script>
+</body>
+</html>
+
