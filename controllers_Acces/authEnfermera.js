@@ -142,17 +142,18 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         const userId = results[0].id_dat;
         const userEmail = results[0].cor_dat;
 
-        const resultadosUser = await queryAsync('SELECT id_emplo, nom_emplo FROM empleado WHERE id_dat = ?', [userId]);
+        const resultadosEnfer = await queryAsync('SELECT id_emplo, nom_emplo FROM empleado WHERE id_dat = ?', [userId]);
 
 
-        const Id_usuario = resultadosUser[0].id_emplo;
-        const nom_usuario = resultadosUser[0].nom_emplo;
-        const veri_usuario = resultadosUser[0].veri_user;
+        const Id_enf = resultadosEnfer[0].id_emplo;
+        const nom_enf = resultadosEnfer[0].nom_emplo;
+        const perm_enf = resultadosEnfer[0].id_perm;
+        const veri_enf = resultadosEnfer[0].veri_user;
 
 
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_emplo: Id_usuario, nom_emplo: nom_usuario, idDatosA:userId, veri_user:veri_usuario }, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_emplo: Id_enf, nom_emplo: nom_enf, idDatosA:userId, veri_user:veri_enf , id_perm:perm_enf}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
@@ -212,7 +213,9 @@ exports.EnfermeraAuth = async (req, res, next) => {
             return next();
         }
     } else {
-        res.redirect('/noautenticado')
+        console.log('ubicate pa')
+        res.redirect('noautenticado')
+        
     }
 }
 
@@ -246,69 +249,3 @@ exports.DocsVerify = async (req, res, next) => {
     console.log('entrando a la verificacion de los documentos ')
 }
 
-
-
-exports.IniciarSesionUsuario2 = async (req, res) => {
-    try {
-        const user = req.body.user;
-        const pass = req.body.pass;
-        console.log('Este es iniciarsesion')
-
-        // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT idDatosA, CorreoA, PassA FROM datosa WHERE CorreoA = ?', [user]);
-        console.log(results)
-
-        if (results.length === 0 || !await bcryptjs.compare(pass, results[0].PassA)) {
-            console.log(results)
-            // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
-            return res.render('login2', {
-                alert: true,
-                alertTitle: "Error",
-                alertMessage: "Usuario y/o contraseña incorrectos",
-                alertIcon: 'error',
-                showConfirmButton: true,
-                timer: 1000,
-                ruta: 'Logindos'
-            });
-        }
-
-        // Obtener información del usuario para incluir en el token JWT
-        const userId = results[0].idDatosA;
-        const userEmail = results[0].CorreoA;
-
-        const resultadosUser = await queryAsync('SELECT idDatosG, NombreG FROM datosg WHERE idDatosA = ?', [userId]);
-
-
-        const Id_usuario = resultadosUser[0].idDatosG;
-        const nom_usuario = resultadosUser[0].NombreG;
-
-
-        // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ idDatosG: Id_usuario, NombreG: nom_usuario, idDatosA:userId }, process.env.JWT_SECRETO, {
-            //expiresIn: process.env.JWT_COOKIE_EXPIRES
-        });
-        console.log(token+' tokensin')
-
-        // Enviar el token JWT al cliente
-        res.cookie('jwt', token, {
-           // expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-            httpOnly: true
-        
-        });
-
-        // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
-        res.render('vista_usuario', {
-            alert: true,
-            alertTitle: "Conexión exitosa",
-            alertMessage: "¡LOGIN CORRECTO!",
-            alertIcon: 'success',
-            showConfirmButton: false,
-            timer: 800,
-            ruta: 'loginBien'
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Hubo un error al iniciar sesión' });
-    }
-};

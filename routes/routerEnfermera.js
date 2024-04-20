@@ -16,7 +16,7 @@ routerE.get('/Visualizar_vacantes', (req, res)=>{
     res.render('./Enfermera/VacantesE', {alert:false})
 })
 //Info Vacante
-routerE.get('/Informacion_detallada_vacante', (req, res)=>{
+routerE.get('/Informacion_detallada_vacante', metodosEnfermeras.EnfermeraAuth, (req, res)=>{
     res.render('./Enfermera/InfoVacanteE',)
 })
 
@@ -25,10 +25,12 @@ routerE.get('/postRegistro', (req, res)=>{
     res.render('./Enfermera/registrada',)
 })
 //sin Verificar
-/**
- * routerE.get('/', (req, res)=>{
+routerE.get('/noautenticado', (req, res)=>{
     res.render('./Enfermera/ViewwithoutVerify', {alert:false})
 })
+
+/**
+ * 
 //Su Informacion
 routerE.get('/Informacion_personal' , (req, res)=>{
     res.render('./Enfermera/InfoE', )
