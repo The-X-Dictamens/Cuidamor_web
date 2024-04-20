@@ -113,12 +113,15 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
     
     try {
         const correo = req.body.correoe;
-        const pass = req.body.passe;
-        console.log('Este es iniciarsesion 2'+ user + pass)
+        const contrasena = req.body.passe;
+
+        console.log('Este es iniciarsesion 2'+ correo + contrasena)
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
-        if (results.length === 0 || !await bcryptjs.compare(pass, results[0].pas_dat)) {
+        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? ', [correo]);
+        console.log(results)
+
+        if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_dat)) {
             console.log(results)
 
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
