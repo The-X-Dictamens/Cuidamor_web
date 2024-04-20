@@ -219,6 +219,48 @@ exports.EnfermeraAuth = async (req, res, next) => {
     }
 }
 
+exports.verificarpermiso = (req, res, next) => {
+    const token = req.headers['authorization']; // Obtener el token del encabezado Authorization
+
+    if (!token) {
+        return res.status(401).json({ mensaje: 'Token no proporcionado' });
+    }
+
+    jwt.verify(token, 'secreto', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ mensaje: 'Token inválido' });
+        }
+
+        // Decodificar el token y extraer el ID y el estado de verificación
+        req.userId = decoded.id;
+        req.verificado = decoded.verificado;
+
+        next(); // Continuar con la siguiente función
+    });
+};
+
+exports.verificarToken = (req, res, next) => {
+    const token = req.headers['authorization']; // Obtener el token del encabezado Authorization
+
+    if (!token) {
+        return res.status(401).json({ mensaje: 'Token no proporcionado' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRETO, (err, decoded) => { // Utilizar la variable de entorno
+        if (err) {
+            return res.status(401).json({ mensaje: 'Token inválido' });
+        }
+
+        // Decodificar el token y extraer el ID y el estado de verificación
+        req.userId = decoded.id;
+        req.verificado = decoded.verificado;
+
+        next(); // Continuar con la siguiente función
+    });
+};
+
+
+
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
     return res.redirect('/')
@@ -249,3 +291,46 @@ exports.DocsVerify = async (req, res, next) => {
     console.log('entrando a la verificacion de los documentos ')
 }
 
+/**
+ * LA Tercera opcion es hacerlo muy similar al anterior solo que ahi tenga las rutas, segun
+ * yo si funcionara ya que solo estamos usando aqui enfermeras, si estoy fuera mas global
+ * si habraia que jhacer medio switches para poder mostra las paginas coorresponfietnes por [usuario] 
+ */
+
+const EnfermeraAuthVacantes = async (req, res, next) => {
+    console.log("Middleware de autenticación para vacantes");
+    if (req.cookies.jwt) {
+        try {
+            // Descifrar la cookie para obtener los datos del usuario
+            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+
+            // Consultar la base de datos para obtener los datos del usuario
+            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
+                if (error) {
+                    console.log(error);
+                    return next();
+                }
+                if (resultsEnfer && resultsEnfer.length > 0) {
+                    // Verificar si el usuario está verificado
+                    if (resultsEnfer[0].id_perm === 1) {
+                        // Asignar los datos del usuario a req.usuario
+                        console.log('que crack si pasasste');
+                        return res.redirect('/pagina-deseada'); // Continuar con la siguiente función (ruta)
+                    } else {
+                        // Usuario no verificado, redirigir a la página de noautenticado
+                        return res.redirect('noautenticado');
+                    }
+                } else {
+                    // Usuario no encontrado en la base de datos
+                    return next();
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            return next();
+        }
+    } else {
+        console.log('ubicate pa');
+        return res.redirect('noautenticado');
+    }
+};

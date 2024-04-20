@@ -15,7 +15,7 @@ routerE.get('/Iniciar_sesion_enfermera', (req, res)=>{
 routerE.get('/Visualizar_vacantes', (req, res)=>{
     res.render('./Enfermera/VacantesE', {alert:false})
 })
-//Info Vacante
+//Info Vacante                                          para verificar              para checarle el permiso
 routerE.get('/Informacion_detallada_vacante', metodosEnfermeras.EnfermeraAuth, (req, res)=>{
     res.render('./Enfermera/InfoVacanteE',)
 })
@@ -29,6 +29,10 @@ routerE.get('/noautenticado', (req, res)=>{
     res.render('./Enfermera/ViewwithoutVerify', {alert:false})
 })
 
+
+routerE.get('/pagina-deseada', (req, res)=>{
+    res.render('./Enfermera/deseada', {alert:false})
+})
 /**
  * 
 //Su Informacion
