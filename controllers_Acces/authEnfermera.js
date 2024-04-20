@@ -109,14 +109,15 @@ exports.IniciarSesionEnfermera = async (req, res) => {
 };
 */
 
-exports.IniciarSesionEnfermeras= async (req, res) => {
+exports.IniciarSesionEnfermeras = async (req, res) => {
+    
     try {
-        const user = req.body.correoe;
+        const correo = req.body.correoe;
         const pass = req.body.passe;
-        console.log('Este es iniciarsesion 2'+ 'user' + 'pass')
+        console.log('Este es iniciarsesion 2'+ user + pass)
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [user, pass]);
+        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
         if (results.length === 0 || !await bcryptjs.compare(pass, results[0].pas_dat)) {
             console.log(results)
 

@@ -38,7 +38,7 @@ routerE.get('/Informacion_personal' , (req, res)=>{
 //metodos a usar
 routerE.post('/registerEn', metodosEnfermeras.registrarUsuario)
 
-routerE.post('/IniciarSesionE', metodosEnfermeras.IniciarSesionEnfermeras)
+routerE.post('/iniciarSesionE', metodosEnfermeras.IniciarSesionEnfermeras)
 
 
 module.exports = routerE
