@@ -38,66 +38,25 @@ exports.registrarUsuario = async (req, res)=>{
     }        
 }
 
-
-exports.IniciarSesionUsuario = async (req, res) => {
-    try {
-        const correo = req.body.cor
-        const pass = req.body.pass
-
-        // Consultar el usuario y la contraseña en la base de datos
-        const results = await queryAsync('SELECT id_dat , idDatosA FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
-
-
-        if (results.length === 0) {
-            // Si no se encuentra un usuario con las credenciales proporcionadas, retornar un mensaje de error
-            return res.render('login_usuario', {
-                alert: true,
-                alertTitle: "Error",
-                alertMessage: "Usuario y/o contraseña incorrectos",
-                alertIcon: 'error',
-                showConfirmButton: true,
-                timer: 1000,
-                ruta: 'Login'
-            });
-        }
-
-        // Generar el token JWT
-        const userId = results[0].id_dat;
-        const token = jwt.sign({ userId: id_dat }, process.env.JWT_SECRETO, {
-            expiresIn: process.env.JWT_TIEMPO_EXPIRA
-        });
-
-          // Obtener el ID de usuario y el ID de datos de acceso
-        const datosAccesoId = results[0].id_dat;
-
-        console.log(datosAccesoId)
-        res.render('Login_usuario', {
-            alert: true,
-            alertTitle: "Conexión exitosa",
-            alertMessage: "¡LOGIN CORRECTO!",
-            alertIcon:'success',
-            showConfirmButton: false,
-            timer: 800,
-            ruta: 'loginBien'
-       })
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
+/*
 exports.IniciarSesionEnfermera = async (req, res) => {
     try {
+        console.log('Inicio')
+
         const correo = req.body.cor;
         const pass = req.body.pass;
 
-        // Consultar el usuario en la base de datos
-        const resultadosEnfermeraLogin = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [correo, pass]);
+        console.log(correo + pass)
+
+        // Consultar el usuario en la base de datos                                          //no necesitamo comparar esta aqui
+        const resultadosEnfermeraLogin = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? ', [correo]);
+        console.log('debaho de resultados')
 
         if (resultadosEnfermeraLogin.length === 0 || !await bcryptjs.compare(pass, resultadosEnfermeraLogin[0].pas_dat)) {
-            console.log(resultadosEnfermeraLogin)
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
-            return res.render('LoginE', {
+            console.log('debajo del ig')
+
+            return res.render('./Enfermera/LoginE', {
                 alert: true,
                 alertTitle: "Error",
                 alertMessage: "Usuario y/o contraseña incorrectos",
@@ -145,45 +104,49 @@ exports.IniciarSesionEnfermera = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Hubo un error al iniciar sesión' });
+        res.status(500).json({ error: 'Hubo un error al iniciar sesión' +error +'mamaste'});
     }
 };
+*/
 
-exports.IniciarSesionUsuario = async (req, res) => {
+exports.IniciarSesionEnfermera= async (req, res) => {
     try {
-        const user = req.body.user;
-        const pass = req.body.pass;
+        const user = req.body.correoe;
+        const pass = req.body.passe;
+        console.log('Este es iniciarsesion 2')
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT idDatosA, CorreoA, PassA FROM datosa WHERE CorreoA = ?', [user]);
-
-        if (results.length === 0 || !await bcryptjs.compare(pass, results[0].PassA)) {
+        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? AND pas_dat = ?', [user, pass]);
+        if (results.length === 0 || !await bcryptjs.compare(pass, results[0].pas_dat)) {
             console.log(results)
+
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
-            return res.render('login2', {
+            return res.render('./Enfermera/LoginE', {
                 alert: true,
                 alertTitle: "Error",
                 alertMessage: "Usuario y/o contraseña incorrectos",
                 alertIcon: 'error',
                 showConfirmButton: true,
                 timer: 1000,
-                ruta: 'Logindos'
+                ruta: 'Iniciar_sesion_enfermera'
             });
         }
 
         // Obtener información del usuario para incluir en el token JWT
-        const userId = results[0].idDatosA;
-        const userEmail = results[0].CorreoA;
+        const userId = results[0].id_dat;
+        const userEmail = results[0].cor_dat;
 
-        const resultadosUser = await queryAsync('SELECT idDatosG, NombreG FROM datosg WHERE idDatosA = ?', [userId]);
+        const resultadosUser = await queryAsync('SELECT id_emplo, nom_emplo FROM empleado WHERE id_dat = ?', [userId]);
 
 
-        const Id_usuario = resultadosUser[0].idDatosG;
-        const nom_usuario = resultadosUser[0].NombreG;
+        const Id_usuario = resultadosUser[0].id_emplo;
+        const nom_usuario = resultadosUser[0].nom_emplo;
+        const veri_usuario = resultadosUser[0].veri_user;
+
 
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ idDatosG: Id_usuario, NombreG: nom_usuario, idDatosA:userId }, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_emplo: Id_usuario, nom_emplo: nom_usuario, idDatosA:userId, veri_user:veri_usuario }, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
@@ -196,14 +159,14 @@ exports.IniciarSesionUsuario = async (req, res) => {
         });
 
         // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
-        res.render('vista_usuario', {
+        res.render('Visualizar_vacantes', {
             alert: true,
             alertTitle: "Conexión exitosa",
             alertMessage: "¡LOGIN CORRECTO!",
             alertIcon: 'success',
             showConfirmButton: false,
             timer: 800,
-            ruta: 'loginBien'
+            ruta: './Enfermera/VacantesE'
         });
 
     } catch (error) {
