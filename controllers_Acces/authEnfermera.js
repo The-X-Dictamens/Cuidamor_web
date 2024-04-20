@@ -118,9 +118,8 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         console.log('Este es iniciarsesion 2'+ correo + contrasena)
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT id_dat FROM datos_acceso WHERE cor_dat = ? ', [correo]);
+        const results = await queryAsync('SELECT id_dat , pas_dat FROM datos_acceso WHERE cor_dat = ? ', [correo]);
         console.log(results)
-
         if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_dat)) {
             console.log(results)
 
