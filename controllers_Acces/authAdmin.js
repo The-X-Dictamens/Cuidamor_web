@@ -91,3 +91,5 @@ exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
     return res.redirect('/')
 }
+
+//deberia ser desde aqui que me encargo de agregar este registro al la bsae de datos? o lo hago desde la parte del usuario

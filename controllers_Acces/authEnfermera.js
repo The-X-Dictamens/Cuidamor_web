@@ -182,7 +182,17 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
     }
 };
 
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ * para este auth podemos poner elseifelseig que si su verifiacion= 0 la redirija a esperar
+ * que sis sus credenciales no son cok al login
+ * y el else que la deje ver las vacantes
+ * pues al final de cuentas lo que estamos verificacnod es la informacion de la  cuki
+ */
 exports.EnfermeraAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
@@ -303,12 +313,21 @@ const EnfermeraAuthVacantes = async (req, res, next) => {
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+            console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
 
             // Consultar la base de datos para obtener los datos del usuario
             conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
                 if (error) {
                     console.log(error);
                     return next();
+                } else {
+                    
+                
+                    if (resultsEnfer && resultsEnfer.length > 0 &) {
+                        // Asignar los datos del usuario a req.usuario
+                    
+                        req.usuario = resultsEnfer[0];
+                    }
                 }
                 if (resultsEnfer && resultsEnfer.length > 0) {
                     // Verificar si el usuario está verificado
@@ -334,3 +353,69 @@ const EnfermeraAuthVacantes = async (req, res, next) => {
         return res.redirect('noautenticado');
     }
 };
+
+
+const EnfermeraAuthVacante = async (req, res, next) => {
+    console.log("Middleware de autenticación para vacantes");
+    if (req.cookies.jwt) {
+        try {
+            // Descifrar la cookie para obtener los datos del usuario
+            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+            console.log(cookieusuarioDeco + ' cuqui decodificada del metodo is autenticadosi');
+
+            // Consultar la base de datos para obtener los datos del usuario
+            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
+                if (error) {
+                    console.log(error);
+                    return next();
+                } else {
+                    if (resultsEnfer && resultsEnfer.length > 0) {
+                        // Asignar los datos del usuario a req.usuario
+                        req.usuario = resultsEnfer[0];
+
+                        // Verificar si el usuario está verificado
+                        if (resultsEnfer[0].id_perm === 1) {
+                            // Asignar los datos del usuario a req.usuario
+                            console.log('que crack si pasasste');
+                            return res.redirect('/pagina-deseada'); // Continuar con la siguiente función (ruta)
+                        } else if (resultsEnfer[0].id_perm === 0) {
+                            // Usuario no verificado, redirigir a la página de espera
+                            return res.redirect('/pagina-espera');
+                        } else {
+                            // Otro caso de permiso, redirigir a la página de noautenticado
+                            return res.redirect('/noautenticado');
+                        }
+                    } else {
+                        // Usuario no encontrado en la base de datos
+                        return next();
+                    }
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            return next();
+        }
+    } else {
+        console.log('ubicate pa');
+        return res.redirect('/noautenticado');
+    }
+};
+
+/**
+ * repsasemos como deberia ser la logica para poder mostrar asi estas mamaditas
+ * se supone que el usuario agrega la chamba desde su parte del sistema
+ * y de ahi.. que haho, realizo ese insert?
+ * mi teoria y lo que puse
+ * solo Columns:
+id_emp int AI PK 
+id_emplo int 
+sta_emp tinyint
+de la parte del trabajo, en esa lista yo voy a tener los id, en base a esis los ontengo
+luego con esos ids realizo la busqueda en la otra bd para traerlos por decirlo de
+manera "segura" y si el lo puede editar, ya que desde enfermras solo voy a mostrar los
+selecdt que realieze
+y ya para construir la pagina pues puedo hacer una calca de la que el usuario tinee
+pero sin la parte de editar los datos
+ */
+
+
