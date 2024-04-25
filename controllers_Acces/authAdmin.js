@@ -93,3 +93,16 @@ exports.logout = (req, res)=>{
 }
 
 //deberia ser desde aqui que me encargo de agregar este registro al la bsae de datos? o lo hago desde la parte del usuario
+
+//este perre para que lo quiero
+
+/**
+ * para que consulte y pueda editar todooo?
+ * 
+ * o que solo pueda editar cosas del trabajo, pero pues nuevamente para que,
+ * no , el admin sera de la empresa, sera el que consulte los documentos de la 
+ * enfermera, el que la verifique, segun yo hasta ahi era lo que habiamos planeado
+ * 
+ * que el tambien pueda agregar pero de igual forma podemos usar sus metodos
+ *  
+ * */

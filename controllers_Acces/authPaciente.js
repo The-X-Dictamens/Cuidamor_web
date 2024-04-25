@@ -37,3 +37,4 @@ exports.registrarUsuario = async (req, res)=>{
         res.status(500).json({ error: 'Hubo un error al registrar el usuario' });
     }        
 }
+// este soquete solo lo ponemos aqui  para que no "estorbe" su unica funcion sera que lo puedan crear, fuera de ahi que lo puedan editar
