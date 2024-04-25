@@ -72,7 +72,7 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         const userId = results[0].id_dat;
         const userEmail = results[0].cor_dat;
 
-        const resultadosEnfer = await queryAsync('SELECT id_emplo, nom_emplo FROM empleado WHERE id_dat = ?', [userId]);
+        const resultadosEnfer = await queryAsync('SELECT id_emplo, nom_emplo, id_perm, veri_user FROM empleado WHERE id_dat = ?', [userId]);
 
 
         const Id_enf = resultadosEnfer[0].id_emplo;
@@ -123,6 +123,8 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
  * y el else que la deje ver las vacantes
  * pues al final de cuentas lo que estamos verificacnod es la informacion de la  cuki
  */
+//--idea antes de morir '''''
+/*
 exports.EnfermeraAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
@@ -136,7 +138,7 @@ exports.EnfermeraAuth = async (req, res, next) => {
                 if (error) {
                     console.log(error);
                     return next();
-                }
+                }//aqyu podre asignarle ese if?
                 if (resultsEnfer && resultsEnfer.length > 0) {
                     // Asignar los datos del usuario a req.usuario
                     
@@ -146,10 +148,50 @@ exports.EnfermeraAuth = async (req, res, next) => {
 
                     console.log(cookieusuarioDeco);
                 }
+                //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
                 return next();
             });
         } catch (error) {
-            console.log(error);
+            console.log(error+' error al ');
+            return next();
+        }
+    } else {
+        console.log('ubicate pa')
+        res.redirect('noautenticado')
+        
+    }
+}*/
+
+exports.EnfermeraAuth = async (req, res, next) => {
+    console.log("Middleware de autenticación en ejecución");
+    if (req.cookies.jwt) {
+        try {
+            // Descifrar la cookie para obtener los datos del usuario
+            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+            console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
+            if(cookieusuarioDeco.veri_enf == 0)
+            res.redirect(noautenticado)
+        else{
+            // Consultar la base de datos para obtener los datos del usuario
+            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
+                if (error) {
+                    console.log(error);
+                    return next();
+                }//aqyu podre asignarle ese if?
+                if (resultsEnfer && resultsEnfer.length > 0) {
+                    // Asignar los datos del usuario a req.usuario
+                    
+                    req.usuario = resultsEnfer[0];
+
+                    console.log(req.usuario)
+
+                    console.log(cookieusuarioDeco);
+                }
+                //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
+                return next();
+            }); /**aqui segun yo puse el parentresis delif */}
+        } catch (error) {
+            console.log(error+' error al autenticas');
             return next();
         }
     } else {
@@ -253,7 +295,7 @@ const EnfermeraAuthVacantes = async (req, res, next) => {
                 } else {
                     
                 
-                    if (resultsEnfer && resultsEnfer.length > 0 &) {
+                    if (resultsEnfer && resultsEnfer.length > 0 ) {
                         // Asignar los datos del usuario a req.usuario
                     
                         req.usuario = resultsEnfer[0];
