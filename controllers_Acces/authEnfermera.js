@@ -15,21 +15,23 @@ exports.registrarUsuario = async (req, res)=>{
         const appat = req.body.appat; 
         const apmat = req.body.apmat;
         const tele =  req.body.tel;
-        const celu =  req.body.cel;
+        const celu = req.body.cel;
+        const rol = req.body.rolTrabajador;
+        const veri = 'proceso'
 
         let passHash = await bcryptjs.hash(pass, 8) 
          
         // Insertar los datos de acceso
-        await queryAsync('INSERT INTO datos_acceso (cor_dat, pas_dat) VALUES (?, ?)', [correo, passHash]);
+        await queryAsync('INSERT INTO datos_scceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?,?)', [correo, passHash, rol]);
 
         // Obtener el ID generado automáticamente
-        const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_dat');
+        const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_datacc');
 
         // El ID generado automáticamente
-        const idAcceso = resultsAccesoE[0].id_dat;
+        const idAcceso = resultsAccesoE[0].id_datacc;
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
-        await queryAsync('INSERT INTO empleado (id_dat, nom_emplo, appat_emplo, apmat_emplo, cel_emplo,tel_emplo) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
+        await queryAsync('INSERT INTO empleado (id_datac, nom_emp, pat_empl, amat_empl, tel_empl,est_emp) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
