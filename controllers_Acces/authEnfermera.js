@@ -14,24 +14,36 @@ exports.registrarUsuario = async (req, res)=>{
         const pass = req.body.pass;
         const appat = req.body.appat; 
         const apmat = req.body.apmat;
-        const tele =  req.body.tel;
+        const tele = req.body.tel;
+        //me falta agregar la foto
         const celu = req.body.cel;
-        const rol = req.body.rolTrabajador;
+        const rol = req.body.rolTrabajador;//para esti necesitamos una lista que contenga el pero con los values de enfe y cuid
         const veri = 'proceso'
 
         let passHash = await bcryptjs.hash(pass, 8) 
-         
-        // Insertar los datos de acceso
-        await queryAsync('INSERT INTO datos_scceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?,?)', [correo, passHash, rol]);
+       
 
+         
+        // Insertar los datos de acceso 
+        await queryAsync('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?,?)', [correo, passHash, rol]);
+        
+        await queryAsync('INSERT INTO direccion ( ) (')
+         /**
+         * hay una mamadita, tambien necesito insertarle la deireccion, asi que...
+         * no se si pueida tener multiples cosas como aqui asi que intentemoslo
+         */
         // Obtener el ID generado automáticamente
         const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_datacc');
+
+        ///////////
+        
 
         // El ID generado automáticamente
         const idAcceso = resultsAccesoE[0].id_datacc;
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
-        await queryAsync('INSERT INTO empleado (id_datac, nom_emp, pat_empl, amat_empl, tel_empl,est_emp) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
+                                                //id gene nombre, pater, materno, tele estado veru, datos acce
+        await queryAsync('INSERT INTO empleado (nom_emp, pat_empl, amat_empl, tel_empl,est_emp,id_datac) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
