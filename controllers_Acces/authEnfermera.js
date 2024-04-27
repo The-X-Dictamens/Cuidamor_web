@@ -49,7 +49,7 @@ exports.registrarUsuario = async (req, res)=>{
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
                                                 //id gene nombre, pater, materno, tele estado veru, datos acce
-        await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?,?)', [ name, appat, apmat, tel, tel, idAcceso, idDireccion]);
+        await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?)', [ name, appat, apmat, tel, idAcceso, idDireccion]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
