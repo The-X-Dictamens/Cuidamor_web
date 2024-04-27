@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`user` (
   INDEX `fk_User_DatosAcceso_idx` (`id_datacc` ASC) VISIBLE,
   CONSTRAINT `fk_User_DatosAcceso`
     FOREIGN KEY (`id_datacc`)
-    REFERENCES `Cuidamor_Users`.`datos_scceso` (`id_datacc`)
+    REFERENCES `Cuidamor_Users`.`datos_acceso` (`id_datacc`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`Direccion` (
   `calle_dir` VARCHAR(45) NULL,
   `cp_dir` VARCHAR(45) NULL,
   `ref_dir` VARCHAR(45) NULL,
-  `user_id_us` INT NOT NULL,
+  `user_id_us` INT  NULL,
   PRIMARY KEY (`id_dir`),
   INDEX `fk_Direccion_user1_idx` (`user_id_us` ASC) VISIBLE,
   CONSTRAINT `fk_Direccion_user1`
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`empleado` (
   `mat_emp` VARCHAR(45) NULL,
   `fot_emp` VARCHAR(45) NULL,
   `tel_emp` VARCHAR(45) NULL,
-  `est_emp` ENUM('Aceptado', 'Rechazado', 'Proceso') 'Proceso',--nosesiasiestebien--------
+  `est_emp` ENUM('Aceptado', 'Rechazado', 'Proceso') ,
   `id_datacc` INT NOT NULL,
   `id_dir` INT NOT NULL,
   PRIMARY KEY (`id_emp`),
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`empleado` (
   INDEX `fk_empleado_Direccion1_idx` (`id_dir` ASC) VISIBLE,
   CONSTRAINT `fk_Empleado_DatosAcceso1`
     FOREIGN KEY (`id_datacc`)
-    REFERENCES `Cuidamor_Users`.`datos_scceso` (`id_datacc`)
+    REFERENCES `Cuidamor_Users`.`datos_acceso` (`id_datacc`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_empleado_Direccion1`
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`solicitud` (
   `id_sol` INT NOT NULL AUTO_INCREMENT,
   `des_sol` VARCHAR(500) NULL,
   `tipo_sol` ENUM('cuid', 'enfe') NULL,
-  `est_sol` ENUM('Espera', 'Curso', 'Final') 'Espera',
+  `est_sol` ENUM('Espera', 'Curso', 'Final') ,
   `cost_sol` DECIMAL(7,2) NULL,
   `id_hor` INT NOT NULL,
   `id_us` INT NOT NULL,
@@ -250,8 +250,5 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`pruebas` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
 
 

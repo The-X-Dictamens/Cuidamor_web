@@ -14,11 +14,14 @@ exports.registrarUsuario = async (req, res)=>{
         const pass = req.body.pass;
         const appat = req.body.appat; 
         const apmat = req.body.apmat;
-        const tele = req.body.tel;
         //me falta agregar la foto
-        const celu = req.body.cel;
+        const tel = req.body.tel;
         const rol = req.body.rolTrabajador;//para esti necesitamos una lista que contenga el pero con los values de enfe y cuid
-        const veri = 'proceso'
+        const deleg = req.body.Delega;
+        const colon = req.body.Colonia;
+        const calle = req.body.Calle;
+        const codpo = req.body.CodigoP;
+        const refer = req.body.Refere
 
         let passHash = await bcryptjs.hash(pass, 8) 
        
@@ -27,7 +30,7 @@ exports.registrarUsuario = async (req, res)=>{
         // Insertar los datos de acceso 
         await queryAsync('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?,?)', [correo, passHash, rol]);
         
-        await queryAsync('INSERT INTO direccion ( ) (')
+        await queryAsync('INSERT INTO direccion (del_dir,col_dir,calle_dir,cp_dir, ref_dir) VALUES (?,?,?,?,?)', [deleg, colon, calle, codpo, refer]);
          /**
          * hay una mamadita, tambien necesito insertarle la deireccion, asi que...
          * no se si pueida tener multiples cosas como aqui asi que intentemoslo
@@ -35,15 +38,18 @@ exports.registrarUsuario = async (req, res)=>{
         // Obtener el ID generado automáticamente
         const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_datacc');
 
+        const resultDireccionE = await queryAsync('SELECT LAST_INSERT_ID() AS id_dir');
+
         ///////////
         
 
         // El ID generado automáticamente
         const idAcceso = resultsAccesoE[0].id_datacc;
+        const idDireccion = resultDireccionE[0].id_dir;
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
                                                 //id gene nombre, pater, materno, tele estado veru, datos acce
-        await queryAsync('INSERT INTO empleado (nom_emp, pat_empl, amat_empl, tel_empl,est_emp,id_datac) VALUES (?, ?, ?, ?, ?, ?)', [idAcceso, name, appat, apmat, celu, tele]);
+        await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?,?)', [ name, appat, apmat, tel, tel, idAcceso, idDireccion]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
