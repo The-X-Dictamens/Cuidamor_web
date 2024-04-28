@@ -92,7 +92,7 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         const userEmail = results[0].cor_datacc;//Si cierto pa que quiero esto
         const rol = results[0].rol_datacc;
 
-        const resultadosEnfer = await queryAsync('SELECT id_emp, nom_emp,pat_emp est_emp, id_dir FROM empleado WHERE id_datacc = ?', [userId]);
+        const resultadosEnfer = await queryAsync('SELECT id_emp, nom_emp,pat_emp, est_emp, id_dir FROM empleado WHERE id_datacc = ?', [userId]);
 
         const Id_enf = resultadosEnfer[0].id_emp;//id sujeto
         const nom_enf = resultadosEnfer[0].nom_emp;//nombre sujeto
@@ -188,14 +188,14 @@ exports.EnfermeraAuth = async (req, res, next) => {
     if (req.cookies.jwt) {
 
         try {
-
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
 
-            console.log(cookieusuarioDeco + ' cuqui decodificada del metodo is autenticadosi');
-            
-            if (cookieusuarioDeco.est_emp == 'Proceso') {
-                res.render('./Enfermera/noautenticado')
+            estado = cookieusuarioDeco.est_emp
+            console.log(estado +' de mexico')
+            if (cookieusuarioDeco.est_emp === 'Proceso') {
+                console.log('aguantate a verificarte')
+                return res.render('./Enfermera/ViewwithoutVerify')
             }
     
             // Consultar la base de datos para obtener los datos del usuario
@@ -210,9 +210,7 @@ exports.EnfermeraAuth = async (req, res, next) => {
                 req.usuario = resultsEnfer[0];
                 semicuci = cookieusuarioDeco
 
-                    console.log(semicuci)
-
-                    console.log(cookieusuarioDeco);
+                   
                 //}
                 //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
                 return next();
@@ -267,8 +265,6 @@ exports.verificarToken = (req, res, next) => {
         next(); // Continuar con la siguiente función
     });
 };
-
-
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
@@ -418,3 +414,13 @@ pero sin la parte de editar los datos
  */
 
 
+exports.porfavor = async (req, res, next) => {
+    console.log('helouda')
+    if (req.cookies.jwt) {
+        try {
+            
+        } catch (error) {
+            
+        }   
+    }
+}
