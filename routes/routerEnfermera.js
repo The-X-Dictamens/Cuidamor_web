@@ -17,7 +17,7 @@ routerE.get('/Visualizar_vacantes', (req, res)=>{
 })
 //Info Vacante                                          para verificar              para checarle el permiso
 routerE.get('/Informacion_detallada_vacante', metodosEnfermeras.EnfermeraAuth, (req, res)=>{
-    res.render('./Enfermera/InfoVacanteE',)
+    res.render('./Enfermera/InfoVacanteE',{Enfermera:semicuci} )
 })
 
 //Despues del registro

@@ -186,31 +186,37 @@ exports.EnfermeraAuth = async (req, res, next) => {
 exports.EnfermeraAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
+
         try {
+
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
-            if(cookieusuarioDeco.veri_enf == 0)
-            res.redirect(noautenticado)
-        else{
+
+            console.log(cookieusuarioDeco + ' cuqui decodificada del metodo is autenticadosi');
+            
+            if (cookieusuarioDeco.est_emp == 'Proceso') {
+                res.render('./Enfermera/noautenticado')
+            }
+    
             // Consultar la base de datos para obtener los datos del usuario
-            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
+            conexion.query('SELECT id_datacc FROM datos_acceso WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsEnfer) => {
                 if (error) {
                     console.log(error);
                     return next();
                 }//aqyu podre asignarle ese if?
-                if (resultsEnfer && resultsEnfer.length > 0) {
+                //if (resultsEnfer && resultsEnfer.length > 0) {
                     // Asignar los datos del usuario a req.usuario
                     
-                    req.usuario = resultsEnfer[0];
+                req.usuario = resultsEnfer[0];
+                semicuci = cookieusuarioDeco
 
-                    console.log(req.usuario)
+                    console.log(semicuci)
 
                     console.log(cookieusuarioDeco);
-                }
+                //}
                 //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
                 return next();
-            }); /**aqui segun yo puse el parentresis delif */}
+            }); /**aqui segun yo puse el parentresis delif */
         } catch (error) {
             console.log(error+' error al autenticas');
             return next();
