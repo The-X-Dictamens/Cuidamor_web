@@ -22,12 +22,9 @@ exports.registrarUsuario = async (req, res)=>{
         const calle = req.body.Calle;
         const codpo = req.body.CodigoP;
         const refer = req.body.Refere
+        const estado = 'Proceso'
 
-        let passHash = await bcryptjs.hash(pass, 8) 
-        
-       
-
-         
+        let passHash = await bcryptjs.hash(pass, 8)    
         // Insertar los datos de acceso 
         /**
          * datos de acceso y direccion si se incertan bien
@@ -46,7 +43,6 @@ exports.registrarUsuario = async (req, res)=>{
 
         ///////////
         
-
         // El ID generado automáticamente
         const idAcceso = resultsAccesoE[0].id_datacc;
         const idDireccion = resultDireccionE[0].id_dir;
@@ -54,7 +50,7 @@ exports.registrarUsuario = async (req, res)=>{
         // Insertar los datos generales utilizando el ID obtenido anteriormente
         //id gene nombre, pater, materno, tele estado veru, datos acce                                           1.,2,3,4,5,6                            1,2,3,4,5,6
                                         //          1       2       3       4       5   6
-        await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?)', [ name, appat, apmat, tel, idAcceso, idDireccion]);
+        await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, est_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?, ?)', [ name, appat, apmat, tel,estado, idAcceso, idDireccion]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
@@ -71,15 +67,12 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         const correo = req.body.correoe;
         const contrasena = req.body.passe;
 
-        let passHashe = await bcryptjs.hash(contrasena, 8) 
-
-
         console.log('Este es iniciarsesion 2'+ correo + contrasena)
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT id_dat , pas_dat FROM datos_acceso WHERE cor_dat = ? ', [correo]);
+        const results = await queryAsync('SELECT id_datacc , pas_datacc, rol_datacc FROM datos_acceso WHERE cor_datacc = ? ', [correo]);
         console.log(results)
-        if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_dat)) {
+        if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_datacc)) {
             console.log(results)
 
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
@@ -95,21 +88,23 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
         }
 
         // Obtener información del usuario para incluir en el token JWT
-        const userId = results[0].id_dat;
-        const userEmail = results[0].cor_dat;
+        const userId = results[0].id_datacc;
+        const userEmail = results[0].cor_datacc;//Si cierto pa que quiero esto
+        const rol = results[0].rol_datacc;
 
-        const resultadosEnfer = await queryAsync('SELECT id_emplo, nom_emplo, id_perm, veri_user FROM empleado WHERE id_dat = ?', [userId]);
+        const resultadosEnfer = await queryAsync('SELECT id_emp, nom_emp,pat_emp est_emp, id_dir FROM empleado WHERE id_datacc = ?', [userId]);
 
-
-        const Id_enf = resultadosEnfer[0].id_emplo;
-        const nom_enf = resultadosEnfer[0].nom_emplo;
-        const perm_enf = resultadosEnfer[0].id_perm;
-        const veri_enf = resultadosEnfer[0].veri_user;
+        const Id_enf = resultadosEnfer[0].id_emp;//id sujeto
+        const nom_enf = resultadosEnfer[0].nom_emp;//nombre sujeto
+        const paterno = resultadosEnfer[0].pat_emp; //apellido sujeto
+        const solicitud = resultadosEnfer[0].est_emp;// estado enfermero
+        const direccion = resultadosEnfer[0].id_dir;//direccion sujeto
+        //su tipo de usuarioque ya capture en la consulta anterior 
 
 
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_emplo: Id_enf, nom_emplo: nom_enf, idDatosA:userId, veri_user:veri_enf , id_perm:perm_enf}, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_emp: Id_enf, nom_emp: nom_enf,emp_pat:paterno,est_emp:solicitud, id_datacc:userId, rol_datacc:rol , id_dir:direccion}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
