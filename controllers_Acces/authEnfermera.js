@@ -24,11 +24,15 @@ exports.registrarUsuario = async (req, res)=>{
         const refer = req.body.Refere
 
         let passHash = await bcryptjs.hash(pass, 8) 
+        
        
 
          
         // Insertar los datos de acceso 
-        await queryAsync('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?,?)', [correo, passHash, rol]);
+        /**
+         * datos de acceso y direccion si se incertan bien
+         */
+        await queryAsync('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?, ?)', [correo, passHash, rol]);
         
         await queryAsync('INSERT INTO direccion (del_dir,col_dir,calle_dir,cp_dir, ref_dir) VALUES (?,?,?,?,?)', [deleg, colon, calle, codpo, refer]);
          /**
@@ -36,7 +40,7 @@ exports.registrarUsuario = async (req, res)=>{
          * no se si pueida tener multiples cosas como aqui asi que intentemoslo
          */
         // Obtener el ID generado automáticamente
-        const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_datacc');
+        const resultsAccesoE = await queryAsync('SELECT LAST_INSERT_ID() AS id_datacc');//se supopne que obtengo el id para poder insertarlo
 
         const resultDireccionE = await queryAsync('SELECT LAST_INSERT_ID() AS id_dir');
 
@@ -48,13 +52,15 @@ exports.registrarUsuario = async (req, res)=>{
         const idDireccion = resultDireccionE[0].id_dir;
         
         // Insertar los datos generales utilizando el ID obtenido anteriormente
-                                                //id gene nombre, pater, materno, tele estado veru, datos acce
+        //id gene nombre, pater, materno, tele estado veru, datos acce                                           1.,2,3,4,5,6                            1,2,3,4,5,6
+                                        //          1       2       3       4       5   6
         await queryAsync('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, tel_emp, id_datacc , id_dir) VALUES (?, ?, ?, ?, ?, ?)', [ name, appat, apmat, tel, idAcceso, idDireccion]);
         
         res.redirect('/postRegistro');
     } catch (error) {   
         console.error(error);
         res.status(500).json({ error: 'Hubo un error al registrar el usuario' });
+        res.redirect('/error');
     }        
 }
 
