@@ -1,4 +1,5 @@
 const mysql = require('mysql2')
+const fs = require('fs')
 
 const conexionEmpresa = mysql.createConnection({
 
@@ -9,7 +10,10 @@ const conexionEmpresa = mysql.createConnection({
     password: process.env.DB_PASSw,
 
     database: process.env.DB_DATABASE,
-    
+
+    port: process.env.DB_PORT,
+
+    ssl:{ca:fs.readFileSync(__dirname + '/../env/DigiCertGlobalRootCA.crt.pem'), rejectUnauthorized: false},
 
 })
 

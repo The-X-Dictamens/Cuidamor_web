@@ -2,6 +2,7 @@ const conexion = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cloudController = require('./cloudController');
 
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexion.query).bind(conexion);
