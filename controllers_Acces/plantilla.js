@@ -14,7 +14,7 @@ exports.registrarUsuario = async (req, res)=>{
         const pass = req.body.pass;
         const appat = req.body.appat; 
         const apmat = req.body.apmat;
-
+ 
         let passHash = await bcryptjs.hash(pass, 8) 
          
         // Insertar los datos de acceso

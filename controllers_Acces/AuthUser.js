@@ -1,14 +1,17 @@
-const conexionU = require('../database/db_User');
+const conexionU = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cloudController = require("./cloudController");
+
 
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexionU.query).bind(conexionU);
 
 //procedimiento para registrarnos
 exports.registrarUsuario = async (req, res)=>{    
-    try {
+    try {          
+
         const name = req.body.name;
         const correo = req.body.user;
         const pass = req.body.pass;
@@ -39,14 +42,51 @@ exports.registrarUsuario = async (req, res)=>{
 }
 
 
+exports.crearUsuario = async (req, res) => {
+    if (req.session.user) {
+        try {
+            //obtencion de los datos del formulario
+            let { nombre, apellido_paterno, apellido_materno, correo, numero_telefono, calle, colonia, codigo_postal, alcaldia, puesto} = req.body;
+            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc, rol_datacc) VALUES (?,?)", [correo, puesto]);
+            let idDataAcces = dataAcces.insertId;
+
+            //obtencion de los los carchivos y sus nombres
+            let comprobante_domicilio = req.files["comprobante_domicilio"][0];
+            var namecomuser = comprobante_domicilio.fieldname + "-" + idDataAcces + "." + comprobante_domicilio.originalname.split(".").pop();
+            
+            
+            let certificados = req.files["certificados"][0];
+            var nameceruser = certificados.fieldname + "-" + idDataAcces + "." + certificados.originalname.split(".").pop();
+
+            //utilizaremos la funcion de gardado de documentos en los dockers
+            let subrcomprobante = cloudController.upload(comprobante_domicilio, namecomuser);
+
+            //incercion de los datos en la base de datos
+            let dataDireccion = await query("INSERT INTO direccion (del_dir, col_dir, calle_dir, cp_dir) VALUES (?,?,?,?)",[alcaldia, colonia, calle, codigo_postal])
+            let idDataDirec = dataDireccion.insertId;
+
+            let U = await query("INSERT INTO empleado (nom_emp, pat_emp, mat_emp, fot_emp, tel_emp, est_emp, id_datacc, id_dir) VALUES (?,?,?,'N/A',?,'Proceso',?,?)", [nombre, apellido_paterno, apellido_materno, numero_telefono, idDataAcces, idDataDirec]);
+            let idEmpleado = empleado.insertId;
+
+
+            //redireccion a la pagina de empleados en proceso
+            res.redirect("/Tablero");
+            
+
+        } catch (err) {
+            console.error(err);
+        }
+        
+    } else {
+        res.redirect("/");
+    }    
+};
+
+
 /**metodo para agregar direccion del usuario */
-
 /**metodo para mostrar las direcciones del usuario */
-
 /**metpodo para registrar paciente */
-
 /**metodo para crear chamba */
-
 /*
 *
 
