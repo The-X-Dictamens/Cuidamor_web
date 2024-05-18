@@ -43,7 +43,7 @@
     <!-- Modal con pestañas para agregar persona -->
 
 
-        <form id="formAgregarPersona"  action="/crearEmpleado" method="post" enctype="multipart/form-data">
+        <form id="formAgregarPersona"  action="/crearUsuario" method="post" enctype="multipart/form-data">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="addPersonModalLabel">Agregar Empleado</h5>
@@ -129,19 +129,13 @@
                   <!-- Pestaña de Documentos -->
                   <div class="tab-pane" id="documentos" role="tabpanel">
                       <div class="form-group">
-                          <label for="ine">Subir INE:</label>
+                          <label for="foto">Foto</label>
                           <div class="custom-file">
-                            <input name="ine" type="file" class="custom-file-input" id="ine" required>
-                            <label class="custom-file-label" for="ine">Seleccionar archivo</label>
+                            <input name="foto" type="file" class="custom-file-input" id="foto" required>
+                            <label class="custom-file-label" for="ine">Seleccionar foto</label>
                           </div>
                         </div>                              
-                      <div class="form-group">
-                        <label for="certificados">Subir Certificados:</label>
-                        <div class="custom-file">
-                          <input name="certificados" type="file" class="custom-file-input" id="certificados" required>
-                          <label class="custom-file-label" for="certificados">Seleccionar archivo</label>
-                        </div>
-                      </div>
+                      
                       
                     
                     </div>

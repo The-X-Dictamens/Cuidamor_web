@@ -1,6 +1,9 @@
 const express = require('express')
 const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage()});
+
 
 //primero pues las que nos mandan con la landingpage
 
@@ -45,6 +48,10 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
 
 
 routerU.post('/registerU', MetodoJ.registrarUsuario)
+
+routerU.post('/crearUsuario', upload.fields([{name: 'comprobante_domicilio'}, { name: 'foto' }]), MetodoJ.crearUsuario);
+
+
 
 
 module.exports = routerU
