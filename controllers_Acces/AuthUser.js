@@ -172,3 +172,19 @@ exports.logout = (req, res)=>{
     return res.redirect('/')
 }
 
+
+
+/**
+ * que pasa si yo quiero consumir algo en un lenguje de programacion diferente
+ * si necesito que esa app se conecte en postGress??
+ * necesitamos un servidor que se encargue de recibir las peticiones y enviar las respuestas
+ * y eso se llama API REST , son traductores de un codigo a otro
+ * el traductor se llama JSON, le envias un JSON y te regresa un JSON 
+ * mandamos una lista de datos y nos regresa una lista de datos
+ * lo que hacemos en mantenimiento es, actualizaciones
+ * 
+ * cambiando de tema para nuestro soporte
+ * el minimo de levantar ticket, gestionar ticket
+ * asignarlo, darle seguimineot y de acuerdo 
+ * al nuestra politica de soporte si se puede marcar como resuelto, en curso etc
+ */
