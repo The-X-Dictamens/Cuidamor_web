@@ -105,6 +105,7 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
 
 
         // Generar el token JWT con más información del usuario
+        
         const token = jwt.sign({ id_emp: Id_enf, nom_emp: nom_enf,emp_pat:paterno,est_emp:solicitud, id_datacc:userId, rol_datacc:rol , id_dir:direccion}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });

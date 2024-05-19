@@ -46,6 +46,11 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
 
+routerU.get('/familiar', (req, res)=>{
+    res.render('./Usuario/RegistrarFamiliarU', {alert:false})
+})
+
+
 
 routerU.post('/registerU', MetodoJ.registrarUsuario)
 
