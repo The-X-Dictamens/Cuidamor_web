@@ -47,8 +47,11 @@ exports.crearUsuario = async (req, res) => {
     
         try {
             //obtencion de los datos del formulario
-            let { nombre, apellido_paterno, apellido_materno, correo, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
-            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc, rol_datacc) VALUES (?,'cliente')", [correo]);
+            let { nombre, apellido_paterno, apellido_materno, correo, pass, numero_telefono, calle, colonia, codigo_postal, alcaldia } = req.body;
+            let passHash = await bcryptjs.hash(pass, 8)    
+
+            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo, passHash]);
+            console.log(passHash)
             let idDataAcces = dataAcces.insertId;
 
             //obtencion de los los carchivos y sus nombres
@@ -102,18 +105,16 @@ y todos los metodos correspondientes para editar estos mismos datos
 exports.IniciarSesionUsuario = async (req, res) => {
     
     try {
-        const correo = req.body.correoe;
-        const contrasena = req.body.passe;
-
+        let { correo, contrasena } = req.body;
         let passHashe = await bcryptjs.hash(contrasena, 8) 
 
 
         console.log('Este es iniciarsesion user'+ correo + contrasena)
 
         // Consultar el usuario en la base de datos
-        const results = await queryAsync('SELECT id_datu , pas_datu FROM datos_acceso WHERE cor_dat = ? ', [correo]);
+        const results = await queryAsync('SELECT id_datacc , pas_datacc FROM datos_acceso WHERE cor_datacc = ? ', [correo]);
         console.log(results)
-        if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_dat)) {
+        if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_datacc)) {
             console.log(results)
 
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
@@ -124,26 +125,24 @@ exports.IniciarSesionUsuario = async (req, res) => {
                 alertIcon: 'error',
                 showConfirmButton: true,
                 timer: 1000,
-                ruta: 'Iniciar_sesion_usuario'
+                ruta: 'Tablero'
             });
         }
 
         // Obtener información del usuario para incluir en el token JWT
-        const userId = results[0].id_dat;
-        const userEmail = results[0].cor_dat;
+        const Id_acc = results[0].id_datacc;
+        const userEmail = results[0].cor_datacc;
 
-        const resultadosUser = await queryAsync('SELECT id_use, nom_use, idd_use FROM usuario WHERE id_datu = ?', [userId]);
+        const resultadosUser = await queryAsync('SELECT id_us, nom_us,  FROM usuario WHERE id_datacc = ?', [userId]);
 
 
-        const Id_user = resultadosUser[0].id_use;
-        const nom_enf = resultadosUser[0].nom_emplo;
-        const perm_enf = resultadosUser[0].id_perm;
-        const veri_enf = resultadosUser[0].veri_user;
+        const Id_user = resultadosUser[0].id_us;
+        const nom_user = resultadosUser[0].nom_emplo;
 
 
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_emplo: Id_enf, nom_emplo: nom_enf, idDatosA:userId, veri_user:veri_enf , id_perm:perm_enf}, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_us: Id_user, nom_us: nom_user, id_datacc: Id_acc,}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
@@ -156,7 +155,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         });
 
         // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
-        res.render('./Enfermera/VacantesE', {
+        res.render('./Usuario/userIndex', {
             alert: true,
             alertTitle: "Conexión exitosa",
             alertMessage: "¡LOGIN CORRECTO!",
@@ -171,6 +170,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         res.status(500).json({ error: 'Hubo un error al iniciar sesión' });
     }
 };
+
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   

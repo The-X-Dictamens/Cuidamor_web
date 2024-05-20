@@ -25,6 +25,10 @@ routerU.get('/Registrarme', (req, res)=>{
     res.render('./Usuario/RegisterU', {alert:false})
 })
 
+routerU.get('/Iniciar_sesion', (req, res)=>{
+    res.render('./Usuario/LoginU', {alert:false})
+})
+
 /**
  * Contacto
  */
@@ -49,13 +53,17 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
 routerU.get('/familiar', (req, res)=>{
     res.render('./Usuario/RegistrarFamiliarU', {alert:false})
 })
+routerU.get('/Tablero', (req, res)=>{
+    res.render('./Usuario/userIndex', {alert:false})
+})
 
 
 
-routerU.post('/registerU', MetodoJ.registrarUsuario)
+routerU.post('/registerU', MetodoJ.crearUsuario)
 
 routerU.post('/crearUsuario', upload.fields([{name: 'comprobante_domicilio'}, { name: 'foto' }]), MetodoJ.crearUsuario);
 
+routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 
 
 
