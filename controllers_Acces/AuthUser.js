@@ -47,10 +47,14 @@ exports.crearUsuario = async (req, res) => {
     
         try {
             //obtencion de los datos del formulario
-            let { nombre, apellido_paterno, apellido_materno, correo, pass, numero_telefono, calle, colonia, codigo_postal, alcaldia } = req.body;
+            let { nombre, apellido_paterno, apellido_materno, correo,  numero_telefono, calle, colonia, codigo_postal, alcaldia } = req.body;
+            console.log(req.body)
+            const pass = req.body.passw;
+
+            
             let passHash = await bcryptjs.hash(pass, 8)    
 
-            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo, passHash]);
+            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo, pass]);
             console.log(passHash)
             let idDataAcces = dataAcces.insertId;
 
