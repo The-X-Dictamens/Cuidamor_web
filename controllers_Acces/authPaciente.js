@@ -39,8 +39,8 @@ exports.registrarUsuario = async (req, res)=>{
 }
 // este soquete solo lo ponemos aqui  para que no "estorbe" su unica funcion sera que lo puedan crear, fuera de ahi que lo puedan editar
 
-exports.crearEmpleado = async (req, res) => {
-    
+exports.registrarPac = async (req, res) => {
+
     if (req.session.user) {
         try {
             //obtencion de los datos del formulario
@@ -49,12 +49,8 @@ exports.crearEmpleado = async (req, res) => {
             let idDataAcces = dataAcces.insertId;
 
             //obtencion de los los carchivos y sus nombres
-            let comprobante_domicilio = req.files["comprobante_domicilio"][0];
-            var namecomuser = comprobante_domicilio.fieldname + "-" + idDataAcces + "." + comprobante_domicilio.originalname.split(".").pop();
-            let ine = req.files["ine"][0];
-            var nameineuser = ine.fieldname + "-" + idDataAcces + "." + ine.originalname.split(".").pop();
-            let certificados = req.files["certificados"][0];
-            var nameceruser = certificados.fieldname + "-" + idDataAcces + "." + certificados.originalname.split(".").pop();
+            let fotopolla = req.files["foto_paciente"][0];
+            var namefotoP = fotopolla.fieldname + "-" + idDataAcces + "." + comprobante_domicilio.originalname.split(".").pop();
 
             //utilizaremos la funcion de gardado de documentos en los dockers
             let subrcomprobante = cloudController.upload(comprobante_domicilio, namecomuser);
