@@ -57,6 +57,10 @@ routerU.get('/Tablero', (req, res)=>{
     res.render('./Usuario/userIndex', {alert:false})
 })
 
+routerU.get('/Tutorial', (req, res)=>{
+    res.render('./Usuario/tutorial', {alert:false})
+})
+
 
 
 routerU.post('/registerU', MetodoJ.crearUsuario)

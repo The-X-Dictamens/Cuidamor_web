@@ -11,12 +11,11 @@ const queryAsync = promisify(conexionU.query).bind(conexionU);
 
 //procedimiento para registrarnos
 
-/**metodo para agregar direccion del usuario */
-/**metodo para mostrar las direcciones del usuario */
-/**metpodo para registrar paciente */
-/**metodo para crear chamba */
-/*
-*
+/**metodo para agregar direccion del usuario 
+/**metodo para mostrar las direcciones del usuario 
+/**metpodo para registrar paciente 
+/**metodo para crear chamba 
+
 
 y todos los metodos correspondientes para editar estos mismos datos
 
@@ -91,6 +90,8 @@ exports.IniciarSesionUsuario = async (req, res) => {
     }
 };
 
+exports.MidlewareUsuario = async (req, res, next) => {
+}
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
@@ -135,8 +136,9 @@ exports.crearUsuario = async (req, res) => {
                 alertIcon: 'error',
                 showConfirmButton: true,
                 timer: 1000,
-                ruta: 'Tablero'
+                ruta: 'Registrarme'
             });
+             
         }
         let passHashe = await bcryptjs.hash(passw, 8)
 
@@ -156,7 +158,7 @@ exports.crearUsuario = async (req, res) => {
 
 
         //redireccion a la pagina de empleados en proceso
-        res.redirect("/Tablero");
+        res.redirect("/Tutorial");
         
 
     } catch (err) {
