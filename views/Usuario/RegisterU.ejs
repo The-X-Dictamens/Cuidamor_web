@@ -43,7 +43,7 @@
     <!-- Modal con pestañas para agregar persona -->
 
 
-        <form id="formAgregarPersona"  action="/crearUsuario" method="post" enctype="multipart/form-data">
+        <form id="formAgregarPersona"  action="/crearUsuario" method="post" >
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="addPersonModalLabel">Agregar Empleado</h5>
@@ -60,9 +60,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#direccion" role="tab">Dirección</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#documentos" role="tab">Documentos</a>
                 </li>
               </ul>
 
@@ -122,28 +119,9 @@
                       <label para="alcaldia">Alcaldía:</label>
                       <input type="text" name="alcaldia" class="form-control" id="alcaldia" required>
                     </div>
-                    <div class="form-group">
-                      <label para="comprobante_domicilio">Subir Comprobante de Domicilio:</label>
-                      <div class="custom-file">
-                        <input name="comprobante_domicilio" type="file" class="custom-file-input" id="comprobante_domicilio" required>
-                        <label class="custom-file-label" para="comprobante_domicilio">Seleccionar archivo</label>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Pestaña de Documentos -->
-                  <div class="tab-pane" id="documentos" role="tabpanel">
-                      <div class="form-group">
-                          <label for="foto">Foto</label>
-                          <div class="custom-file">
-                            <input name="foto" type="file" class="custom-file-input" id="foto" required>
-                            <label class="custom-file-label" for="ine">Seleccionar foto</label>
-                          </div>
-                        </div>                              
-                      
-                      
                     
-                    </div>
+                  </div>
+                                 
                 </form>
               </div>
 

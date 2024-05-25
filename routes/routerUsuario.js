@@ -61,7 +61,7 @@ routerU.get('/Tablero', (req, res)=>{
 
 routerU.post('/registerU', MetodoJ.crearUsuario)
 
-routerU.post('/crearUsuario', upload.fields([{name: 'comprobante_domicilio'}, { name: 'foto' }]), MetodoJ.crearUsuario);
+routerU.post('/crearUsuario', MetodoJ.crearUsuario);
 
 routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 

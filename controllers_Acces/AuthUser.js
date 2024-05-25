@@ -10,89 +10,9 @@ const query = promisify(conexionU.query).bind(conexionU);
 const queryAsync = promisify(conexionU.query).bind(conexionU);
 
 //procedimiento para registrarnos
-exports.registrarUsuario = async (req, res)=>{    
-    try {          
-
-        const name = req.body.name;
-        const correo = req.body.user;
-        const pass = req.body.pass;
-        const appat = req.body.appat; 
-        const apmat = req.body.apmat;
-        const tele =  req.body.tel;
-        const celu =  req.body.cel;
-
-        let passHash = await bcryptjs.hash(pass, 8) 
-         
-        // Insertar los datos de acceso
-        await queryAsync('INSERT INTO datos_acceso (cor_datu, pas_datu) VALUES (?, ?)', [correo, passHash]);
-
-        // Obtener el ID generado automáticamente
-        const resultsAccesoU = await queryAsync('SELECT LAST_INSERT_ID() AS id_datu');
-
-        // El ID generado automáticamente
-        const idAcceso = resultsAccesoU[0].id_datu;
-        
-        // Insertar los datos generales utilizando el ID obtenido anteriormente
-        await queryAsync('INSERT INTO usuario (id_datu, nom_use  VALUES (?, ?)', [idAcceso, name]);
-        
-        res.redirect('/Tablero');
-    } catch (error) {   
-        console.error(error);
-        res.status(500).json({ error: 'Hubo un error al registrar el usuario' });
-    }        
-}
 
 
-exports.crearUsuario = async (req, res) => {
-    
-        try {
-            //obtencion de los datos del formulario
-            let { nombre, apellido_paterno, apellido_materno, correo,  numero_telefono, calle, colonia, codigo_postal, alcaldia } = req.body;
-            console.log(req.body)
-            const pass = req.body.passw;
 
-            
-            let passHash = await bcryptjs.hash(pass, 8)    
-
-            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo, pass]);
-            console.log(passHash)
-            let idDataAcces = dataAcces.insertId;
-
-            //obtencion de los los carchivos y sus nombres
-            
-            
-            let comprobante_domicilio = req.files["comprobante_domicilio"][0];
-            var namecomuser = comprobante_domicilio.fieldname + "-" + idDataAcces + "." + comprobante_domicilio.originalname.split(".").pop();
-         
-            //utilizaremos la funcion de gardado de documentos en los dockers
-            let subrcomprobante = cloudController.upload(comprobante_domicilio, namecomuser);
-
-            //Ahora uno para la foto 
-            let fotoP = req.files["foto"][0];
-            var namefpmuser = fotoP.fieldname + "-" + idDataAcces + "." + fotoP.originalname.split(".").pop();
-          
-            //utilizaremos la funcion de gardado de documentos en los dockers
-            let subirFotoP = cloudController.upload(namefpmuser, namefpmuser);
-
-
-            //incercion de los datos en la base de datos
-            let dataDireccion = await query("INSERT INTO direccion (del_dir, col_dir, calle_dir, cp_dir) VALUES (?,?,?,?)",[alcaldia, colonia, calle, codigo_postal])
-            let idDataDirec = dataDireccion.insertId;
-
-            let U = await query("INSERT INTO user (nom_us, pat_us, mat_us, fot_us, tel_us, id_datacc, id_dir) VALUES (?,?,?,'N/A',?,?,?)", [nombre, apellido_paterno, apellido_materno, numero_telefono, idDataAcces, idDataDirec]);
-            let iduser = U.insertId;
-
-
-            //redireccion a la pagina de empleados en proceso
-            res.redirect("/Tablero");
-            
-
-        } catch (err) {
-            console.error(err);
-        }
-        
-      
-};
 
 
 /**metodo para agregar direccion del usuario */
@@ -137,7 +57,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         const Id_acc = results[0].id_datacc;
         const userEmail = results[0].cor_datacc;
 
-        const resultadosUser = await queryAsync('SELECT id_us, nom_us,  FROM usuario WHERE id_datacc = ?', [userId]);
+        const resultadosUser = await queryAsync('SELECT id_us, nom_us FROM user WHERE id_datacc = ?', [Id_acc]);
 
 
         const Id_user = resultadosUser[0].id_us;
@@ -207,26 +127,30 @@ exports.crearUsuario = async (req, res) => {
     
     try {
         //obtencion de los datos del formulario
-        let { nombre, apellido_paterno, apellido_materno, correo, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
-        let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc, rol_datacc) VALUES (?,'cliente')", [correo]);
+        let { nombre, apellido_paterno, apellido_materno, correo,passw, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
+        //cifrado de la contraseña
+
+        //verificar correo
+        let correoExistente = await query("SELECT cor_datacc FROM datos_acceso WHERE cor_datacc = ?", [correo]);
+
+        if (correoExistente.length > 0) { 
+            return res.render('./Usuario/RegisterU', {
+                alert: true,
+                alertTitle: "Error",
+                alertMessage: "Correo ya registrado",
+                alertIcon: 'error',
+                showConfirmButton: true,
+                timer: 1000,
+                ruta: 'Tablero'
+            });
+        }
+        let passHashe = await bcryptjs.hash(passw, 8)
+
+        let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo,passHashe]);
+
         let idDataAcces = dataAcces.insertId;
 
-        //obtencion de los los carchivos y sus nombres
         
-        
-        let comprobante_domicilio = req.files["comprobante_domicilio"][0];
-        var namecomuser = comprobante_domicilio.fieldname + "-" + idDataAcces + "." + comprobante_domicilio.originalname.split(".").pop();
-     
-        //utilizaremos la funcion de gardado de documentos en los dockers
-        let subrcomprobante = cloudController.upload(comprobante_domicilio, namecomuser);
-
-        //Ahora uno para la foto 
-        let fotoP = req.files["foto"][0];
-        var namefpmuser = fotoP.fieldname + "-" + idDataAcces + "." + fotoP.originalname.split(".").pop();
-      
-        //utilizaremos la funcion de gardado de documentos en los dockers
-        let subirFotoP = cloudController.upload(namefpmuser, namefpmuser);
-
 
         //incercion de los datos en la base de datos
         let dataDireccion = await query("INSERT INTO direccion (del_dir, col_dir, calle_dir, cp_dir) VALUES (?,?,?,?)",[alcaldia, colonia, calle, codigo_postal])
@@ -234,6 +158,7 @@ exports.crearUsuario = async (req, res) => {
 
         let U = await query("INSERT INTO user (nom_us, pat_us, mat_us, fot_us, tel_us, id_datacc, id_dir) VALUES (?,?,?,'N/A',?,?,?)", [nombre, apellido_paterno, apellido_materno, numero_telefono, idDataAcces, idDataDirec]);
         let iduser = U.insertId;
+        console.log("exito")
 
 
         //redireccion a la pagina de empleados en proceso
