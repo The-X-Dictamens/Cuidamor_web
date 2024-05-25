@@ -114,7 +114,7 @@ exports.crearUsuario = async (req, res) => {
     
     try {
         //obtencion de los datos del formulario
-        let { nombre, apellido_paterno, apellido_materno, correo,passw, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
+        let { nombre, apellido_paterno, apellido_materno, rol, correo,passw, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
         //cifrado de la contraseña
 
         //verificar correo
@@ -135,7 +135,7 @@ exports.crearUsuario = async (req, res) => {
         }
         let passHashe = await bcryptjs.hash(passw, 8)
 
-        let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo,passHashe]);
+        let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo,passHashe,rol]);
 
         let idDataAcces = dataAcces.insertId;
 
@@ -287,18 +287,15 @@ exports.EnfermeraAuth = async (req, res, next) => {
 exports.EnfermeraAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
-
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-
             estado = cookieusuarioDeco.est_emp
             console.log(estado +' de mexico')
             if (cookieusuarioDeco.est_emp === 'Proceso') {
                 console.log('aguantate a verificarte')
                 return res.render('./Enfermera/ViewwithoutVerify')
             }
-    
             // Consultar la base de datos para obtener los datos del usuario
             conexion.query('SELECT id_datacc FROM datos_acceso WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsEnfer) => {
                 if (error) {
@@ -310,8 +307,6 @@ exports.EnfermeraAuth = async (req, res, next) => {
                     
                 req.usuario = resultsEnfer[0];
                 semicuci = cookieusuarioDeco
-
-                   
                 //}
                 //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
                 return next();

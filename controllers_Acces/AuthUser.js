@@ -22,20 +22,15 @@ y todos los metodos correspondientes para editar estos mismos datos
 */
 
 exports.IniciarSesionUsuario = async (req, res) => {
-    
     try {
         let { correo, contrasena } = req.body;
         let passHashe = await bcryptjs.hash(contrasena, 8) 
-
-
         console.log('Este es iniciarsesion user'+ correo + contrasena)
-
         // Consultar el usuario en la base de datos
         const results = await queryAsync('SELECT id_datacc , pas_datacc FROM datos_acceso WHERE cor_datacc = ? ', [correo]);
         console.log(results)
         if (results.length === 0 || !await bcryptjs.compare(contrasena, results[0].pas_datacc)) {
             console.log(results)
-
             // Si no se encuentra un usuario con las credenciales proporcionadas o la contraseña no coincide, retornar un mensaje de error
             return res.render('./Usuario/LoginU', {
                 alert: true,
@@ -47,21 +42,16 @@ exports.IniciarSesionUsuario = async (req, res) => {
                 ruta: 'Tablero'
             });
         }
-
         // Obtener información del usuario para incluir en el token JWT
         const Id_acc = results[0].id_datacc;
         const userEmail = results[0].cor_datacc;
 
         const resultadosUser = await queryAsync('SELECT id_us, nom_us FROM user WHERE id_datacc = ?', [Id_acc]);
-
-
         const Id_user = resultadosUser[0].id_us;
-        const nom_user = resultadosUser[0].nom_emplo;
-
-
+        const nom_user = resultadosUser[0].nom_us;
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_us: Id_user, nom_us: nom_user, id_datacc: Id_acc,}, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
@@ -70,9 +60,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         res.cookie('jwt', token, {
            // expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
             httpOnly: true
-        
         });
-
         // Redirigir al usuario a una página de inicio o dashboard después de iniciar sesión
         res.render('./Usuario/userIndex', {
             alert: true,
@@ -81,7 +69,12 @@ exports.IniciarSesionUsuario = async (req, res) => {
             alertIcon: 'success',
             showConfirmButton: false,
             timer: 800,
-            ruta: 'Visualizar_vacantes'
+            ruta: 'Tablero',
+            user: {
+                id: Id_user,
+                name: nom_user,
+                email: userEmail
+            }
         });
 
     } catch (error) {
@@ -90,7 +83,44 @@ exports.IniciarSesionUsuario = async (req, res) => {
     }
 };
 
-exports.MidlewareUsuario = async (req, res, next) => {
+exports.UserAuth = async (req, res, next) => {
+    console.log("Middleware de autenticación en ejecución");
+    if (req.cookies.jwt) {
+        try {
+            // Descifrar la cookie para obtener los datos del usuario
+            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+            estado = cookieusuarioDeco.est_emp
+            console.log(estado +' de mexico')
+             
+            // Consultar la base de datos para obtener los datos del usuario
+            conexion.query('SELECT * FROM user WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsUser) => {
+                if (error) {
+                    console.log(error);
+                    return next();
+                }//aqyu podre asignarle ese if?
+                req.user = resultsUser[0];
+                return next();
+            }); /**aqui segun yo puse el parentresis delif */
+        } catch (error) {
+            console.log(error+' error al autenticar');
+            return next();
+        }
+    } else {
+        console.log('ubicate pa')
+        res.redirect('noautenticado')
+        
+    }
+}
+exports.VisualizarVacantes = async (req, res) => {
+    let idC = req.user.id;
+    let vacantes = await query('SELECT * FROM solicitud WHERE id_us = ?', [idC]);
+    console.log(vacantes)
+    res.render('./Usuario/userIndex', {alert:false})
+}
+
+exports.logout = (req, res)=>{
+    res.clearCookie('jwt')   
+    return res.redirect('/')
 }
 
 exports.logout = (req, res)=>{
@@ -167,3 +197,5 @@ exports.crearUsuario = async (req, res) => {
     
   
 };
+
+

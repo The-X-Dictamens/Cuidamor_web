@@ -1,3 +1,9 @@
+const conexionU = require('../database/db');
+const { promisify } = require('util');
+const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const query = promisify(conexionU.query).bind(conexionU);
+
 /**
  * Pues aqui pondremos los valores para que puedamos crear una vacante
  * ocupamos
@@ -22,3 +28,9 @@
   `id_dir`
  * 
  */
+
+exports.VisualizarVacantes = async (req, res) => {
+    let idC = req.user.Id_user;
+    let vacantes = await query('SELECT * FROM solicitud WHERE id_us = ?', [idC]);
+    console.log(vacantes)
+}

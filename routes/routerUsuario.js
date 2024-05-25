@@ -1,6 +1,7 @@
 const express = require('express')
 const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
+const VacantesM = require('../CitasController/crearVacante.js')
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage()});
 
@@ -53,9 +54,7 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
 routerU.get('/familiar', (req, res)=>{
     res.render('./Usuario/RegistrarFamiliarU', {alert:false})
 })
-routerU.get('/Tablero', (req, res)=>{
-    res.render('./Usuario/userIndex', {alert:false})
-})
+routerU.get('/Tablero', MetodoJ.UserAuth, MetodoJ.VisualizarVacantes);
 
 routerU.get('/Tutorial', (req, res)=>{
     res.render('./Usuario/tutorial', {alert:false})
@@ -69,6 +68,6 @@ routerU.post('/crearUsuario', MetodoJ.crearUsuario);
 
 routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 
-
+routerU.get('/Mis_vacantes',MetodoJ.VisualizarVacantes)
 
 module.exports = routerU
