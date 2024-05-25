@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="icon" href="./Imgs/logo-removebg-preview.ico" type="image/x-icon">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/landing.css">
-        <title>Document</title>
-      </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page - Contratación de Enfermeras y Cuidadores</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/LandingStyles.css" rel="stylesheet">
+</head>
 <body>
+<<<<<<< Updated upstream
   <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-green">
     <a class="navbar-brand" href="#">
         <img src="Imgs/Logito.png" width="30" height="30" alt="Cuidamor Logo">
@@ -46,263 +45,248 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Contacto</a>
+=======
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="imgs/logo.png" width="35" height="35" class="d-inline-block align-top" alt="Logo">
+            Cuidamor 
+        </a>
+        <button class="navbar-toggler" type="button" aria-label="Toggle navigation" id="sidebarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse components" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Inicio</a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Servicios
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Enfermería</a>
+                      <a class="dropdown-item" href="#">Cuidado</a>
+                  </div>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Ayuda</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Quiero Trabajar con Ustedes</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Registrarme</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Inicio de Sesión</a>
+              </li>
+          </ul>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="bg-light">
+        <div class="sidebar-header">
+            <button type="button" id="dismiss" ><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 14l-4 -4l4 -4" /><path d="M5 10h11a4 4 0 1 1 0 8h-1" /></svg></button>
+        </div>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="#">Inicio</a>
             </li>
-            <!-- Enlaces para Políticas de privacidad y Términos y condiciones -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="sobreNosotrosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sobre nosotros
-                </a>
-                <div class="dropdown-menu" aria-labelledby="sobreNosotrosDropdown">
-                    <a class="dropdown-item" href="#">Políticas de privacidad</a>
-                    <a class="dropdown-item" href="#">Términos y condiciones</a>
-                </div>
+            <li>
+                <a href="#servicesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Servicios</a>
+                <ul class="collapse list-unstyled" id="servicesSubmenu">
+                    <li>
+                        <a href="#">Enfermería</a>
+                    </li>
+                    <li>
+                        <a href="#">Cuidado</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Ayuda</a>
+            </li>
+            <li>
+                <a href="#">Quiero Trabajar con Ustedes</a>
+>>>>>>> Stashed changes
+            </li>
+            <li>
+                <a href="#">Registrarme</a>
+            </li>
+            <li>
+                <a href="#">Inicio de Sesión</a>
             </li>
         </ul>
     </div>
-</nav>
-    
-    <main>
-        <section id="section1">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="imgs/enfermero1.jpg" class="d-block w-100" style="height: 400px;" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="imgs/enfermero2.jpg" class="d-block w-100" style="height: 400px;" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="imgs/enfermero3.jpg" class="d-block w-100" style="height: 400px;" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="imgs/enfermero3.jpg" class="d-block w-100" style="height: 400px;" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="imgs/enfermero4.jpg" class="d-block w-100" style="height: 400px;" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="imgs/enfermero5.jpg" class="d-block w-100" style="height: 400px;" alt="...">
+    <header data-v-22791a1b="" data-v-6dd90c3b="" class="page-header bg-img-cover overlay overlay-80 page-header-dark" data-v-7930edba="" style="background-image: url('https://cuidadoadultomayor.com/wp-content/uploads/2022/04/servicio-de-enfermeria-a-domicilio.jpg');">
+      <div data-v-6dd90c3b="" data-v-22791a1b="" class="page-header-content py-5">
+          <div data-v-6dd90c3b="" data-v-22791a1b="" class="container">
+              <div data-v-6dd90c3b="" data-v-22791a1b="" class="row justify-content-center">
+                  <div data-v-6dd90c3b="" data-v-22791a1b="" class="col-xl-8 col-lg-10 text-center">
+                      <div data-v-6dd90c3b="" data-v-22791a1b="" data-aos="fade-up" class="aos-init aos-animate">
+                          <h1 data-v-6dd90c3b="" data-v-22791a1b="" style="color: black;">Que hacemos?</h1>
+                          <p data-v-6dd90c3b="" data-v-22791a1b="" style="color: black;">En Cuidamor, nos dedicamos a ofrecer los mejores servicios de cuidado a domicilio, proporcionando tanto enfermeras profesionales como cuidadores dedicados. Entendemos la importancia de un cuidado personalizado y de calidad para tus seres queridos, por eso, nos aseguramos de que cada miembro de nuestro equipo esté altamente capacitado y comprometido con su bienestar.</p>
+                      </div>
+                      <button data-v-6dd90c3b="" data-v-22791a1b="" data-aos="fade-up" data-aos-delay="100" class="btn btn-marketing rounded-pill btn-primary aos-init aos-animate">¡CONTRATAR!</button>
                   </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </section>
-    
-        <section id="necesitas-asistencia" class="bg-light py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h2>¿Necesitas asistencia diaria para ti o un ser querido?</h2>
-                        <p class="lead">Respuesta inmediata a domicilio. Nos adaptamos para que los cuidados sean más sencillos para toda la familia.</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <h4>Profesionales capacitados</h4>
-                        <p>Contamos con un plantel propio de enfermería altamente calificado y experimentado para proporcionar el mejor cuidado posible.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Responsabilidad</h4>
-                        <p>Nuestra prioridad es la seguridad y el bienestar de nuestros pacientes. Realizamos un permanente control de la calidad del servicio para garantizar la máxima atención.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Tranquilidad y apoyo</h4>
-                        <p>Entendemos la importancia de brindar apoyo emocional y cuidados compasivos. Nuestro equipo está aquí para proporcionar la contención necesaria para ti y tu familia durante estos momentos difíciles.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-               
-
-          <section id="section3">
-            <h2>Perfiles de profesionales</h2>
-            <div class="row d-flex">
-              <div class="col-md-4">
-                <div class="card border-info mb-3" style="width: 15rem;">
-                  <img src="./Imgs/enfermo2.jpg" class="card-img-top" alt="..." />
-                  <div class="card-body">
-                    <h5 class="card-title">Enfermero</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">
-                      Necesito asistencia para la aplicacion de insulina y plan nutricional
-                    </p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Lomas Ticas: Benito Juarez</li>
-                    <li class="list-group-item">Diabetes:Aplicacion de insulina</li>
-                    <li class="list-group-item">Solicito Enfermero</li>
-                    <li class="list-group-item">Tiempo: 5Hrs</li>
-                  </ul>
-                  <div class="card-body">
-                    <a href="#" class="card-link">Mas Informacion</a>
-                    <a href="#" class="card-link">Postularme</a>
-                  </div>
-                </div>
               </div>
-              <div class="col-md-4">
-                <div class="card border-info mb-3" style="width: 15rem;">
-                  <img src="./Imgs/enfermo5.jpg" class="card-img-top" alt="..." />
-                  <div class="card-body">
-                    <h5 class="card-title">Enfermero</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">
-                      Necesito asistencia para la aplicacion de insulina y plan nutricional
-                    </p>
+          </div>
+      </div>
+      <span data-v-c5f3fcf8="" data-v-22791a1b="">
+          <div data-v-c5f3fcf8="" class="svg-border-rounded text-white">
+              <svg data-v-c5f3fcf8="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor">
+                  <path data-v-c5f3fcf8="" d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0"></path>
+              </svg>
+          </div>
+      </span>
+    </header>
+  
+   <!-- Main Content 
+   <div class="container text-center mt-5">
+      <h1>Bienvenido a Nuestra Plataforma</h1>
+      <p>Contrata a los mejores enfermeros y cuidadores con facilidad.</p>
+      <button class="btn btn-primary">Contactar Ahora</button>
+      <button class="btn btn-secondary">Obtener una Cotización</button>
+    </div>
+    -->
+    <!-- Qué Hacemos y Carrusel 
+    <div class="container mt-5">
+      <div class="row">
+          <div class="col-md-6">
+              <h2>Qué Hacemos</h2>
+              <p>Proveemos los mejores servicios de enfermería y cuidado para garantizar el bienestar de nuestros clientes. Nuestro equipo está altamente capacitado y comprometido con la salud y el cuidado.</p>
+          </div>
+          <div class="col-md-6">
+              <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                  <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                  </ol>
+                  <div class="carousel-inner">
+                      <div class="carousel-item active">
+                          <img src="slide1.jpg" class="d-block w-100" alt="Slide 1">
+                      </div>
+                      <div class="carousel-item">
+                          <img src="slide2.jpg" class="d-block w-100" alt="Slide 2">
+                      </div>
+                      <div class="carousel-item">
+                          <img src="slide3.jpg" class="d-block w-100" alt="Slide 3">
+                      </div>
                   </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Lomas Ticas: Benito Juarez</li>
-                    <li class="list-group-item">Diabetes:Aplicacion de insulina</li>
-                    <li class="list-group-item">Solicito Enfermero</li>
-                    <li class="list-group-item">Tiempo: 5Hrs</li>
-                  </ul>
-                  <div class="card-body">
-                    <a href="#" class="card-link">Mas Informacion</a>
-                    <a href="#" class="card-link">Postularme</a>
-                  </div>
-                </div>
+                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                  </a>
               </div>
-              <div class="col-md-4">
-                <div class="card border-info mb-3" style="width: 15rem;">
-                  <img src="./Imgs/enfermo3jpg.jpg" class="card-img-top" alt="..." />
-                  <div class="card-body">
-                    <h5 class="card-title">Enfermero</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">
-                      Necesito asistencia para la aplicacion de insulina y plan nutricional
-                    </p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Lomas Ticas: Benito Juarez</li>
-                    <li class="list-group-item">Diabetes:Aplicacion de insulina</li>
-                    <li class="list-group-item">Solicito Enfermero</li>
-                    <li class="list-group-item">Tiempo: 5Hrs</li>
-                  </ul>
-                  <div class="card-body">
-                    <a href="#" class="card-link">Mas Informacion</a>
-                    <a href="#" class="card-link">Postularme</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card border-info mb-3" style="width: 15rem;">
-                  <img src="./Imgs/enfermo4.jpg" class="card-img-top" alt="..." />
-                  <div class="card-body">
-                    <h5 class="card-title">Enfermero</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">
-                      Necesito asistencia para la aplicacion de insulina y plan nutricional
-                    </p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Lomas Ticas: Benito Juarez</li>
-                    <li class="list-group-item">Diabetes:Aplicacion de insulina</li>
-                    <li class="list-group-item">Solicito Enfermero</li>
-                    <li class="list-group-item">Tiempo: 5Hrs</li>
-                  </ul>
-                  <div class="card-body">
-                    <a href="#" class="card-link">Mas Informacion</a>
-                    <a href="#" class="card-link">Postularme</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card border-info mb-3" style="width: 15rem;">
-                  <img src="./Imgs/enfermo1.jpg" class="card-img-top" alt="..." />
-                  <div class="card-body">
-                    <h5 class="card-title">Enfermero</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">
-                      Necesito asistencia para la aplicacion de insulina y plan nutricional
-                    </p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Lomas Ticas: Benito Juarez</li>
-                    <li class="list-group-item">Diabetes:Aplicacion de insulina</li>
-                    <li class="list-group-item">Solicito Enfermero</li>
-                    <li class="list-group-item">Tiempo: 5Hrs</li>
-                  </ul>
-                  <div class="card-body">
-                    <a href="#" class="card-link">Mas Informacion</a>
-                    <a href="#" class="card-link">Postularme</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-
-    </main>
-
-    <footer class="bg-light py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 text-center">
-                    <div id="map" style="width: 100%; height: 300px;"></div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h5 class="mb-3">Contacto</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li>Phone: (123) 456-7890</li>
-                        <li>Email: info@cuidamor.com</li>
-                        <li>Address: Calle Falsa 123, Ciudad, País</li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h5 class="mb-3">Enlaces útiles</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Condiciones de Uso</a></li>
-                        <li><a href="#">Trabaja con nosotros</a></li>
-                    </ul>
-                    <p class="mt-3">Si quieres formar parte de nuestro equipo de trabajo, mándanos tu curriculum a <a href="mailto:jobs@cuidamor.com">jobs@cuidamor.com</a></p>
+          </div>
+      </div>
+    </div>
+    -->
+    <!-- Servicios -->
+    <div class="container mt-5">
+      <h2>Servicios</h2>
+      <div class="row justify-content-between">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="data:image/jpeg;base64,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LJwjZDOMpTTXwykMNtWgz05qTD0mEFFKMUoxikoxSwklskl4I6TlpAAAADAEYAAAIYEAVAlASAAnAEgEgJAAAJAAYeq4XRbJTnTVKyO8bXCPNF+aljKMT1jRERFotrq1ur0lcox564znGWIppN83pk581061bTMbjspZZflqUqIdWl7Unj16Y925rO/LbVfG2TCfPU08PbDx0fuG9w11qWjhpk9sehppvMos4JRN+1VBv8XKs/M3pe9fuzKDJhxZPv1ifrDXansvRW3KNeJPq05flknrxeak72q5fTOFy15Zr+U6anW8Adn3bGvRrJYj1K0/ej8lCf8Ap/HX/TtMfXr/AE10ey16f/cra/xL9DePUKe0tLei5J7Whl2cGscqebl7uE4uxZeZRTTaW3khn9QpenLWJacF6Hlw5YveY776b/p2NvHE1hV7esv9jlzO3pYrpoNfqlOSkk4tPozFektrdnpOiu7yquf44Rl8WtzqVncbce0amYfY2agAAAAARgABAEAQgJAnAEgAJSAASAAAAAADB1laUk2vZn49GpY8H4bfqVM9dTtd4e+68rje0+o0GklCzV1aiyyeYVylbdKuUuuHGMuRP3rwIqxveoWLW1MbnTV6Pt9oqn3KS06xnldbivfkxyWmNwWvWJ1LcaLj+mnDmjdXPO+VJM15ZjuzzRPWHy1nbCinrOH+ZZ+XUzETPZiZiO7F0/bKvUKShyzb8mspeq6mLVtHcras9pZFGpiapGR3kX4gfGyS8zGhiWS8hplg3dTMMS9I7OSzpKX/ACv82dHFPww5eb78tkSIgABAAAAANAQBUCEBKAsAAICQAEgAAAABKQGPxJpU2SfSEXP3OKyazj+0+H3Jzxgick9ojc/RptVo6dZS67q42VzSypLPqmvJ+pQ61n5uput67jrEuP1HYTSVt4ryvKTlP82a2y3921cWP2Un2eoSxGEUvREc2mUsRphX9m6n/CjMWkmIlrNT2VinmDcWujW2DeMtkc4az1Xqhq6tudWJfi2fzRjcSzy68sqvik19+El9V9BqDq+8eJp9XgaY2vDWw8xo3C09RDHUaZ29I7OUOvSURksS5OZp+HM3JL5M6GKNVhzMs7vMtkSIgAAAAQAAAVYFcgQgLJgWAASgAEgAAAABKAkDH1+n72qytPDnBxT9fA2pbltEoeJxfbYrY/eNOO4Nr5Qbrn7Li2op7Yx1i/XOTHqHDTv7anae/wDar6B6jGv8PL96vb5/L6x+30W4lxSCeHJJnInq9X2amziUPB5M8rXmU/ac+KGjaHZJ+QNo7rPVxXxM6Y2xtXq9PSvasjzeXV/Jbm9MdrdoRZM+PHG7Tpp6+MVXXQqUMOclBTsXLFN9MvqvkWI4W6nPqWF2el7Bzm13rrqiuvJ7cn9EkYjDPlLbiI8Q6XSdltFWoYojKVfSc93J9cyxs/kTRjrCCc158tySIgAAAAAIAAQ2BVsCoFIyAumBdMCQAE5AASAAAAAEgVssUYuT6RTk/clkRG+jFrRWJmfDzPU2d5Ocn1lKU/i3k7cViK6fO75ZtknJ5mdtZrtFGe+6fmmyGeHx+Kx+S9j9R4nzeZ+sy0tnD5p4Vs4t9GpNp/Ble3CUnw6eP1bNWN7lTT1ahS5Xc9njpH+xF/hY/Zan1rNEbiWVTXe+ZSvlmMmtlHp4eHkbV4HGjv65n1Gl56ST+/bZL/G0n8FglrwmKvhVv6txN/8AyUWjhHpFfIlikR2VZz3vO5l8NTpYqUZpYfNFvHmuhrasb2kx5bTE1l6r2I4+9XS65xatojCMpZyrIvKUvR7b/wDMUs2Plnb0HA8T9rTlnvGvxdKRLwAAAAIAAMgRkCrYFWwKOQH/2Q==" class="card-img-top .page-header" alt="Enfermería">
+                <div class="card-body">
+                    <h4 class="card-title">Enfermería</h3>
+                    <p class="card-text">Ofrecemos servicios de enfermería profesional para cuidados en el hogar, hospitales y clínicas. Nuestro personal está altamente capacitado para brindar la mejor atención.</p>
                 </div>
             </div>
         </div>
-    </footer>
-    
-    <!-- Scripts para el mapa -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
-    <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleHhvbWJ5IiwiYSI6ImNsaWo4c3d6NzA1NnMzZXBiZjE2a2I0aDAifQ.nVog7tI8-GkimJfWeb-hIg';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-99.17491900, 19.45388900], // Nuevas coordenadas del CECYT 9
-            zoom: 17 // Ajusta el nivel de zoom según sea necesario
-        });
-    
-        var marker = new mapboxgl.Marker()
-            .setLngLat([-99.17491901, 19.45388901]) // Nuevas coordenadas del marcador
-            .addTo(map);
-    </script>
-    
-    
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDBseKRNJejtkKhruSRwd71LAe04wENoOY_aFjUBsrKw&s" class="card-img-top .page-header" alt="Cuidado">
+                <div class="card-body">
+                    <h4 class="card-title">Cuidado</h3>
+                    <p class="card-text">Proveemos cuidadores capacitados para asistir a personas mayores y personas con discapacidades. Nos aseguramos de que reciban el apoyo y la atención que necesitan.</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
   
+
+    <!-- Contáctanos -->
+    <div class="container mt-5">
+      <h2>Contáctanos</h2>
+      <form>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="inputName">Nombre</label>
+                  <input type="text" class="form-control" id="inputName" placeholder="Nombre">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="inputEmail">Correo Electrónico</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="Correo Electrónico">
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="inputMessage">Mensaje</label>
+              <textarea class="form-control" id="inputMessage" rows="4" placeholder="Escribe tu mensaje aquí"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+
+    <!-- Footer 
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="container p-4">
+          <div class="row">
+              <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                  <h5 class="text-uppercase">Nuestra Empresa</h5>
+                  <p>Proveemos servicios de enfermería y cuidado de alta calidad para garantizar el bienestar de nuestros clientes. Contáctanos para más información.</p>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                  <h5 class="text-uppercase">Enlaces Útiles</h5>
+                  <ul class="list-unstyled mb-0">
+                      <li>
+                          <a href="#" class="text-dark">Inicio</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-dark">Servicios</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-dark">Sobre Nosotros</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-dark">Contáctanos</a>
+                      </li>
+                  </ul>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                  <h5 class="text-uppercase">Contacto</h5>
+                  <ul class="list-unstyled mb-0">
+                      <li>
+                          <p class="text-dark">Email: info@nuestraempresa.com</p>
+                      </li>
+                      <li>
+                          <p class="text-dark">Teléfono: +1 234 567 890</p>
+                      </li>
+                      <li>
+                          <p class="text-dark">Dirección: 123 Calle Principal, Ciudad, País</p>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div class="text-center p-3 bg-dark text-light">
+          © 2023 Nuestra Empresa. Todos los derechos reservados.
+      </div>
+    </footer>
+    -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/landing.js"></script>
-<div class="botas">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVFQWjT+8BvZvVZcSfLvCIlUYaS8G6lLNjPwbOUjPSgARzKW3BE" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    
-</div>
-    
 </body>
 </html>
