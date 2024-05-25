@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/c', function(req,res){
+router.get('/', function(req,res){
     res.render('index',{alert:false});
 });
 
-router.get('/',function(req,res){
+router.get('/c',function(req,res){
     res.render('landing_new',{alert:false});
 })
 
