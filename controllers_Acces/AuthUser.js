@@ -11,10 +11,6 @@ const queryAsync = promisify(conexionU.query).bind(conexionU);
 
 //procedimiento para registrarnos
 
-
-
-
-
 /**metodo para agregar direccion del usuario */
 /**metodo para mostrar las direcciones del usuario */
 /**metpodo para registrar paciente */
@@ -100,8 +96,6 @@ exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
     return res.redirect('/')
 }
-
-
 
 /**
  * que pasa si yo quiero consumir algo en un lenguje de programacion diferente
