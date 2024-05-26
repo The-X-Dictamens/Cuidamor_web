@@ -86,3 +86,52 @@ body{
 .Rfamiliar{
     background-color: #0b2153;
 }
+
+/**perfil Usuario*/
+
+.cajamitad2PerU{
+    display: flex;
+    flex-direction: column;
+}
+.cajadatos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background: #373030bd;
+    height: 50%;
+    width: 100%;
+}
+.cajaIconos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background: #422591;
+    height: 100%;
+    width:120%;
+}
+.iconUPer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0d86a8;
+    border-radius: 20px;
+    height: 100%;
+}
+.cajaLinks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background: #862020;
+    height: 100%;
+    width: 100%;
+}
+.linklUPer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #a80da8;
+    border-radius: 20px;
+    height: 100%;
+}

@@ -67,6 +67,9 @@ routerU.get('/Menu', (req, res)=>{
     res.render('./Usuario/MenuU', {alert:false})
 })
 
+routerU.get('/Perfil', (req, res)=>{
+    res.render('./Usuario/PerfilU', {alert:false})
+})
 
 
 
