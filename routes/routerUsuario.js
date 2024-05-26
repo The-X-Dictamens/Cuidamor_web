@@ -50,12 +50,23 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
 
+
+
 routerU.get('/familiar', (req, res)=>{
     res.render('./Usuario/RegistrarFamiliarU', {alert:false})
 })
-routerU.get('/Tablero', (req, res)=>{
+routerU.get('/VistaMU', (req, res)=>{
     res.render('./Usuario/userIndex', {alert:false})
 })
+
+routerU.get('/Tablero', (req, res)=>{
+    res.render('./Usuario/Tutorial', {alert:false})
+})
+
+routerU.get('/Menu', (req, res)=>{
+    res.render('./Usuario/MenuU', {alert:false})
+})
+
 
 
 

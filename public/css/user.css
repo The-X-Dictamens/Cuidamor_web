@@ -1,0 +1,88 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+.cajapapaMU{
+    display: flex;
+    text-decoration: none;
+    flex-direction: row;
+    width: 100vh;
+}
+
+.cajamitad1MU{
+    flex: 0.2;
+    background: #9e3819;
+    height: 100vh;
+    width: 20%;
+}
+.MenuU{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 20px;
+    color: rgb(152, 39, 39);
+    font-size: 20px;
+    text-decoration: none;
+    
+}
+.LinkU{
+    text-decoration: none;
+    color: rgb(83, 21, 21);
+}
+.cajamitad2MU{
+    flex:0.8;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: #373030bd;
+}
+
+.cajaMitadBotones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #422591;
+    height: 50%;
+}
+.cajaCuidEnf{
+    display: flex;
+    flex-direction: column;
+    background-color: #862020;
+    justify-content: space-around;
+}
+
+.enfermero{
+    border-radius: 19px;
+    background: #0d86a8;
+    height: 40%;
+    display: flex;
+    align-items: center;
+}
+.cuidador{
+    border-radius: 19px;
+    background: #a80da8;
+    height: 40%;
+    display: flex;
+    align-items: center;
+}
+.cajaFamili{
+    background-color: #48b47a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.trabajo{    
+    background: #4dad27;
+    display: flex;
+    align-items: center;
+}
+.Rfamiliar{
+    background-color: #0b2153;
+}
