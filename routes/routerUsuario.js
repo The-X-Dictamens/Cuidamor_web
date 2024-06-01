@@ -71,6 +71,16 @@ routerU.get('/Perfil', (req, res)=>{
     res.render('./Usuario/PerfilU', {alert:false})
 })
 
+routerU.get('/1', (req, res)=>{
+    res.render('./Usuario/Postular', { alert: false })
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.JWT_SECRETO);
+    const userId = decoded.id_us;
+
+    res.render('./Usuario/Postular', { userId });
+
+})
+
 
 
 routerU.post('/registerU', MetodoJ.crearUsuario)

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Vacante</title>
+</head>
+<body>
+    <h1>Crear Vacante</h1>
+    <p>el id es : <%= userId %></p>
+    <form action="/horarios" method="post" id="vacante-form">
+        <div>
+            <label for="des_sol">Descripción:</label>
+            <textarea id="des_sol" name="des_sol" required></textarea>
+        </div>
+        <div>
+            <label for="tipo_sol">Tipo:</label>
+            <select id="tipo_sol" name="tipo_sol" required>
+                <option value="cuid">Cuid</option>
+                <option value="enfe">Enfe</option>
+            </select>
+        </div>
+        <div>
+            <label for="est_sol">Estado:</label>
+            <select id="est_sol" name="est_sol" required>
+                <option value="Espera">Espera</option>
+                <option value="Curso">Curso</option>
+                <option value="Final">Final</option>
+            </select>
+        </div>
+        <div>
+            <label for="cost_sol">Costo:</label>
+            <input type="number" step="0.01" id="cost_sol" name="cost_sol" required>
+        </div>
+        <div>
+            <label for="fecini_hor">Fecha de Inicio:</label>
+            <input type="date" id="fecini_hor" name="fecini_hor" required>
+        </div>
+        <div>
+            <label for="fecfin_hor">Fecha de Fin:</label>
+            <input type="date" id="fecfin_hor" name="fecfin_hor" required>
+        </div>
+
+        <h2>Horarios</h2>
+
+        <div id="horarios">
+            <% ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'].forEach(function(dia, index) { %>
+                <div class="horario">
+                    <h3><%= dia %></h3>
+                    <label for="horini_<%= dia %>">Hora Inicio:</label>
+                    <input type="time" id="horini_<%= dia %>" name="horarios[<%= index %>][horini_dh]">
+                    <label for="horfin_<%= dia %>">Hora Fin:</label>
+                    <input type="time" id="horfin_<%= dia %>" name="horarios[<%= index %>][horfin_dh]">
+                    <input type="hidden" name="horarios[<%= index %>][dia_dh]" value="<%= dia %>">
+                </div>
+            <% }); %>
+        </div>
+
+        <button type="submit">Guardar Vacante</button>
+    </form>
+</body>
+</html>
