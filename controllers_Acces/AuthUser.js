@@ -41,7 +41,7 @@ exports.IniciarSesionUsuario = async (req, res) => {
         const nom_user = resultadosUser[0].nom_us;
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail}, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_datacc: Id_acc,id_us:Id_user, nom_us: nom_user, cor_datacc: userEmail}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')
@@ -72,22 +72,17 @@ exports.IniciarSesionUsuario = async (req, res) => {
         res.status(500).json({ error: 'Hubo un error al iniciar sesión' });
     }
 };
-
+//ese solo sera para leer la info, pero necesitamos uno que identifique cuando no hay id de domicilio
 exports.UserAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            
-            console.log(estado +' de mexico')
-             
+            console.log(cookieusuarioDeco);             
             // Consultar la base de datos para obtener los datos del usuario
-            conexion.query('SELECT * FROM user WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsUser) => {
-                if (error) {
-                    console.log(error);
-                    return next();
-                }//aqyu podre asignarle ese if?
+            conexionU.query('SELECT * FROM user WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsUser) => {
+                if (!resultsUser) {return next();}//aqyu podre asignarle ese if?
                 req.user = resultsUser[0];
                 return next();
             }); /**aqui segun yo puse el parentresis delif */
@@ -97,8 +92,8 @@ exports.UserAuth = async (req, res, next) => {
         }
     } else {
         console.log('ubicate pa')
-        res.redirect('noautenticado')
-        
+        res.redirect('/Iniciar_sesion')
+        c
     }
 }
 exports.VisualizarVacantes = async (req, res) => {
@@ -108,10 +103,7 @@ exports.VisualizarVacantes = async (req, res) => {
     res.render('./Usuario/userIndex', {alert:false})
 }
 
-exports.logout = (req, res)=>{
-    res.clearCookie('jwt')   
-    return res.redirect('/')
-}
+
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   

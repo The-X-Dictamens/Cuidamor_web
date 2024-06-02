@@ -12,6 +12,13 @@
     <label for="userId">User ID:</label>
     <input type="text" id="userId" name="userId" required><br>
 
+    <h2>Bienvenido:
+      <% if (user) { %>
+        <span class="badge bg-success"><%= user.nom_us %></span>
+      <% } %>
+    </h2>
+    
+
     <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
     <% dias.forEach(dia => { %>
       <h2><%= dia %></h2>

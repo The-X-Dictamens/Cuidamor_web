@@ -5,17 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-    <style>
-    body {  
-      /* display: flex; */
-      align-items: center;
-      padding-top: 40px;
-      padding-bottom: 40px;
-      background-color:rgba(255,255,255,0.95);
-    }
-    </style>
+
     <title>Registrar Familiar</title>
   </head>
   <body>
@@ -27,7 +17,7 @@
           <div class="card border-primary">
             <div class="card-header bg-primary text-white">Registrarse</div>
             <div class="card-body text-primary">
-              <form action="/register" method="POST">        
+              <form action="/registerF" method="POST">        
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre completo</label>
                     <input id="nombre" name="nombre" type="text" class="form-control" aria-describedby="emailHelp">              
@@ -44,33 +34,25 @@
                 </div>
                 <h2>Foto POL del Familiar</h2>
                 <div class="mb-3 form-group">
-
-                    <div class="custom-file">
-                      <input name="foto_paciente" type="file" class="custom-file-input" id="fotopa_ciente" required>
-                      <label class="custom-file-label" for="fotoP">Seleccionar archivo</label>
-                    </div>
                   
-                <div class="mb-3">
-                    <label for="edad" class="form-label">Edad</label>
-                    <input id="edad" name="pass" type="date" class="form-control">
-                </div>                            
+                                        
             </div>
             <h2>HIstorial Medico</h2>
             <div class="mb-3">
               <label for="medi" class="form-label">Medicacion</label>
-              <input id="med" name="med" type="text" class="form-control">
+              <input id="medicam" name="medicam" type="text" class="form-control">
           </div> 
           <div class="mb-3">
             <label for="desc" class="form-label">descripcion</label>
-            <input id="des" name="des" type="text" class="form-control">
+            <input id="descrip" name="descrip" type="text" class="form-control">
         </div>                     
         <div class="mb-3">
           <label for="trata" class="form-label">tratamiento</label>
-          <input id="trat" name="trat" type="text" class="form-control">
+          <input id="tratami" name="tratami" type="text" class="form-control">
       </div>          
       <div class="mb-3">
         <label for="rece" class="form-label">receta</label>
-        <input id="rec" name="rec" type="text" class="form-control">
+        <input id="receta" name="receta" type="text" class="form-control">
     </div>  
 
       </div>
@@ -87,6 +69,5 @@
 
  
     
-    <script src="js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
