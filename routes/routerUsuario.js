@@ -61,7 +61,7 @@ res.render('./Usuario/Postular',{user:req.user} )
 
 
 routerU.get('/familiar',MetodoJ.UserAuth, (req, res)=>{
-    res.render('./Usuario/RegistrarFamiliarU',{user:req.user}, {alert:false})
+    res.render('./Usuario/RegistrarFamiliarU',{user:req.user})
 })
 routerU.get('/Tablero', MetodoJ.UserAuth, MetodoJ.VisualizarVacantes);
 
