@@ -89,7 +89,7 @@ exports.UserAuth = async (req, res, next) => {
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            estado = cookieusuarioDeco.est_emp
+            
             console.log(estado +' de mexico')
              
             // Consultar la base de datos para obtener los datos del usuario

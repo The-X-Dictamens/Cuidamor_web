@@ -3,7 +3,8 @@ const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
 const VacantesM = require('../CitasController/crearVacante.js')
 const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage()});
+const upload = multer({ storage: multer.memoryStorage() });
+const jwt = require('jsonwebtoken');
 
 
 //primero pues las que nos mandan con la landingpage
@@ -50,6 +51,16 @@ routerU.get('/Politicas_de_privacidad', (req, res)=>{
 routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
+
+
+routerU.get('/postular', (req, res) => {
+const token = req.cookies.jwt;
+const decoded = jwt.verify(token, process.env.JWT_SECRETO);
+    const userId = decoded.id_us;
+    console.log(userId)
+res.render('./Usuario/Postular', { userId: userId })
+});
+
 
 routerU.get('/familiar', (req, res)=>{
     res.render('./Usuario/RegistrarFamiliarU', {alert:false})
