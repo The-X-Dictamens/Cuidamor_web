@@ -79,5 +79,28 @@ class HorarioController {
         }
     }
 }
+exports.insertarCitas = (req, res) => {
+    const userId = req.userId; // Asegúrate de tener el userId disponible
 
-module.exports = new HorarioController();
+    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
+
+    dias.forEach(dia => {
+        const datosDia = req.body[dia];
+        
+        if (datosDia) {
+            const inicio = req.body[dia + '_inicio'];
+            const fin = req.body[dia + '_fin'];
+            
+            const query = 'INSERT INTO citas (dia, inicio, fin, datos, userId) VALUES (?, ?, ?, ?, ?)';
+            connection.query(query, [dia, inicio, fin, datosDia, userId], (error, results) => {
+                if (error) {
+                    console.error('Error al insertar cita:', error);
+                } else {
+                    console.log('Cita insertada exitosamente:', results);
+                }
+            });
+        }
+    });
+
+    res.send('Citas insertadas');
+};

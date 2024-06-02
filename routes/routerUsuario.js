@@ -54,11 +54,11 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
 
 
 routerU.get('/postular', (req, res) => {
-const token = req.cookies.jwt;
+/*const token = req.cookies.jwt;
 const decoded = jwt.verify(token, process.env.JWT_SECRETO);
     const userId = decoded.id_us;
     console.log(userId)
-res.render('./Usuario/Postular', { userId: userId })
+res.render('./Usuario/Postular', { userId: userId })*/
 });
 
 
