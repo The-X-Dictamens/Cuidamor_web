@@ -93,7 +93,7 @@ exports.UserAuth = async (req, res, next) => {
     } else {
         console.log('ubicate pa')
         res.redirect('/Iniciar_sesion')
-        c
+        
     }
 }
 exports.VisualizarVacantes = async (req, res) => {
