@@ -96,6 +96,7 @@ exports.UserAuth = async (req, res, next) => {
         
     }
 }
+
 exports.VisualizarVacantes = async (req, res) => {
     let idC = req.user.id;
     let vacantes = await query('SELECT * FROM solicitud WHERE id_us = ?', [idC]);
