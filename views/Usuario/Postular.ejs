@@ -1,0 +1,38 @@
+<!-- views/crearCitas.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Citas</title>
+</head>
+<body>
+  <h1>Crear Citas</h1>
+  <form action="/citas/insertar" method="POST">
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" name="userId" required><br>
+
+    <h2>Bienvenido:
+      <% if (user) { %>
+        <span class="badge bg-success"><%= user.nom_us %></span>
+      <% } %>
+    </h2>
+    
+
+    <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
+    <% dias.forEach(dia => { %>
+      <h2><%= dia %></h2>
+      <label for="<%= dia %>_inicio">Inicio:</label>
+      <input type="time" id="<%= dia %>_inicio" name="<%= dia %>_inicio"><br>
+
+      <label for="<%= dia %>_fin">Fin:</label>
+      <input type="time" id="<%= dia %>_fin" name="<%= dia %>_fin"><br>
+
+      <label for="<%= dia %>">Datos:</label>
+      <textarea id="<%= dia %>" name="<%= dia %>"></textarea><br>
+    <% }); %>
+
+    <button type="submit">Insertar Citas</button>
+  </form>
+</body>
+</html>

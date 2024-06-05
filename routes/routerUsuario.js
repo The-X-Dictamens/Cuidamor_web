@@ -1,8 +1,12 @@
 const express = require('express')
 const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
+const VacantesM = require('../CitasController/crearVacante.js')
 const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage()});
+const upload = multer({ storage: multer.memoryStorage() });
+const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+
 
 
 //primero pues las que nos mandan con la landingpage
@@ -50,11 +54,19 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
 
-routerU.get('/familiar', (req, res)=>{
-    res.render('./Usuario/RegistrarFamiliarU', {alert:false})
+
+routerU.get('/postular',MetodoJ.UserAuth, (req, res) => {
+res.render('./Usuario/Postular',{user:req.user} )
+});
+
+
+routerU.get('/familiar',MetodoJ.UserAuth, (req, res)=>{
+    res.render('./Usuario/RegistrarFamiliarU',{user:req.user})
 })
-routerU.get('/Tablero', (req, res)=>{
-    res.render('./Usuario/userIndex', {alert:false})
+routerU.get('/Tablero', MetodoJ.UserAuth, MetodoJ.VisualizarVacantes);
+
+routerU.get('/Tutorial', (req, res)=>{
+    res.render('./Usuario/tutorial', {alert:false})
 })
 
 
@@ -65,6 +77,7 @@ routerU.post('/crearUsuario', MetodoJ.crearUsuario);
 
 routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 
+routerU.get('/Mis_vacantes', MetodoJ.VisualizarVacantes)
 
 
 module.exports = routerU

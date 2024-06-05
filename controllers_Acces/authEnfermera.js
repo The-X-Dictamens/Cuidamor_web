@@ -3,7 +3,6 @@ const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cloudController = require('./cloudController');
-
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexion.query).bind(conexion);
 
@@ -61,6 +60,9 @@ exports.registrarUsuario = async (req, res)=>{
     }        
 }
 
+/**
+ * 
+con docs
 exports.crearEmpleado = async (req, res) => {
         try {
             //obtencion de los datos del formulario
@@ -105,6 +107,59 @@ exports.crearEmpleado = async (req, res) => {
         
 };
 
+ */
+
+
+exports.crearUsuario = async (req, res) => {
+    
+    try {
+        //obtencion de los datos del formulario
+        let { nombre, apellido_paterno, apellido_materno, rol, correo,passw, numero_telefono, calle, colonia, codigo_postal, alcaldia} = req.body;
+        //cifrado de la contraseña
+
+        //verificar correo
+        let correoExistente = await query("SELECT cor_datacc FROM datos_acceso WHERE cor_datacc = ?", [correo]);
+
+        if (correoExistente.length > 0) { 
+            res.redirect('./Usuario/RegisterU')
+            return res.render('./Usuario/RegisterU', {
+                alert: true,
+                alertTitle: "Error",
+                alertMessage: "Correo ya registrado",
+                alertIcon: 'error',
+                showConfirmButton: true,
+                timer: 1000,
+                ruta: 'Tablero'
+            });
+             
+        }
+        let passHashe = await bcryptjs.hash(passw, 8)
+
+        let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'cliente')", [correo,passHashe,rol]);
+
+        let idDataAcces = dataAcces.insertId;
+
+        
+
+        //incercion de los datos en la base de datos
+        let dataDireccion = await query("INSERT INTO direccion (del_dir, col_dir, calle_dir, cp_dir) VALUES (?,?,?,?)",[alcaldia, colonia, calle, codigo_postal])
+        let idDataDirec = dataDireccion.insertId;
+
+        let U = await query("INSERT INTO user (nom_us, pat_us, mat_us, fot_us, tel_us, id_datacc, id_dir) VALUES (?,?,?,'N/A',?,?,?)", [nombre, apellido_paterno, apellido_materno, numero_telefono, idDataAcces, idDataDirec]);
+        let iduser = U.insertId;
+        console.log("exito")
+
+
+        //redireccion a la pagina de empleados en proceso
+        res.redirect("/Tablero");
+        
+
+    } catch (err) {
+        console.error(err);
+    }
+    
+  
+}; 
 
 exports.IniciarSesionEnfermeras = async (req, res) => {
     
@@ -232,18 +287,15 @@ exports.EnfermeraAuth = async (req, res, next) => {
 exports.EnfermeraAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
-
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-
             estado = cookieusuarioDeco.est_emp
             console.log(estado +' de mexico')
             if (cookieusuarioDeco.est_emp === 'Proceso') {
                 console.log('aguantate a verificarte')
                 return res.render('./Enfermera/ViewwithoutVerify')
             }
-    
             // Consultar la base de datos para obtener los datos del usuario
             conexion.query('SELECT id_datacc FROM datos_acceso WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsEnfer) => {
                 if (error) {
@@ -255,8 +307,6 @@ exports.EnfermeraAuth = async (req, res, next) => {
                     
                 req.usuario = resultsEnfer[0];
                 semicuci = cookieusuarioDeco
-
-                   
                 //}
                 //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
                 return next();
@@ -271,46 +321,6 @@ exports.EnfermeraAuth = async (req, res, next) => {
         
     }
 }
-
-exports.verificarpermiso = (req, res, next) => {
-    const token = req.headers['authorization']; // Obtener el token del encabezado Authorization
-
-    if (!token) {
-        return res.status(401).json({ mensaje: 'Token no proporcionado' });
-    }
-
-    jwt.verify(token, 'secreto', (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ mensaje: 'Token inválido' });
-        }
-
-        // Decodificar el token y extraer el ID y el estado de verificación
-        req.userId = decoded.id;
-        req.verificado = decoded.verificado;
-
-        next(); // Continuar con la siguiente función
-    });
-};
-
-exports.verificarToken = (req, res, next) => {
-    const token = req.headers['authorization']; // Obtener el token del encabezado Authorization
-
-    if (!token) {
-        return res.status(401).json({ mensaje: 'Token no proporcionado' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRETO, (err, decoded) => { // Utilizar la variable de entorno
-        if (err) {
-            return res.status(401).json({ mensaje: 'Token inválido' });
-        }
-
-        // Decodificar el token y extraer el ID y el estado de verificación
-        req.userId = decoded.id;
-        req.verificado = decoded.verificado;
-
-        next(); // Continuar con la siguiente función
-    });
-};
 
 exports.logout = (req, res)=>{
     res.clearCookie('jwt')   
@@ -348,99 +358,9 @@ exports.DocsVerify = async (req, res, next) => {
  * si habraia que jhacer medio switches para poder mostra las paginas coorresponfietnes por [usuario] 
  */
 
-const EnfermeraAuthVacantes = async (req, res, next) => {
-    console.log("Middleware de autenticación para vacantes");
-    if (req.cookies.jwt) {
-        try {
-            // Descifrar la cookie para obtener los datos del usuario
-            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            console.log(cookieusuarioDeco+' cuqui decodificada del metodo is autenticadosi');
-
-            // Consultar la base de datos para obtener los datos del usuario
-            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
-                if (error) {
-                    console.log(error);
-                    return next();
-                } else {
-                    
-                
-                    if (resultsEnfer && resultsEnfer.length > 0 ) {
-                        // Asignar los datos del usuario a req.usuario
-                    
-                        req.usuario = resultsEnfer[0];
-                    }
-                }
-                if (resultsEnfer && resultsEnfer.length > 0) {
-                    // Verificar si el usuario está verificado
-                    if (resultsEnfer[0].id_perm === 1) {
-                        // Asignar los datos del usuario a req.usuario
-                        console.log('que crack si pasasste');
-                        return res.redirect('/pagina-deseada'); // Continuar con la siguiente función (ruta)
-                    } else {
-                        // Usuario no verificado, redirigir a la página de noautenticado
-                        return res.redirect('noautenticado');
-                    }
-                } else {
-                    // Usuario no encontrado en la base de datos
-                    return next();
-                }
-            });
-        } catch (error) {
-            console.log(error);
-            return next();
-        }
-    } else {
-        console.log('ubicate pa');
-        return res.redirect('noautenticado');
-    }
-};
 
 
-const EnfermeraAuthVacante = async (req, res, next) => {
-    console.log("Middleware de autenticación para vacantes");
-    if (req.cookies.jwt) {
-        try {
-            // Descifrar la cookie para obtener los datos del usuario
-            const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            console.log(cookieusuarioDeco + ' cuqui decodificada del metodo is autenticadosi');
 
-            // Consultar la base de datos para obtener los datos del usuario
-            conexion.query('SELECT * FROM datos_acceso WHERE id_dat = ?', [cookieusuarioDeco.id_dat], (error, resultsEnfer) => {
-                if (error) {
-                    console.log(error);
-                    return next();
-                } else {
-                    if (resultsEnfer && resultsEnfer.length > 0) {
-                        // Asignar los datos del usuario a req.usuario
-                        req.usuario = resultsEnfer[0];
-
-                        // Verificar si el usuario está verificado
-                        if (resultsEnfer[0].id_perm === 1) {
-                            // Asignar los datos del usuario a req.usuario
-                            console.log('que crack si pasasste');
-                            return res.redirect('/pagina-deseada'); // Continuar con la siguiente función (ruta)
-                        } else if (resultsEnfer[0].id_perm === 0) {
-                            // Usuario no verificado, redirigir a la página de espera
-                            return res.redirect('/pagina-espera');
-                        } else {
-                            // Otro caso de permiso, redirigir a la página de noautenticado
-                            return res.redirect('/noautenticado');
-                        }
-                    } else {
-                        // Usuario no encontrado en la base de datos
-                        return next();
-                    }
-                }
-            });
-        } catch (error) {
-            console.log(error);
-            return next();
-        }
-    } else {
-        console.log('ubicate pa');
-        return res.redirect('/noautenticado');
-    }
-};
 
 /**
  * repsasemos como deberia ser la logica para poder mostrar asi estas mamaditas
@@ -458,15 +378,3 @@ selecdt que realieze
 y ya para construir la pagina pues puedo hacer una calca de la que el usuario tinee
 pero sin la parte de editar los datos
  */
-
-
-exports.porfavor = async (req, res, next) => {
-    console.log('helouda')
-    if (req.cookies.jwt) {
-        try {
-            
-        } catch (error) {
-            
-        }   
-    }
-}
