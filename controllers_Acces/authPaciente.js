@@ -15,8 +15,9 @@ exports.registrarPac = async (req, res) => {
             //obtencion de los datos del formulario
             let { nombre, apellido_paterno, apellido_materno, fotoPa, medicam, descrip, tratami, receta } = req.body;
             //const userId = req.user.id_us;
-            console.log(req.user)            //obtencion de los los carchivos y sus nombres
+            console.log(req.user.id_us)            //obtencion de los los carchivos y sus nombres
             idUs = req.user.id_us
+
             
 
             //Ahora uno para la foto 
