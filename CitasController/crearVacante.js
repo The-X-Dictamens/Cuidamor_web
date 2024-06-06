@@ -37,8 +37,7 @@ exports.VisualizarVacantes = async (req, res) => {
 
 
 
-class HorarioController {
-    async crearHorario(req, res) {
+exports.HorarioController = async (req, res) => {
         const { fecini_hor, fecfin_hor, horarios, des_sol, tipo_sol, est_sol, cost_sol, id_us, id_pac, id_dir } = req.body;
 
         const connection = await promisify(conexion.getConnection).bind(conexion)();
@@ -77,8 +76,8 @@ class HorarioController {
         } finally {
             connection.release();
         }
-    }
 }
+
 exports.insertarCitas = (req, res) => {
     const userId = req.userId; // Asegúrate de tener el userId disponible
 

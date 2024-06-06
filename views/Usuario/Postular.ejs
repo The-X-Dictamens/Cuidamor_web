@@ -17,6 +17,11 @@
         <span class="badge bg-success"><%= user.nom_us %></span>
       <% } %>
     </h2>
+
+    <select name="paciente">
+      <% pacientes.forEach(paciente => { %>
+        <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
+      <% }); %>
     
 
     <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
@@ -34,5 +39,15 @@
 
     <button type="submit">Insertar Citas</button>
   </form>
+
+  <select name="paciente">
+    <% pacientes.forEach(paciente => { %>
+      <option value="<%= paciente.id_pac %>"><%= paciente.nombre %></option>
+    <% }); %>
+  </select>
+
 </body>
 </html>
+
+
+</select>
