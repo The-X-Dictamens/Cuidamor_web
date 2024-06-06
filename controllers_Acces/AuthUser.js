@@ -79,7 +79,7 @@ exports.UserAuth = async (req, res, next) => {
         try {
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            console.log(cookieusuarioDeco);             
+            //console.log(cookieusuarioDeco);             
             // Consultar la base de datos para obtener los datos del usuario
             conexionU.query('SELECT * FROM user WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsUser) => {
                 if (!resultsUser) {return next();}//aqyu podre asignarle ese if?
@@ -96,6 +96,7 @@ exports.UserAuth = async (req, res, next) => {
         
     }
 }
+
 exports.VisualizarVacantes = async (req, res) => {
     let idC = req.user.id;
     let vacantes = await query('SELECT * FROM solicitud WHERE id_us = ?', [idC]);
