@@ -12,6 +12,7 @@ const queryAsync = promisify(conexionU.query).bind(conexionU);
 exports.registrarPac = async (req, res) => {
     
         try {
+            console.log('entro')
             //obtencion de los datos del formulario
             let { nombre, apellido_paterno, apellido_materno, fotoPa, medicam, descrip, tratami, receta } = req.body;
             //const userId = req.user.id_us;

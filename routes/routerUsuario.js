@@ -63,10 +63,15 @@ res.render('./Usuario/Postular',{user:req.user} )
 routerU.get('/familiar',MetodoJ.UserAuth, (req, res)=>{
     res.render('./Usuario/RegistrarFamiliarU',{user:req.user})
 })
-routerU.get('/Tablero', MetodoJ.UserAuth, MetodoJ.VisualizarVacantes);
+routerU.get('/Tablero',  MetodoJ.UserAuth, MetodoJ.VisualizarVacantes,(req, res)=>{
+    console.log(req.user)
+    res.render('./Usuario/userIndex',{user:req.user}
+    )
+})
+
 
 routerU.get('/Tutorial', (req, res)=>{
-    res.render('./Usuario/tutorial', {alert:false})
+    res.render('./Usuario/tutorial',{user:req.user})
 })
 
 
