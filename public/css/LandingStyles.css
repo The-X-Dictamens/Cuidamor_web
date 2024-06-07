@@ -10,7 +10,12 @@ body {
 }
 
 .navbar-brand img {
-    margin-right: 10px;
+    margin-right: auto;
+}
+
+
+.offcanvas-header {
+    justify-content: flex-end;
 }
 
 .container {
@@ -116,6 +121,15 @@ footer .bg-dark {
     backdrop-filter: blur(5px); /* Agrega un efecto de desenfoque */
     opacity: 80%;
 }
+
+.nav-item .profile-img {
+    border-radius: 50%; /* Hace la imagen circular */
+    margin-right: 10px; /* Espacio entre la imagen y el correo */
+}
+
+
+
+
 
 
 
