@@ -11,7 +11,6 @@ CREATE DATABASE IF NOT EXISTS `Cuidamor_UsersG` DEFAULT CHARACTER SET utf8 ;
 -- -----------------------------------------------------
 
 USE `Cuidamor_UsersG` ;
-
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`datos_scceso`
 -- -----------------------------------------------------
@@ -22,7 +21,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`datos_acceso` (
   `rol_datacc` ENUM('clie', 'enfe', 'cuid') NULL,
   PRIMARY KEY (`id_datacc`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`user`
@@ -44,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`user` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`Direccion`
 -- -----------------------------------------------------
@@ -64,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`Direccion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`empleado`
@@ -94,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`empleado` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`historial_medico`
 -- -----------------------------------------------------
@@ -106,7 +101,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`historial_medico` (
   `rec_hm` VARCHAR(45) NULL,
   PRIMARY KEY (`id_hm`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`paciente`
@@ -134,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`paciente` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`horario`
 -- -----------------------------------------------------
@@ -144,7 +137,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`horario` (
   `fecfin_hor` DATE NULL,
   PRIMARY KEY (`id_hor`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`solicitud`
@@ -193,7 +185,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`solicitud` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`dia_horario`
 -- -----------------------------------------------------
@@ -211,7 +202,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`dia_horario` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`Perfil_Profecional`
@@ -231,7 +221,6 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`Perfil_Profecional` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Cuidamor_UsersG`.`pruebas`

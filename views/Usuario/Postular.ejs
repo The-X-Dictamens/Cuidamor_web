@@ -19,10 +19,23 @@
     </h2>
 
     <select name="paciente">
+      <h2>A quien Solicita</h2>
       <% pacientes.forEach(paciente => { %>
         <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
       <% }); %>
-    
+    </select>
+      
+      <select name="TipoS" id="TipoS">  
+        <option value="cuid">Cuidador</option>
+        <option value="enfe">Enfermera</option>
+      </select>
+      <br>
+      
+      <label for="hora inicio">dia Fin</label>
+      <input type="date" id="DI">
+      
+    <label for="hora inicio">dia Fin</label>
+    <input type="date" id="DF">
 
     <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
     <% dias.forEach(dia => { %>
@@ -40,11 +53,7 @@
     <button type="submit">Insertar Citas</button>
   </form>
 
-  <select name="paciente">
-    <% pacientes.forEach(paciente => { %>
-      <option value="<%= paciente.id_pac %>"><%= paciente.nombre %></option>
-    <% }); %>
-  </select>
+
 
 </body>
 </html>
