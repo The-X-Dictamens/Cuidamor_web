@@ -33,20 +33,11 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`user` (
   `fot_us` VARCHAR(45) NULL,
   `tel_us` VARCHAR(45) NULL,
   `id_datacc` INT NOT NULL,
-    `id_dir` INT NOT NULL,
-
   PRIMARY KEY (`id_us`),
   INDEX `fk_User_DatosAcceso_idx` (`id_datacc` ASC) VISIBLE,
-    INDEX `fk_user_Direccion2_idx` (`id_dir` ASC) VISIBLE,
-
   CONSTRAINT `fk_User_DatosAcceso`
     FOREIGN KEY (`id_datacc`)
     REFERENCES `Cuidamor_UsersG`.`datos_acceso` (`id_datacc`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-    CONSTRAINT `fk_user_Direccion2`
-    FOREIGN KEY (`id_dir`)
-    REFERENCES `Cuidamor_Users`.`Direccion` (`id_dir`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

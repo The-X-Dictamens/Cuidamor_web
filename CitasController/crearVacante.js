@@ -122,7 +122,8 @@ exports.insertarCitas = (req, res) => {
 exports.PostularVacante = async (req, res) => {
     const {des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_pac, id_emp, id_dir} = req.body;
     idUs = req.user.id_us
-    let idDi = await query("SELECT cor_datacc FROM datos_acceso WHERE cor_datacc = ?", [correo]);
+    let idDi = await query("SELECT id_dir FROM user WHERE id_us = ?", [idUs]);
+    
 
 }
 
