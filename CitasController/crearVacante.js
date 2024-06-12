@@ -103,3 +103,8 @@ exports.insertarCitas = (req, res) => {
 
     res.send('Citas insertadas');
 };
+//pasos para la vacante
+/**
+ * 1ero
+ */
+
