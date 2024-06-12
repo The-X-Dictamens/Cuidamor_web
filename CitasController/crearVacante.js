@@ -122,8 +122,31 @@ exports.insertarCitas = (req, res) => {
 exports.PostularVacante = async (req, res) => {
     const {des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_pac, id_emp, id_dir} = req.body;
     idUs = req.user.id_us
-    let idDi = await query("SELECT id_dir FROM user WHERE id_us = ?", [idUs]);
-    
+    let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
+
+    let IniFin = await query( "INSERT INTO horario (fecini_hor, fecfin_hor) VALUES (?, ?)", [fecini_hor, fecfin_hor]);
+    let idHOra = IniFin.insertId;   
+
+    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
+
+    dias.forEach(dia => {
+        const datosDia = req.body[dia];
+        
+        if (datosDia) {
+            horas
+            const inicio = req.body[dia + '_inicio'];
+            const fin = req.body[dia + '_fin'];
+
+            const query = 'INSERT INTO citas (dia, inicio, fin, datos, userId) VALUES (?, ?, ?, ?, ?)';
+            connection.query(query, [dia, inicio, fin, datosDia, userId], (error, results) => {
+                
+            });
+        }
+    });
+
+    let DiHor = await query("INSERT INTO dia_horario (horini_dh, horfin_dh, dia_dh, id_hor) VALUES (?, ?, ?, ?)", [horini_dh, horfin_dh, dia_dh, idHOra]);
+
+
 
 }
 
