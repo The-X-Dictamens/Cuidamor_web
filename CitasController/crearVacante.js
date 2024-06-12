@@ -106,5 +106,23 @@ exports.insertarCitas = (req, res) => {
 //pasos para la vacante
 /**
  * 1ero
- */
+ * descripcion de la solicitud
+ * tipo de solicitud
+ * estado de la solicitud(por defecto en espera)
+ * ahora de tabla horario la fecha de inicio y fin
+ * obtener ese id para insertarlo en la solicitud
+ * pero a su vez la tabla dia_horario tendra
+ * la hora de inicio y fin junto al dia de la semana con el id de horario
+ * id del usuario con el que se esta logeado
+ * id del paciente al que se le asignara la solicitud
+ * id del empleado que atendera la solicitud(por defecto en ninguno)
+ * 
+*/
+
+exports.PostularVacante = async (req, res) => {
+    const {des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_pac, id_emp, id_dir} = req.body;
+    idUs = req.user.id_us
+    let idDi = await query("SELECT cor_datacc FROM datos_acceso WHERE cor_datacc = ?", [correo]);
+
+}
 

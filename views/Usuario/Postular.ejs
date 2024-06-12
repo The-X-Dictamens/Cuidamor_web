@@ -37,6 +37,9 @@
     <label for="hora inicio">dia Fin</label>
     <input type="date" id="DF">
 
+    <LAbel> Descripcion General</LAbel>
+    <input type="descripcion">
+
     <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
     <% dias.forEach(dia => { %>
       <h2><%= dia %></h2>
@@ -50,8 +53,12 @@
       <textarea id="<%= dia %>" name="<%= dia %>"></textarea><br>
     <% }); %>
 
+    
+
     <button type="submit">Insertar Citas</button>
   </form>
+
+  
 
 
 
