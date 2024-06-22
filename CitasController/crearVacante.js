@@ -37,8 +37,7 @@ exports.VisualizarVacantes = async (req, res) => {
 
 
 
-class HorarioController {
-    async crearHorario(req, res) {
+exports.HorarioController = async (req, res) => {
         const { fecini_hor, fecfin_hor, horarios, des_sol, tipo_sol, est_sol, cost_sol, id_us, id_pac, id_dir } = req.body;
 
         const connection = await promisify(conexion.getConnection).bind(conexion)();
@@ -77,8 +76,8 @@ class HorarioController {
         } finally {
             connection.release();
         }
-    }
 }
+
 exports.insertarCitas = (req, res) => {
     const userId = req.userId; // Asegúrate de tener el userId disponible
 
@@ -103,4 +102,71 @@ exports.insertarCitas = (req, res) => {
     });
 
     res.send('Citas insertadas');
+};
+//pasos para la vacante
+/**
+ * 1ero
+ * descripcion de la solicitud
+ * tipo de solicitud
+ * estado de la solicitud(por defecto en espera)
+ * ahora de tabla horario la fecha de inicio y fin
+ * obtener ese id para insertarlo en la solicitud
+ * pero a su vez la tabla dia_horario tendra
+ * la hora de inicio y fin junto al dia de la semana con el id de horario
+ * id del usuario con el que se esta logeado
+ * id del paciente al que se le asignara la solicitud
+ * id del empleado que atendera la solicitud(por defecto en ninguno)
+ * 
+*/
+
+exports.PostularVacante = async (req, res) => {
+    const {des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_pac, id_emp, id_dir} = req.body;
+    idUs = req.user.id_us
+    let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
+
+    let IniFin = await query( "INSERT INTO horario (fecini_hor, fecfin_hor) VALUES (?, ?)", [fecini_hor, fecfin_hor]);
+    let idHOra = IniFin.insertId;   
+
+    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
+
+    dias.forEach(dia => {
+        const datosDia = req.body[dia];
+        
+        if (datosDia) {
+            
+            const inicio = req.body[dia + '_inicio'];
+            const fin = req.body[dia + '_fin'];
+
+            const query = 'INSERT INTO dia_horario (dia, inicio, fin, datos, userId) VALUES (?, ?, ?, ?, ?)';
+            connection.query(query, [dia, inicio, fin, datosDia, userId], (error, results) => {
+                
+            });
+        }
+    });
+
+    let DiHor = await query("INSERT INTO dia_horario (horini_dh, horfin_dh, dia_dh, id_hor) VALUES (?, ?, ?, ?)", [horini_dh, horfin_dh, dia_dh, idHOra]);
+}
+
+exports.PostularVacantes1 = async (req, res) => {
+    const {paciente, TipoS, DI, DF, descripcion} = req.body;
+    idUs = req.user.id_us
+    let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
+
+    // Insertar la solicitud y obtener el ID de la solicitud insertada
+    let solicitud = await query("INSERT INTO solicitud (paciente, TipoS, DI, DF, descripcion, id_dir) VALUES (?, ?, ?, ?, ?, ?)", [paciente, TipoS, DI, DF, descripcion, id_dir]);
+    let idSolicitud = solicitud.insertId;
+
+    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
+
+    dias.forEach(async dia => {
+        const inicio = req.body[dia + '_inicio'];
+        const fin = req.body[dia + '_fin'];
+
+        // Si se proporcionó un horario para este día, insertar la cita
+        if (inicio && fin) {
+            await query("INSERT INTO citas (horini_dh, horfin_dh, dia_dh) VALUES (?, ?, ?)", [ inicio, fin,dia ]);
+        }
+    });
+
+    res.send('Solicitud y citas insertadas');
 };

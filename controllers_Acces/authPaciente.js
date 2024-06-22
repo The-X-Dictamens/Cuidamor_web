@@ -60,4 +60,27 @@ exports.registrarPac = async (req, res) => {
       
 };
 
+exports.mostrarPac = async (req, res, next) => {
+    idUs = req.user.id_us
+    // Haz una consulta a la base de datos para obtener los pacientes que tienen el ID de usuario dado
+    let pacientes = await promisify(conexion.query).bind(conexion)(
+        "SELECT * FROM paciente WHERE id_us = ?",
+        [idUs]
+    );
+
+    // Si pacientes no es un array, conviértelo en un array
+    if (!Array.isArray(pacientes)) {
+        pacientes = [pacientes];
+    }
+
+    // Adjunta los pacientes a la solicitud para que estén disponibles en la siguiente función middleware
+    req.pacientes = pacientes;
+    console.log(pacientes);
+    console.log(Array.isArray(pacientes)); // Debería imprimir 'true'
+console.log(pacientes.length);
+    // Llama a next() para pasar el control a la siguiente función middleware
+  
+    next();
+};
+
 

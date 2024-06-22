@@ -41,7 +41,10 @@ exports.IniciarSesionUsuario = async (req, res) => {
         const nom_user = resultadosUser[0].nom_us;
 
         // Generar el token JWT con más información del usuario
-        const token = jwt.sign({ id_datacc: Id_acc,id_us:Id_user, nom_us: nom_user, cor_datacc: userEmail}, process.env.JWT_SECRETO, {
+        const token = jwt.sign({ id_datacc: Id_acc,
+                                 id_us:Id_user,
+                                 nom_us: nom_user,
+                                 cor_datacc: userEmail}, process.env.JWT_SECRETO, {
             //expiresIn: process.env.JWT_COOKIE_EXPIRES
         });
         console.log(token+' tokensin')

@@ -2,6 +2,7 @@ const express = require('express')
 const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
 const VacantesM = require('../CitasController/crearVacante.js')
+const Pacientes = require('../controllers_Acces/authPaciente.js')
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 const jwt = require('jsonwebtoken');
@@ -54,17 +55,15 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
 
+routerU.get('/familiar',MetodoJ.UserAuth, (req, res) => {
+    res.render('./Usuario/RegistrarFamiliarU',{user:req.user} )
+})
 
-routerU.get('/postular',MetodoJ.UserAuth, (req, res) => {
-res.render('./Usuario/Postular',{user:req.user} )
+routerU.get('/postular',MetodoJ.UserAuth,Pacientes.mostrarPac, (req, res) => {
+    res.render('./Usuario/Postular', { user: req.user, pacientes: req.pacientes });
 });
 
-
-routerU.get('/familiar',MetodoJ.UserAuth, (req, res)=>{
-    res.render('./Usuario/RegistrarFamiliarU',{user:req.user})
-})
-routerU.get('/Tablero',  MetodoJ.UserAuth, MetodoJ.VisualizarVacantes,(req, res)=>{
-    console.log(req.user)
+routerU.get('/Tablero',  MetodoJ.UserAuth, (req, res)=>{
     res.render('./Usuario/userIndex',{user:req.user}
     )
 })

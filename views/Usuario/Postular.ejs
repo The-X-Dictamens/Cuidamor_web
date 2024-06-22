@@ -9,15 +9,34 @@
 <body>
   <h1>Crear Citas</h1>
   <form action="/citas/insertar" method="POST">
-    <label for="userId">User ID:</label>
-    <input type="text" id="userId" name="userId" required><br>
 
     <h2>Bienvenido:
       <% if (user) { %>
         <span class="badge bg-success"><%= user.nom_us %></span>
       <% } %>
     </h2>
-    
+
+    <select name="paciente">
+      <h2>A quien Solicita</h2>
+      <% pacientes.forEach(paciente => { %>
+        <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
+      <% }); %>
+    </select>
+      
+      <select name="TipoS" id="TipoS">  
+        <option value="cuid">Cuidador</option>
+        <option value="enfe">Enfermera</option>
+      </select>
+      <br>
+      
+      <label for="hora inicio">dia Fin</label>
+      <input type="date" id="DI">
+      
+    <label for="hora inicio">dia Fin</label>
+    <input type="date" id="DF">
+
+    <LAbel> Descripcion General</LAbel>
+    <input type="descripcion">
 
     <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
     <% dias.forEach(dia => { %>
@@ -27,12 +46,14 @@
 
       <label for="<%= dia %>_fin">Fin:</label>
       <input type="time" id="<%= dia %>_fin" name="<%= dia %>_fin"><br>
-
-      <label for="<%= dia %>">Datos:</label>
-      <textarea id="<%= dia %>" name="<%= dia %>"></textarea><br>
     <% }); %>
+
+    
 
     <button type="submit">Insertar Citas</button>
   </form>
+
 </body>
 </html>
+
+
