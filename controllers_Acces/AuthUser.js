@@ -80,9 +80,10 @@ exports.UserAuth = async (req, res, next) => {
     console.log("Middleware de autenticación en ejecución");
     if (req.cookies.jwt) {
         try {
+            console.log(req.cookies.jwt)
             // Descifrar la cookie para obtener los datos del usuario
             const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-            //console.log(cookieusuarioDeco);             
+            console.log(cookieusuarioDeco);             
             // Consultar la base de datos para obtener los datos del usuario
             conexionU.query('SELECT * FROM user WHERE id_datacc = ?', [cookieusuarioDeco.id_datacc], (error, resultsUser) => {
                 if (!resultsUser) {return next();}//aqyu podre asignarle ese if?
@@ -168,5 +169,16 @@ exports.crearUsuario = async (req, res) => {
     
   
 };
+
+
+
+
+
+
+//cambios para renderizar los menus
+
+exports.VisualizarMenu = (req, res) => {
+    res.render('./Usuario/MenuU', {alert:false})
+}
 
 

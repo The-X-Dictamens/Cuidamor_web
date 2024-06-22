@@ -1,7 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
-
 const app = express()
 
 //seteamos el motor de plantillas
@@ -51,6 +50,6 @@ app.use(function(req, res, next) {
 });
 
 
-app.listen(2024, ()=>{
-    console.log('SERVER UP runnung in http://localhost:2024')
+app.listen(2023, ()=>{
+    console.log('SERVER UP runnung in http://localhost:2023')
 })

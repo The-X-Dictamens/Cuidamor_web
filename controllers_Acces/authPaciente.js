@@ -5,9 +5,18 @@ const jwt = require('jsonwebtoken')
 const conexion = require('../database/db');
 const query = promisify(conexionU.query).bind(conexionU);
 
-
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexionU.query).bind(conexionU);
+
+
+
+
+
+//Funcion para la vista de registro de pacientes
+
+exports.VistaRegistroPaciente = async (req, res) => {
+    res.render('./Usuario/RegistrarFamiliarU');
+};
 
 exports.registrarPac = async (req, res) => {
     

@@ -1,14 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>
-        Lo que vera el usuario despues de iniciar sesion
-        aqui tendra sus paneles para registrar etc
-    </h1>
-</body>
-</html>
+<%- include("../templates/headerUser", {title:'Home'})%>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 shadow-lg p-3 mb-5">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">Menu</div>
+                <div class="card-body text-primary">
+                    <div class="mb-3">
+                        <a href="/familiares" class="btn btn-primary">Familiares</a>
+                    </div>
+                    <div class="mb-3">
+                        <a href="/pacientes" class="btn btn-primary">Pacientes</a>
+                    </div>
+                    <div class="mb-3">
+                        <a href="/servicios" class="btn btn-primary">Servicios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../templates/footer")%>
+    

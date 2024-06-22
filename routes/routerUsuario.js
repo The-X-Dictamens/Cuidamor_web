@@ -83,5 +83,7 @@ routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 
 routerU.get('/Mis_vacantes', MetodoJ.VisualizarVacantes)
 
+routerU.get('/Home', MetodoJ.VisualizarMenu)
+
 
 module.exports = routerU
