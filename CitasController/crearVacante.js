@@ -120,6 +120,7 @@ exports.insertarCitas = (req, res) => {
 */
 
 exports.PostularVacantes1 = async (req, res) => {
+    
     try {
       const { paciente, TipoS, DI, DF, HI, HF, descripcion,dias } = req.body;
     console.log(req.body)
@@ -128,20 +129,18 @@ exports.PostularVacantes1 = async (req, res) => {
         //let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
         
         
-        let InsHora = await query("INSERT INTO horario (fecini_hor,fecfin_hor) VALUES (?,?)", [DI, DF]);
-        if (!InsHora.insertId) {
-            throw new Error('No se pudo insertar en la tabla horario');
-          }
+    let InsHora = await query("INSERT INTO horario (fecini_hor,fecfin_hor) VALUES (?,?)", [DI, DF]);
+    console.log('si no salio mal aqui inicio ')
+    console.log('si no salio mal aqui salio ' + InsHora)
     let idHor = InsHora.insertId;
         
-       
-    
+    let diasStr = dias.join(','); // Join the array into a string
 
-    let InsClock = await query("INSERT INTO dia_horario (horini_dh ,horfin_dh ,dia_dh ,id_hor) VALUES (?,?,?,?)",[HI,HF,dias,idHor]);
-
+    let InsClock = await query("INSERT INTO dia_horario (horini_dh , horfin_dh, dia_dh, id_hor) VALUES (?,?,?,?)", [HI,HF,diasStr,idHor]);
+        console.log('si se  insertaron los dias '+InsClock)
     // Insertar la solicitud y obtener el ID de la solicitud insertada
-    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?)", [descripcion, TipoS, 'Espera', 5,idHor,idUs,paciente,'null']);
-    let idSolicitud = solicitud.insertId;
+    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)", [descripcion, TipoS, 'Espera', 5, idHor, idUs, paciente, null,1]);
+        let idSolicitud = solicitud.insertId;
 
 
     res.send('Solicitud y citas insertadas');  
