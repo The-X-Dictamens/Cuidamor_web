@@ -12,7 +12,7 @@ routerE.get('/Iniciar_sesion_enfermera', (req, res)=>{
     res.render('./Enfermera/LoginE', {alert:false})
 })
 //Vacantes
-routerE.get('/Visualizar_vacantes', (req, res)=>{
+routerE.get('/Visualizar_vacantes',metodosEnfermeras.getListarSolicitudes, (req, res)=>{
     res.render('./Enfermera/VacantesE', {alert:false})
 })
 //Info Vacante                                          para verificar              para checarle el permiso

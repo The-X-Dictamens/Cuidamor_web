@@ -6,6 +6,7 @@ const cloudController = require('./cloudController');
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexion.query).bind(conexion);
 
+
 //procedimiento para registrarnos
 exports.registrarUsuario = async (req, res)=>{    
     try {
@@ -378,3 +379,31 @@ selecdt que realieze
 y ya para construir la pagina pues puedo hacer una calca de la que el usuario tinee
 pero sin la parte de editar los datos
  */
+
+const getSolicitudes = (req, res) => { 
+    let ordenadasByDate = queryAsync("SELECT * FROM horario >= CURDATE() ORDER BY fecini_hor ASC", (error, results) => {
+        if (error) {
+            console.log(error+'error al obtener las solicitudes');
+            return next();
+        }
+        console.log(results);
+        const idDate = results[0].id_hor;
+
+        return results;
+    });
+    let solicitudes = queryAsync('SELECT * FROM solicitud WHERE id_us = ?', [req.user.id_us]);
+}
+
+exports.getListarSolicitudes = (req, res) => { 
+    const query = 'SELECT s.*, h.fecini_hor FROM solicitud s JOIN horario h ON s.id_hor = h.id_hor WHERE h.fecini_hor >= CURDATE() ORDER BY h.fecini_hor ASC';
+    
+    conexion.query(query, (error, results) => {
+        if (error) {
+            console.log(error);
+            return next();
+        }
+        console.log(results);
+        res.render('./Enfermera/VacantesE', { solicitudes: results });
+    });
+}
+
