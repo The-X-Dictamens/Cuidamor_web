@@ -13,10 +13,12 @@
                 <h5 class="card-title">Descripción: <%= solicitud.des_sol %></h5>
                 <p class="card-text">Tipo: <%= solicitud.tipo_sol === 'cuid' ? 'Cuidador' : 'Enfermero' %></p>
                 <p class="card-text">Estado: <%= solicitud.est_sol %></p>
-                <p class="card-text">Costo: $ <%= solicitud.cost_sol.toFixed(2) %></p>
+                
             </div>
         </div>
         <a href="/solicitudes" class="btn btn-link">Volver a la lista</a>
+        <a href="/aceptar" class="btn btn-link">Aceptar Trabajo</a>
+
     </div>
 </body>
 </html>

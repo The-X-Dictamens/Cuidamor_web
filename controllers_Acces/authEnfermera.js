@@ -416,7 +416,7 @@ exports.getSolicitudDetalle = (req, res) => {
         JOIN dia_horario dh ON h.id_hor = dh.id_hor
         WHERE s.id_sol = ?
     `;
-    db.query(query, [id], (error, results) => {
+    conexion.query(query, [id], (error, results) => {
         if (error) {
             return res.status(500).send('Error al obtener los detalles de la solicitud: ' + error.message);
         }
