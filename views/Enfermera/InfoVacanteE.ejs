@@ -17,7 +17,10 @@
             </div>
         </div>
         <a href="/solicitudes" class="btn btn-link">Volver a la lista</a>
-        <a href="/aceptar" class="btn btn-link">Aceptar Trabajo</a>
+        <form action="/aceptar" method="POST">
+            <input type="hidden" name="idSolicitud" id="idSolicitud" value="<%= solicitud.id_sol %>">
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+        </form>
 
     </div>
 </body>

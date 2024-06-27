@@ -195,6 +195,7 @@ exports.IniciarSesionEnfermeras = async (req, res) => {
 
         const resultadosEnfer = await queryAsync('SELECT id_emp, nom_emp,pat_emp, est_emp, id_dir FROM empleado WHERE id_datacc = ?', [userId]);
 
+        console.log(resultadosEnfer)
         const Id_enf = resultadosEnfer[0].id_emp;//id sujeto
         const nom_enf = resultadosEnfer[0].nom_emp;//nombre sujeto
         const paterno = resultadosEnfer[0].pat_emp; //apellido sujeto
@@ -306,7 +307,7 @@ exports.EnfermeraAuth = async (req, res, next) => {
                 //if (resultsEnfer && resultsEnfer.length > 0) {
                     // Asignar los datos del usuario a req.usuario
                     
-                req.usuario = resultsEnfer[0];
+                req.empleado = resultsEnfer[0];
                 semicuci = cookieusuarioDeco
                 //}
                 //aqui ocupo un if, si el veri_user == 0 puesque lo redirija a que no esta autenticado
@@ -360,9 +361,6 @@ exports.DocsVerify = async (req, res, next) => {
  */
 
 
-
-
-
 /**
  * repsasemos como deberia ser la logica para poder mostrar asi estas mamaditas
  * se supone que el usuario agrega la chamba desde su parte del sistema
@@ -395,14 +393,18 @@ const getSolicitudes = (req, res) => {
 }
 
 exports.getListarSolicitudes = (req, res) => { 
-    const query = 'SELECT s.*, h.fecini_hor FROM solicitud s JOIN horario h ON s.id_hor = h.id_hor WHERE h.fecini_hor >= CURDATE() ORDER BY h.fecini_hor ASC';
+    const query = `SELECT s.*,
+     h.fecini_hor FROM solicitud s
+    JOIN horario h ON s.id_hor = h.id_hor
+     WHERE h.fecini_hor >= CURDATE() AND s.est_sol = 'Espera'
+     ORDER BY h.fecini_hor ASC`;
     
     conexion.query(query, (error, results) => {
         if (error) {
             console.log(error);
             return next();
         }
-        console.log(results);
+        //console.log(results);
         res.render('./Enfermera/VacantesE', { solicitudes: results });
     });
 }
@@ -427,3 +429,26 @@ exports.getSolicitudDetalle = (req, res) => {
         }
     });
 };
+
+exports.AceptarSolici = async (req, res) => {
+    let { idSolicitud } = req.body;
+    idEmpleado = req.empleado.id_emp;
+    console.log(idEmpleado)
+
+    queryAceptar = `
+    UPDATE solicitud
+    SET id_emp = ?, est_sol = 'Curso' WHERE id_sol = ?
+    `;
+    try {
+        const accept = await queryAsync(queryAceptar, [idEmpleado, idSolicitud]);
+        if (accept.affectedRows > 0) {
+            res.redirect('/Visualizar_vacantes');
+            console.log('Solicitud aceptada');
+        }else{
+            console.log('Solicitud no ase pudo ceptada');
+        }
+    } catch (error) {
+        console.log(error);
+        
+    }
+ }
