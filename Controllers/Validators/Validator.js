@@ -45,7 +45,7 @@ exports.ValidacionRegistroCliente = function validacion(nombre, apellidoMaterno,
     }
 }
 
-exports.ValidacionRegistroEmpleado = function validacion(nombre, apellidoMaterno, apellidoPaterno, telefono, correo, contrasena, confirmarContrasena, calle, numeroExterior, numeroInterior, colonia, delegacion, codigoPostal){
+exports.ValidacionRegistroEmpleado = function validacion(nombre, apellidoMaterno, apellidoPaterno, rol ,telefono, correo, contrasena, confirmarContrasena, calle, numeroExterior, numeroInterior, colonia, delegacion, codigoPostal){
     const errors = [];
 
     // Validación de nombre
@@ -62,6 +62,12 @@ exports.ValidacionRegistroEmpleado = function validacion(nombre, apellidoMaterno
     if (!/^[a-zA-Z]{2,}$/.test(apellidoMaterno)) {
         errors.push("Apellido materno inválido: debe contener solo letras y tener al menos 2 caracteres.");
     }
+
+    //validacion del campo rol
+    if (rol !=  'Enfermero' || rol != 'Cuidador') {
+        errors.push("Rol inválido");
+    }
+
 
     // Validación de correo
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(correo)) {

@@ -12,8 +12,8 @@ const validacion = require('../Validators/Validator')
 
 exports.VistaRegistroCliente = (req, res)=>{
     if(req.cookies.jwt){
-        //ahun no hay donde redireccionar
-        //res.redirect('/')
+        //ruta que redirecciona a otra dependiendo de su rol
+        res.redirect('/redirect')
     }else{
         res.render('Cliente/RegistroCliente',{alert: false})
     }
@@ -21,7 +21,8 @@ exports.VistaRegistroCliente = (req, res)=>{
 /////////////////////////Registro de cliente en la base de datos/////////////////////////////
 exports.AuthRegistroCliente = async (req, res) => {
     if(req.cookies.jwt){
-        //redireccionar dependiendo del tipo de usuario
+        //ruta que redirecciona a otra dependiendo de su rol
+        res.redirect('/redirect')
     }else{
         const {nombre, apellidoMaterno, apellidoPaterno, telefono, correo, contrasena, confirmarContrasena} = req.body;
         let resultValid = validacion.ValidacionRegistroCliente(nombre, apellidoMaterno, apellidoPaterno, telefono, correo, contrasena, confirmarContrasena)

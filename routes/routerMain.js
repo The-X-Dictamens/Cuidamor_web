@@ -10,6 +10,8 @@ routerM.get('/Iniciar_sesion',Main.VistaLogin);
 routerM.post('/login',Main.Login);
 //Pagina de eleccionde registro
 routerM.get('/EleccionRegistro',Main.VistaEleccionRegistro);
+//redireccionamiento por sesion
+routerM.get('/redirect',Main.Redireccionador);
 
 
 module.exports = routerM
