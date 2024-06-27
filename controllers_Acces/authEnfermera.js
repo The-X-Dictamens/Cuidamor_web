@@ -407,3 +407,23 @@ exports.getListarSolicitudes = (req, res) => {
     });
 }
 
+exports.getSolicitudDetalle = (req, res) => {
+    const id = req.params.id;
+    const query = `
+        SELECT s.*, h.fecini_hor, h.fecfin_hor, dh.horini_dh, dh.horfin_dh, dh.dia_dh
+        FROM solicitud s
+        JOIN horario h ON s.id_hor = h.id_hor
+        JOIN dia_horario dh ON h.id_hor = dh.id_hor
+        WHERE s.id_sol = ?
+    `;
+    db.query(query, [id], (error, results) => {
+        if (error) {
+            return res.status(500).send('Error al obtener los detalles de la solicitud: ' + error.message);
+        }
+        if (results.length > 0) {
+            res.render('./Enfermera/InfoVacanteE', { solicitud: results[0] });
+        } else {
+            res.status(404).send('No se encontró la solicitud con el ID especificado.');
+        }
+    });
+};
