@@ -43,3 +43,6 @@ exports.AuthRegistroCliente = async (req, res) => {
         }
     }
 }
+
+
+

@@ -9,13 +9,7 @@ const query = promisify(conexionU.query).bind(conexionU);
 
 /////////////////////////////////////vistas principal/////////////////////////////////////////
 exports.index = (req, res) => {
-    if(req.cookies.jwt){
-        console.log(req.cookies.jwt)
-        //ruta que redirecciona a otra dependiendo de su rol
-        res.redirect('/redirect')
-    }else{
-        res.render('index',{alert: false})
-    }
+    res.render('index');
 }
 /////////////////////////////////////Eleccion de Registro/////////////////////////////////////////
 
@@ -25,69 +19,58 @@ exports.VistaEleccionRegistro = async (req, res) => {
 
 /////////////////////////////////////login para cualquier usuario/////////////////////////////////////////
 exports.VistaLogin = async (req, res) => {
-    if(req.cookies.jwt){
-        console.log(req.cookies.jwt)
-        //ruta que redirecciona a otra dependiendo de su rol
-        res.redirect('/redirect')
-    }else{
-        res.render('Landing/Login',{alert: false})
-    }
+    res.render('Landing/Login',{alert: false})
 }
 
 exports.Login = async (req, res) => {
-    if (req.cookies.jwt){
-        //ruta que redirecciona a otra dependiendo de su rol
-        res.redirect('/redirect')
-    }else{
-        const {email, password} = req.body;
-        if(email && password){
-            const user = await query('SELECT * FROM datos_acceso WHERE cor_datacc = ?',[email]);
-            if(user.length > 0){
-                const pass = await bcryptjs.compare(password, user[0].pass_datacc);
-                if(pass){
-                    const userEmail = user[0].cor_datacc;
-                    const Id_acc = user[0].id_datacc;
-                    const rol_acc = user[0].rol_datacc;
+    const {email, password} = req.body;
+    if(email && password){
+        const user = await query('SELECT * FROM datos_acceso WHERE cor_datacc = ?',[email]);
+        console.log(user)
+        if(user.length > 0){
+            const pass = await bcryptjs.compare(password, user[0].pas_datacc);
+            if(pass){
+                const userEmail = user[0].cor_datacc;
+                const Id_acc = user[0].id_datacc;
+                const rol_acc = user[0].rol_datacc;
 
-                    if(rol == 'Cliente'){
-                        //obtenemos los datos del cliente
-                        const userClient = await query('SELECT * FROM user WHERE id_datacc = ?',[Id_acc]);
-                        const nom_user = userClient[0].nom_us;
-                        const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc}, process.env.JWT_SECRET, {
-                            expiresIn: process.env.JWT_EXPIRES_IN
-                        });
-                        const cookieOptions = {
-                            expires: new Date(
-                                Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                            ),
-                            httpOnly: true
-                        }
-                        res.cookie('jwt', token, cookieOptions);
-                        //aun no hay donde redirigir
-                        res.redirect('/MenuCliente')
-                    }else{
-                        //obtenemos los datos del empleado
-                        const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);
-                        const nom_user = userEmployee[0].nom_emp;
-                        const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc}, process.env.JWT_SECRET, {
-                            expiresIn: process.env.JWT_EXPIRES_IN
-                        });
-                        const cookieOptions = {
-                            expires: new Date(
-                                Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                            ),
-                            httpOnly: true
-                        }
-                        res.cookie('jwt', token, cookieOptions);
-                        //aun no hay donde redirigir
-                        if(rol_acc == 'Enfermero'){
-                            res.redirect('/MenuEnfermero')
-                        }else if(rol_acc == 'Cuidador'){
-                            res.redirect('/MenuCuidador')
-                        }
+                if(rol_acc == 'Cliente'){
+                    //obtenemos los datos del cliente
+                    const userClient = await query('SELECT * FROM user WHERE id_datacc = ?',[Id_acc]);
+                    const nom_user = userClient[0].nom_us;
+                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc}, process.env.JWT_SECRET, {
+                        expiresIn: process.env.JWT_EXPIRES_IN
+                    });
+                    const cookieOptions = {
+                        expires: new Date(
+                            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                        ),
+                        httpOnly: true
                     }
+                    res.cookie('jwt', token, cookieOptions);
+                    //aun no hay donde redirigir
+                    res.redirect('/MenuCliente')
                 }else{
-                    res.render('Landing/Login',{alert: true})
+                    //obtenemos los datos del empleado
+                    const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);
+                    const nom_user = userEmployee[0].nom_emp;
+                    const est_user = userEmployee[0].est_emp;
+                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc, estado:est_user}, process.env.JWT_SECRET, {
+                        expiresIn: process.env.JWT_EXPIRES_IN
+                    });
+                    const cookieOptions = {
+                        expires: new Date(
+                            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                        ),
+                        httpOnly: true
+                    }
+                    res.cookie('jwt', token, cookieOptions);
+                    //aun no hay donde redirigir
+                    if(rol_acc == 'Enfermero'){
+                        res.redirect('/MenuEnfermero')
+                    }else if(rol_acc == 'Cuidador'){
+                        res.redirect('/MenuCuidador')
+                    }
                 }
             }else{
                 res.render('Landing/Login',{alert: true})
@@ -95,35 +78,19 @@ exports.Login = async (req, res) => {
         }else{
             res.render('Landing/Login',{alert: true})
         }
-    }
-}
-
-
-////////////////////////////////////Redireccionador////////////////////////////////////////////
-
-exports.Redireccionador = async (req, res) => {
-    if(req.cookies.jwt){
-        console.log(req.cookies.jwt)
-        //redireccionar dependiendo del tipo de usuario
-        let rol = req.cookies.jwt.rol
-        switch(rol){
-            case 'Cliente':
-                res.redirect('/MenuCliente')
-                break;
-            case 'Enfermero':
-                res.redirect('/MenuEnfermero')
-                break;
-            case 'Cuidador':
-                res.redirect('/MenuCuidador')
-                break;
-            default:
-                res.redirect('/')
-        }
-
     }else{
-        res.redirect('/')
+        res.render('Landing/Login',{alert: true})
     }
+    
 }
+
+
+/////////////////////////////////////Logout para cualquier usuario/////////////////////////////////////////
+exports.LogOut = async (req, res) => {
+    res.clearCookie('jwt');
+    res.redirect('/')
+}
+
 
 
 

@@ -16,8 +16,13 @@ dotenv.config({ path: './env/.env' })
 app.use(cookieParser())
 //puesto que usaremos 
 const port = process.env.PORT || 3000
-
-
+/*
+//esto se agregar para cachar 404
+// Middleware para capturar errores 404
+app.use((req, res, next) => {
+    res.status(404).render('Landing/404');
+  });
+*/
 ////////////////////////En esta parta se usaran las rutas de todo//////////////////////////////////
 
 //rutas de la pagina principal

@@ -14,7 +14,7 @@ exports.VistaRegistroEmpleado = (req, res)=>{
         //ruta que redirecciona a otra dependiendo de su rol
         res.redirect('/redirect')
     }else{
-        res.render('Empleado/adviceLogeo',{alert: false})
+        res.render('Empleado/RegistroEmpleado',{alert: false})
     }
 }
 
@@ -50,14 +50,27 @@ exports.AuthRegitrarEmpleado = async (req, res) => {
                 const passwordHash = await bcryptjs.hash(contrasena, 8);
                 // Insertar datos en la base de datos
                 let datacces = await query('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?, ?)', [correo, passwordHash, rol]);
-                let datdireccion = await query('INSERT INTO datos_direccion (calle_dir, del_dir, numExt_dir, numInt_dir, col_dir, cp_datdir, ref_dir) VALUES (?, ?, ?, ?, ?, ?)', [calle, delegacion, numeroExterior, numeroInterior, colonia, codigoPostal, null]);
-                let datempleado = await query('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, fot_emp, tel_emp, est_emp, id_datacc, id_dir) VALUES (?, ?, ?, ?, ?, ?)', [nombre, apellidoPaterno, apellidoMaterno , null , telefono, 'Proceso' , datacces.insertId, datdireccion.insertId]);
+                let datdireccion = await query('INSERT INTO direccion (calle_dir, del_dir, numExt_dir, numInt_dir, col_dir, cp_dir, ref_dir) VALUES (?, ?, ?, ?, ?, ?, ?)', [calle, delegacion, numeroExterior, numeroInterior, colonia, codigoPostal, null]);
+                let datempleado = await query('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, fot_emp, tel_emp, est_emp, id_datacc, id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellidoPaterno, apellidoMaterno , null , telefono, 'Proceso' , datacces.insertId, datdireccion.insertId]);
                 res.status(200).json({message: 'success'});
             }
         }else{
             res.status(400).json({message: 'Algunos campos son inválidos.'});
         }
     }
+}
+
+/////////////////////////Mostrar apartado de registro de empleado/////////////////////////////
+exports.VistaMisTrabajos = async (req, res) => {   
+    //renderizar sus trabajos actuales
+    console.log('entro a la vista de trabajos actuales')
+    res.send('En desarrollo').json({message: 'En desarrollo'});
+}
+
+
+/////////////////////////Ruta para subir los archivos de validacion de expediente y pruebas psicometricas/////////////////////////////
+exports.VistaValidacionEmpleado = async (req, res) => {
+    res.render('Empleado/validacionEmpleado');    
 }
 
 
