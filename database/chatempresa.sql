@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`Direccion` (
   `del_dir` VARCHAR(45) NULL,
   `col_dir` VARCHAR(45) NULL,
   `calle_dir` VARCHAR(45) NULL,
+  `num_int` VARCHAR(10) NULL,
+  `num_ext` VARCHAR(10) NULL,
   `cp_dir` VARCHAR(45) NULL,
   `ref_dir` VARCHAR(45) NULL,
   `user_id_us` INT  NULL,
@@ -132,7 +134,7 @@ ENGINE = InnoDB;
 -- Table `Cuidamor_UsersG`.`horario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`horario` (
-  `id_hor` INT NOT NULL,
+  `id_hor` INT NOT NULL AUTO_INCREMENT,
   `fecini_hor` DATE NULL,
   `fecfin_hor` DATE NULL,
   PRIMARY KEY (`id_hor`))
@@ -192,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `Cuidamor_UsersG`.`dia_horario` (
   `id_dh` INT NOT NULL AUTO_INCREMENT,
   `horini_dh` VARCHAR(45) NULL,
   `horfin_dh` VARCHAR(45) NULL,
-  `dia_dh` ENUM('Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do') NULL,
+  `dia_dh` SET('Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do') NULL,
   `id_hor` INT NOT NULL,
   PRIMARY KEY (`id_dh`),
   INDEX `fk_dia_horario_horario1_idx` (`id_hor` ASC) VISIBLE,

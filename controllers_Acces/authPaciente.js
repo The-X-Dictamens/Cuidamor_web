@@ -83,4 +83,5 @@ console.log(pacientes.length);
     next();
 };
 
+//aqui la query dell loco del juan para mostrar la info detallada
 

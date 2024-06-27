@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>Crear Citas</h1>
-  <form action="/citas/insertar" method="POST">
+  <form action="/PostularT" method="POST">
 
     <h2>Bienvenido:
       <% if (user) { %>
@@ -16,7 +16,7 @@
       <% } %>
     </h2>
 
-    <select name="paciente">
+    <select name="paciente" id="paciente">
       <h2>A quien Solicita</h2>
       <% pacientes.forEach(paciente => { %>
         <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
@@ -28,25 +28,49 @@
         <option value="enfe">Enfermera</option>
       </select>
       <br>
+
       
-      <label for="hora inicio">dia Fin</label>
-      <input type="date" id="DI">
+      <label for="Dia inicio">dia Inicio</label>
+      <input type="date" name="DI" id="DI">
       
-    <label for="hora inicio">dia Fin</label>
-    <input type="date" id="DF">
+    <label for="Dia fin">dia Fin</label>
+    <input type="date"name="DF" id="DF">
 
-    <LAbel> Descripcion General</LAbel>
-    <input type="descripcion">
 
-    <% const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom']; %>
-    <% dias.forEach(dia => { %>
-      <h2><%= dia %></h2>
-      <label for="<%= dia %>_inicio">Inicio:</label>
-      <input type="time" id="<%= dia %>_inicio" name="<%= dia %>_inicio"><br>
+    <label for="horaI">Hora de inicio</label>
+    <input type="time" name="HI" id="HI">
 
-      <label for="<%= dia %>_fin">Fin:</label>
-      <input type="time" id="<%= dia %>_fin" name="<%= dia %>_fin"><br>
-    <% }); %>
+    <label for="horaF">Hora final</label>
+    <input type="time" name="HF" id="HF">
+
+    <label> Descripcion General</Label>
+    <input type="text" name="descripSoli" id="descripSoli">
+
+    <label> Descripcion General</Label>
+      <input type="text" name="descripSolis" id="descripSolis">
+  
+
+    <h2>Días de la semana</h2>
+    <label for="Lu">Lunes</label>
+    <input type="checkbox" id="Lu" name="dias[]" value="Lu">
+    
+    <label for="Ma">Martes</label>
+    <input type="checkbox" id="Ma" name="dias[]" value="Ma">
+    
+    <label for="Mi">Miércoles</label>
+    <input type="checkbox" id="Mi" name="dias[]" value="Mi">
+    
+    <label for="Ju">Jueves</label>
+    <input type="checkbox" id="Ju" name="dias[]" value="Ju">
+    
+    <label for="Vi">Viernes</label>
+    <input type="checkbox" id="Vi" name="dias[]" value="Vi">
+    
+    <label for="Sa">Sábado</label>
+    <input type="checkbox" id="Sa" name="dias[]" value="Sa">
+    
+    <label for="Do">Domingo</label>
+    <input type="checkbox" id="Do" name="dias[]" value="Do">
 
     
 

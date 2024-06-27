@@ -119,54 +119,65 @@ exports.insertarCitas = (req, res) => {
  * 
 */
 
-exports.PostularVacante = async (req, res) => {
-    const {des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_pac, id_emp, id_dir} = req.body;
-    idUs = req.user.id_us
-    let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
-
-    let IniFin = await query( "INSERT INTO horario (fecini_hor, fecfin_hor) VALUES (?, ?)", [fecini_hor, fecfin_hor]);
-    let idHOra = IniFin.insertId;   
-
-    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
-
-    dias.forEach(dia => {
-        const datosDia = req.body[dia];
-        
-        if (datosDia) {
-            
-            const inicio = req.body[dia + '_inicio'];
-            const fin = req.body[dia + '_fin'];
-
-            const query = 'INSERT INTO dia_horario (dia, inicio, fin, datos, userId) VALUES (?, ?, ?, ?, ?)';
-            connection.query(query, [dia, inicio, fin, datosDia, userId], (error, results) => {
-                
-            });
-        }
-    });
-
-    let DiHor = await query("INSERT INTO dia_horario (horini_dh, horfin_dh, dia_dh, id_hor) VALUES (?, ?, ?, ?)", [horini_dh, horfin_dh, dia_dh, idHOra]);
-}
-
 exports.PostularVacantes1 = async (req, res) => {
-    const {paciente, TipoS, DI, DF, descripcion} = req.body;
+    
+    try {
+        const { paciente, TipoS, DI, DF, HI, HF, descripSoli, dias } = req.body;
+        descripSolici = req.body.descripSoli;
+        console.log(descripSolici)
+    console.log(req.body)
     idUs = req.user.id_us
-    let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
 
+        //let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
+        
+        
+    let InsHora = await query("INSERT INTO horario (fecini_hor,fecfin_hor) VALUES (?,?)", [DI, DF]);
+    console.log('si no salio mal aqui inicio ')
+    console.log('si no salio mal aqui salio ' + InsHora)
+    let idHor = InsHora.insertId;
+        
+    let diasStr = dias.join(','); // Join the array into a string
+
+    let InsClock = await query("INSERT INTO dia_horario (horini_dh , horfin_dh, dia_dh, id_hor) VALUES (?,?,?,?)", [HI,HF,diasStr,idHor]);
+        console.log('si se  insertaron los dias '+InsClock)
     // Insertar la solicitud y obtener el ID de la solicitud insertada
-    let solicitud = await query("INSERT INTO solicitud (paciente, TipoS, DI, DF, descripcion, id_dir) VALUES (?, ?, ?, ?, ?, ?)", [paciente, TipoS, DI, DF, descripcion, id_dir]);
-    let idSolicitud = solicitud.insertId;
+    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)", [descripSoli, TipoS, 'Espera', 5, idHor, idUs, paciente, null,1]);
+        let idSolicitud = solicitud.insertId;
 
-    const dias = ['lun', 'mar', 'mier', 'jue', 'vie', 'sab', 'dom'];
 
-    dias.forEach(async dia => {
-        const inicio = req.body[dia + '_inicio'];
-        const fin = req.body[dia + '_fin'];
+    res.redirect('/Tablero');  
+    } catch (error) {
+        console.log('chin, reprobaste orientacion porque '+error)
+    }
 
-        // Si se proporcionó un horario para este día, insertar la cita
-        if (inicio && fin) {
-            await query("INSERT INTO citas (horini_dh, horfin_dh, dia_dh) VALUES (?, ?, ?)", [ inicio, fin,dia ]);
-        }
-    });
+    
+};
 
-    res.send('Solicitud y citas insertadas');
+/**
+ * mostrar Citas
+ */
+exports.mostraCitas = async (req, res, next) => {
+    idUs = req.user.id_us
+    // Haz una consulta a la base de datos para obtener los citras que tienen el ID de usuario dado
+    let citas = await promisify(conexion.query).bind(conexion)(
+        "SELECT * FROM solicitud WHERE id_us = ?",
+        [idUs]
+    );
+    let idHor = citas[0].id_hor;
+    let idPac = citas[0].id_pac;
+    let idEmp = citas[0].id_emp;
+
+
+
+    // Si pacientes no es un array, conviértelo en un array
+    if (!Array.isArray(citas)) {
+        citasArr = [citas];
+    }
+
+    // Adjunta los pacientes a la solicitud para que estén disponibles en la siguiente función middleware
+    req.citasArr = citas;
+
+    // Llama a next() para pasar el control a la siguiente función middleware
+  
+    next();
 };

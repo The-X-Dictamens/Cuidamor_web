@@ -1,4 +1,4 @@
-const express = require('express')
+    const express = require('express')
 const routerU = express.Router()
 const MetodoJ = require('../controllers_Acces/AuthUser.js')
 const VacantesM = require('../CitasController/crearVacante.js')
@@ -84,6 +84,8 @@ routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
 routerU.get('/Mis_vacantes', MetodoJ.VisualizarVacantes)
 
 routerU.get('/Home', MetodoJ.VisualizarMenu)
+
+routerU.post('/PostularT', MetodoJ.UserAuth,VacantesM.PostularVacantes1)
 
 
 module.exports = routerU

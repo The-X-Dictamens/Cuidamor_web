@@ -139,7 +139,7 @@ ENGINE = InnoDB;
 -- Table `Cuidamor_Users`.`horario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Cuidamor_Users`.`horario` (
-  `id_hor` INT NOT NULL,
+  `id_hor` INT NOT NULL AUTO_INCREMENT,
   `fecini_hor` DATE NULL,
   `fecfin_hor` DATE NULL,
   PRIMARY KEY (`id_hor`))
