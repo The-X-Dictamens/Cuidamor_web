@@ -131,8 +131,6 @@ exports.verifyTokenUnLoged = (req, res, next) => {
     if (err) {
         console.log('tocken invalido', err)
     }
-    console.log(decoded);
-    req.userData = decoded;
     if(decoded){
         console.log(`redireccionando, se encontro token valido ${decoded.rol}`);
         switch(decoded.rol){
@@ -146,6 +144,8 @@ exports.verifyTokenUnLoged = (req, res, next) => {
                 return res.status(403).redirect('/');
         }
     }
+    console.log(decoded);
+    req.userData = decoded;
     next();
   });
 }

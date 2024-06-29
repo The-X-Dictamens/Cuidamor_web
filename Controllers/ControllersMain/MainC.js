@@ -67,9 +67,9 @@ exports.Login = async (req, res) => {
                     res.cookie('jwt', token, cookieOptions);
                     //aun no hay donde redirigir
                     if(rol_acc == 'Enfermero'){
-                        res.redirect('/MenuEnfermero')
+                        res.redirect('/MenuEmpleado')
                     }else if(rol_acc == 'Cuidador'){
-                        res.redirect('/MenuCuidador')
+                        res.redirect('/MenuEmpleado')
                     }
                 }
             }else{
