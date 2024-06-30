@@ -1,0 +1,83 @@
+<!-- views/crearCitas.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Citas</title>
+</head>
+<body>
+  <h1>Crear Citas</h1>
+  <form action="/PostularT" method="POST">
+
+    <h2>Bienvenido:
+      <% if (user) { %>
+        <span class="badge bg-success"><%= user.nom_us %></span>
+      <% } %>
+    </h2>
+
+    <select name="paciente" id="paciente">
+      <h2>A quien Solicita</h2>
+      <% pacientes.forEach(paciente => { %>
+        <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
+      <% }); %>
+    </select>
+      
+      <select name="TipoS" id="TipoS">  
+        <option value="cuid">Cuidador</option>
+        <option value="enfe">Enfermera</option>
+      </select>
+      <br>
+
+      
+      <label for="Dia inicio">dia Inicio</label>
+      <input type="date" name="DI" id="DI">
+      
+    <label for="Dia fin">dia Fin</label>
+    <input type="date"name="DF" id="DF">
+
+
+    <label for="horaI">Hora de inicio</label>
+    <input type="time" name="HI" id="HI">
+
+    <label for="horaF">Hora final</label>
+    <input type="time" name="HF" id="HF">
+
+    <label> Descripcion General</Label>
+    <input type="text" name="descripSoli" id="descripSoli">
+
+    <label> Descripcion General</Label>
+      <input type="text" name="descripSolis" id="descripSolis">
+  
+
+    <h2>Días de la semana</h2>
+    <label for="Lu">Lunes</label>
+    <input type="checkbox" id="Lu" name="dias[]" value="Lu">
+    
+    <label for="Ma">Martes</label>
+    <input type="checkbox" id="Ma" name="dias[]" value="Ma">
+    
+    <label for="Mi">Miércoles</label>
+    <input type="checkbox" id="Mi" name="dias[]" value="Mi">
+    
+    <label for="Ju">Jueves</label>
+    <input type="checkbox" id="Ju" name="dias[]" value="Ju">
+    
+    <label for="Vi">Viernes</label>
+    <input type="checkbox" id="Vi" name="dias[]" value="Vi">
+    
+    <label for="Sa">Sábado</label>
+    <input type="checkbox" id="Sa" name="dias[]" value="Sa">
+    
+    <label for="Do">Domingo</label>
+    <input type="checkbox" id="Do" name="dias[]" value="Do">
+
+    
+
+    <button type="submit">Insertar Citas</button>
+  </form>
+
+</body>
+</html>
+
+
