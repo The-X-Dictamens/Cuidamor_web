@@ -45,8 +45,7 @@ exports.AuthRegitrarEmpleado = async (req, res) => {
 /////////////////////////Mostrar apartado de registro de empleado/////////////////////////////
 exports.VistaMisTrabajos = async (req, res) => {   
     //renderizar sus trabajos actuales
-    console.log('entro a la vista de trabajos actuales')
-    res.send('En desarrollo').json({message: 'En desarrollo'});
+    res.render('Empleado/inicio');
 }
 /////////////////////////Ruta para subir los archivos de validacion de expediente y pruebas psicometricas/////////////////////////////
 exports.VistaValidacionEmpleado = async (req, res) => {

@@ -55,7 +55,7 @@ exports.Login = async (req, res) => {
                     const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);
                     const nom_user = userEmployee[0].nom_emp;
                     const est_user = userEmployee[0].est_emp;
-                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc, estado:est_user}, process.env.JWT_SECRET, {
+                    const token = jwt.sign({id_datacc: Id_acc, nom_emp: nom_user, cor_datacc: userEmail, rol: rol_acc, est_emp:est_user}, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_EXPIRES_IN
                     });
                     const cookieOptions = {

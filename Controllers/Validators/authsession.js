@@ -67,15 +67,16 @@ exports.verifyTokenLogedEmployee = (req, res, next) => {
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
     //verificar su estado de la cuenta NO ESTE EN PROCESO
-    if(decoded.estado = 'Proceso'){
+    if(decoded.est_emp === 'Proceso'){
+      console.log('redireccionando a validacionEmpleado no se porque', decoded);
       return res.status(403).redirect('/validacionEmpleado');
     }
     //VERIFICAR QUE NO ESTE RECHAZADO
-    if(decoded.estado = 'Rechazado'){
+    if(decoded.est_emp === 'Rechazado'){
       return res.status(403).redirect('/RechazoEmpleado');
     }
     //si el token no es de un cliente se redirecciona a la ruta corrspondiente
-    if(decoded.rol != 'Enfermero' || decoded.rol != 'Cuidador'){
+    if(decoded.rol != 'Enfermero' && decoded.rol != 'Cuidador'){
       switch(decoded.rol){
         case 'Cliente':
           return res.status(403).redirect('/MenuCliente');
@@ -102,11 +103,12 @@ exports.verifyTokenLogedEmployeeInvalid = (req, res, next) => {
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
     //verificar que este en proceso de registro
-    if(decoded.estado != 'Proceso'){
-      switch(decoded.estado){
+    if(decoded.est_emp !== 'Proceso'){
+      switch(decoded.est_emp){
         case 'Rechazado':
           return res.status(403).redirect('/RechazoEmpleado');
         case 'Aceptado':
+          console.log('redireccionando a menu ', decoded);
           return res.status(403).redirect('/MenuEmpleado');
         default:
           return res.status(403).redirect('/');
