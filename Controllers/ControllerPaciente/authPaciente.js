@@ -2,15 +2,10 @@ const conexionU = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const conexion = require('../database/db');
 const query = promisify(conexionU.query).bind(conexionU);
 
 // Convierte la función query en una función que devuelve una promesa
 const queryAsync = promisify(conexionU.query).bind(conexionU);
-
-
-
-
 
 //Funcion para la vista de registro de pacientes
 
@@ -63,7 +58,7 @@ exports.registrarPac = async (req, res) => {
 exports.mostrarPac = async (req, res, next) => {
     idUs = req.user.id_us
     // Haz una consulta a la base de datos para obtener los pacientes que tienen el ID de usuario dado
-    let pacientes = await promisify(conexion.query).bind(conexion)(
+    let pacientes = await promisify(conexionU.query).bind(conexionU)(
         "SELECT * FROM paciente WHERE id_us = ?",
         [idUs]
     );
