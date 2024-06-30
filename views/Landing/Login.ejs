@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión - Cuidamor</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+    }
+
+    .form-signin-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .form-signin {
+      width: 100%;
+    }
+
+    .form-signin .checkbox {
+      font-weight: 400;
+    }
+
+    .form-signin input[type="email"], 
+    .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .header img {
+      height: 70px;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .back-button img {
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back-button">
+      <a href="javascript:history.back()">
+        <img src="https://img.icons8.com/ios-filled/50/000000/left.png" alt="Regresar">
+      </a>
+    </div>
+    <div class="header">
+      <img src="imgs/logo.png" alt="Cuidamor Logo">
+    </div>
+    <div class="form-signin-container">
+      <form class="form-signin" method="post" action="/login">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Inicio de Sesión</h1>
+        <div class="form-group">
+          <label for="inputEmail">Correo electrónico</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">Contraseña</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesión</button>
+        <p class="mt-3 text-center"><a href="/EleccionRegistro">Regístrate aquí</a></p>
+      </form>
+    </div>
+  </div>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if(alert) { %>
+    <script>
+      Swal.fire({
+        title: 'Acceso denegado',
+        text:'corro y/o contraseña incorrectos',
+        icon:'denied',
+        showConfirmButton: true,
+      }).then(()=>{
+        window.history.back();
+      })
+    </script>
+  <% } %>
+
+</body>
+</html>
