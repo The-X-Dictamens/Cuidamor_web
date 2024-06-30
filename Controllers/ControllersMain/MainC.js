@@ -39,11 +39,11 @@ exports.Login = async (req, res) => {
                     const userClient = await query('SELECT * FROM user WHERE id_datacc = ?', [Id_acc]);
                     const id_user = userClient[0].id_us;
                     const nom_user = userClient[0].nom_us;
-                    console.log(id_user )
+                    console.log(id_user + 'id del useer');
                     const token = jwt.sign({
                         id_datacc: Id_acc,
                         id_us: id_user,
-                        nom_us: nom_user,
+                        nom_us: nom_user,   
                         cor_datacc: userEmail,
                         rol: rol_acc
                     }, process.env.JWT_SECRET, {
@@ -57,14 +57,22 @@ exports.Login = async (req, res) => {
                     }
                     res.cookie('jwt', token, cookieOptions);
                     //aun no hay donde redirigir
-                    console.log('entro a cliente')
+                    console.log('entro a cliente' + token)
                     res.redirect('/Tablero')////////////
                 }else{
                     //obtenemos los datos del empleado
-                    const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);
+                    const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?', [Id_acc]);
+                    const id_user = userEmployee[0].id_emp;
                     const nom_user = userEmployee[0].nom_emp;
                     const est_user = userEmployee[0].est_emp;
-                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc, estado:est_user}, process.env.JWT_SECRET, {
+                    const token = jwt.sign({
+                        id_datacc: Id_acc,
+                        id_emp: id_user,
+                        nom_us: nom_user,
+                        cor_datacc: userEmail,
+                        rol: rol_acc,
+                        estado: est_user
+                    }, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_EXPIRES_IN
                     });
                     const cookieOptions = {

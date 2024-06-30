@@ -57,16 +57,15 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
 })
 
 routerU.get('/familiar',AuthSs.verifyTokenLogedClient, (req, res) => {
-    res.render('./Usuario/RegistrarFamiliarU',{user:req.userData} )
+    res.render('./Usuario/RegistrarFamiliarU',{user: req.userData} )
 })
 
 routerU.get('/postular',AuthSs.verifyTokenLogedClient,Pacientes.mostrarPac, (req, res) => {
-    res.render('./Usuario/Postular', { user: req.userData, pacientes: req.pacientes });
+    res.render('./Usuario/Postular', {user: req.userData, pacientes: req.pacientes });
 });
 
 routerU.get('/Tablero',(req, res)=>{
-    res.render('./Usuario/userIndex',{user:req.userData}
-    )
+    res.render('./Usuario/userIndex',{user: req.userData})
 })
 
 

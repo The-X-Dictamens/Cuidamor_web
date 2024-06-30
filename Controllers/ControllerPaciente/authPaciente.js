@@ -14,28 +14,24 @@ exports.VistaRegistroPaciente = async (req, res) => {
 };
 
 exports.registrarPac = async (req, res) => {
+
+    const token = req.cookies.jwt;
+    if (!token) {
+        console.log('no token')
+        return res.status(403).redirect('/Iniciar_sesion'); 
+    }
+    const cookieusuarioDeco = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+
+
     
+    const idUs = cookieusuarioDeco.id_us;
+
+
         try {
-            console.log('entro')
+            console.log('entro a insertar')
             //obtencion de los datos del formulario
             let { nombre, apellido_paterno, apellido_materno, fotoPa, medicam, descrip, tratami, receta } = req.body;
-            //const userId = req.user.id_us;
-            console.log(req.user.id_us)            //obtencion de los los carchivos y sus nombres
-            idUs = req.user.id_us
-
-            
-
-            //Ahora uno para la foto 
-            /*
-            let fotoP = req.files["foto"][0];
-            var namefpmuser = fotoP.fieldname + "-" + idDataAcces + "." + fotoP.originalname.split(".").pop();
-          
-            //utilizaremos la funcion de gardado de documentos en los dockers
-            let subirFotoP = cloudController.upload(namefpmuser, namefpmuser);
-*/
-
-            //incercion de los datos en la base de datos
-
+         
             let hm = await query("INSERT INTO historial_medico (med_hm, des_hm, trat_hm, rec_hm) VALUES (?,?,?,?)", [medicam, descrip, tratami, receta]);
             let idh = hm.insertId;
 
@@ -56,7 +52,7 @@ exports.registrarPac = async (req, res) => {
 };
 
 exports.mostrarPac = async (req, res, next) => {
-    idUs = req.user.id_us
+    idUs = req.cookies.id_us
     // Haz una consulta a la base de datos para obtener los pacientes que tienen el ID de usuario dado
     let pacientes = await promisify(conexionU.query).bind(conexionU)(
         "SELECT * FROM paciente WHERE id_us = ?",

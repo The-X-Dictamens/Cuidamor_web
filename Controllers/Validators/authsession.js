@@ -13,7 +13,11 @@ exports.verifyTokenLoged = (req, res, next) => {
     if(err){
       return res.status(403).redirect('/')
     }
+    console.log(req.userData+ 'userData');
+
     req.userData = decoded;
+    console.log(decoded);
+
     next();
   })
 }
@@ -39,6 +43,7 @@ exports.verifyTokenLogedClient = (req, res, next) => {
       switch(decoded.rol){
         case 'Enfermero':
           return res.status(403).redirect('/MenuEmpleado');
+        
         case 'Cuidador':
           return res.status(403).redirect('/MenuEmpleado');
         default:
@@ -134,8 +139,12 @@ exports.verifyTokenUnLoged = (req, res, next) => {
     if(decoded){
         console.log(`redireccionando, se encontro token valido ${decoded.rol}`);
         switch(decoded.rol){
-            case 'Cliente':
-                return res.status(403).redirect('/Tablero');
+          case 'Cliente':
+            console.log('nos saltamos una verifi en auth');
+            console.log(decoded.id_us)
+
+            return res.status(403).redirect('/Tablero');
+            console.log('nos saltamos una verifi en auth');
             case 'Enfermero':
                 return res.status(403).redirect('/MenuEmpleado');
             case 'Cuidador':

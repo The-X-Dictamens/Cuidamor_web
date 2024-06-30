@@ -1,8 +1,8 @@
-const conexionU = require('../database/db');
+const conexionD = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const query = promisify(conexionU.query).bind(conexionU);
+const query = promisify(conexionD.query).bind(conexionD);
 
 exports.PostularVacantes1 = async (req, res) => {
     
@@ -14,7 +14,6 @@ exports.PostularVacantes1 = async (req, res) => {
     idUs = req.user.id_us
 
         //let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
-        
         
     let InsHora = await query("INSERT INTO horario (fecini_hor,fecfin_hor) VALUES (?,?)", [DI, DF]);
     console.log('si no salio mal aqui inicio ')
@@ -34,35 +33,129 @@ exports.PostularVacantes1 = async (req, res) => {
     } catch (error) {
         console.log('chin, reprobaste orientacion porque '+error)
     }
-
+};
+/////////////Mostrar Solicitudes Enfermeras////////////////////////
+exports.getListarSolicitudesEnfermera = (req, res) => { 
+    const query = `SELECT s.*,
+     h.fecini_hor FROM solicitud s
+    JOIN horario h ON s.id_hor = h.id_hor
+     WHERE h.fecini_hor >= CURDATE() AND s.est_sol = 'Espera' AND s.tipo_sol = 'Enfermera'
+     ORDER BY h.fecini_hor ASC`;
     
+    conexionD.query(query, (error, results) => {
+        if (error) {
+            console.log(error);
+            return next();
+        }
+        //console.log(results);
+        res.render('./Enfermera/VacantesE', { solicitudes: results });
+    });
+}
+
+/////////////Mostrar Solicitudes Cuidador////////////////////////
+exports.getListarSolicitudesCuidador = (req, res) => { 
+    const query = `SELECT s.*,
+     h.fecini_hor FROM solicitud s
+    JOIN horario h ON s.id_hor = h.id_hor
+     WHERE h.fecini_hor >= CURDATE() AND s.est_sol = 'Espera' AND s.tipo_sol = 'Cuidador'
+     ORDER BY h.fecini_hor ASC`;
+    
+    conexionD.query(query, (error, results) => {
+        if (error) {
+            console.log(error);
+            return next();
+        }
+        //console.log(results);
+        res.render('./Cuidador/VacantesC', { solicitudes: results });
+    });
+}
+/////////////Mostrar Solicitudes Generico////////////////////////
+exports.getListarSolicitudesGenerico = (req, res) => { 
+    let tipo = req.params.tipo;////////Checar esto
+    const query = `SELECT s.*,
+     h.fecini_hor FROM solicitud s
+    JOIN horario h ON s.id_hor = h.id_hor
+     WHERE h.fecini_hor >= CURDATE() AND s.est_sol = 'Espera' AND s.tipo_sol = '?'
+     ORDER BY h.fecini_hor ASC`;
+    
+    conexionD.query(query, (error, results) => {
+        if (error) {
+            console.log(error);
+            return next();
+        }
+        //console.log(results);
+        res.render('./Cuidador/VacantesC', { solicitudes: results });
+    });
+}
+
+
+/////////////Mostrar Solicitudes Enfermera////////////////////////
+exports.getSolicitudDetalleEnfermera = (req, res) => {
+    const id = req.params.id;
+    const query = `
+        SELECT s.*, h.fecini_hor, h.fecfin_hor, dh.horini_dh, dh.horfin_dh, dh.dia_dh
+        FROM solicitud s
+        JOIN horario h ON s.id_hor = h.id_hor
+        JOIN dia_horario dh ON h.id_hor = dh.id_hor
+        WHERE s.id_sol = ?
+    `;
+    conexionD.query(query, [id], (error, results) => {
+        if (error) {
+            return res.status(500).send('Error al obtener los detalles de la solicitud: ' + error.message);
+        }
+        if (results.length > 0) {
+            res.render('./Enfermera/InfoVacanteE', { solicitud: results[0] });
+        } else {
+            res.status(404).send('No se encontró la solicitud con el ID especificado.');
+        }
+    });
 };
 
-/**
- * mostrar Citas
- */
-exports.mostraCitas = async (req, res, next) => {
-    idUs = req.userData.id_us
-    // Haz una consulta a la base de datos para obtener los citras que tienen el ID de usuario dado
-    let citas = await promisify(conexion.query).bind(conexion)(
-        "SELECT * FROM solicitud WHERE id_us = ?",
-        [idUs]
-    );
-    let idHor = citas[0].id_hor;
-    let idPac = citas[0].id_pac;
-    let idEmp = citas[0].id_emp;
+/////////////Mostrar Solicitudes Cuidador////////////////////////
+exports.getSolicitudDetalleCuidador = (req, res) => {
+    const id = req.params.id;
+    const query = `
+        SELECT s.*, h.fecini_hor, h.fecfin_hor, dh.horini_dh, dh.horfin_dh, dh.dia_dh
+        FROM solicitud s
+        JOIN horario h ON s.id_hor = h.id_hor
+        JOIN dia_horario dh ON h.id_hor = dh.id_hor
+        WHERE s.id_sol = ?
+    `;
+    conexionD.query(query, [id], (error, results) => {
+        if (error) {
+            return res.status(500).send('Error al obtener los detalles de la solicitud: ' + error.message);
+        }
+        if (results.length > 0) {
+            res.render('./Cuidador/InfoVacanteC', { solicitud: results[0] });
+        } else {
+            res.status(404).send('No se encontró la solicitud con el ID especificado.');
+        }
+    });
+};
 
 
 
-    // Si pacientes no es un array, conviértelo en un array
-    if (!Array.isArray(citas)) {
-        citasArr = [citas];
+
+////////////////Aceptar Solicitud Enfermera////////////////////////
+exports.AceptarSolici = async (req, res) => {
+    let { idSolicitud } = req.body;
+    idEmpleado = req.empleado.id_emp;
+    console.log(idEmpleado)
+
+    queryAceptar = `
+    UPDATE solicitud
+    SET id_emp = ?, est_sol = 'Curso' WHERE id_sol = ?
+    `;
+    try {
+        const accept = await queryAsync(queryAceptar, [idEmpleado, idSolicitud]);
+        if (accept.affectedRows > 0) {
+            res.redirect('/Empleado/Visualizar_vacantes');
+            console.log('Solicitud aceptada');
+        }else{
+            console.log('Solicitud no ase pudo ceptada');
+        }
+    } catch (error) {
+        console.log(error);
+        
     }
-
-    // Adjunta los pacientes a la solicitud para que estén disponibles en la siguiente función middleware
-    req.citasArr = citas;
-
-    // Llama a next() para pasar el control a la siguiente función middleware
-  
-    next();
-};
+ }
