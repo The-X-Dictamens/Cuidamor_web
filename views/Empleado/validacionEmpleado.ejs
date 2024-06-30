@@ -181,7 +181,7 @@
           </div>
         <% } %>
 
-        <%if(docs.foto === null && docs.cedula === null && docs.ine === null && docs.certificados === null && docs.Comprobante === null){%>
+        <%if(docs.foto === null || docs.cedula === null || docs.ine === null || docs.certificados === null || docs.Comprobante === null){%>
           <button class="btn btn-lg btn-primary" type="submit">Enviar Documentos</button>
         <%}%>
       </form>
