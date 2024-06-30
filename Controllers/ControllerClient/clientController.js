@@ -19,16 +19,16 @@ exports.AuthRegistroCliente = async (req, res) => {
     const {nombre, apellidoMaterno, apellidoPaterno, telefono, correo, contrasena, confirmarContrasena} = req.body;
     let resultValid = validacion.ValidacionRegistroCliente(nombre, apellidoMaterno, apellidoPaterno, telefono, correo, contrasena, confirmarContrasena)
     if(resultValid.valid){
-        const user = await query('SELECT * FROM datacc WHERE cor_datacc = ?',[correo]);
+        const user = await query('SELECT * FROM datos_acceso WHERE cor_datacc = ?',[correo]);
         if(user.length > 0){
             res.render('Cliente/RegistroCliente',{alert: true, title:"Error", text: "El correo ya esta registrado" , icon: "Error"})
         }else{
             const passwordHash = await bcryptjs.hash(contrasena, 8);
             //incercion de los datos en la base de datos
-            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'clie')", [correo,passwordHash]);
+            let dataAcces = await query("INSERT INTO datos_acceso (cor_datacc,pas_datacc, rol_datacc) VALUES (?,?,'Cliente')", [correo,passwordHash]);
             let idDataAcces = dataAcces.insertId;
             let U = await query("INSERT INTO user (nom_us, pat_us, mat_us, fot_us, tel_us, id_datacc) VALUES (?,?,?,'N/A',?,?)", [nombre, apellidoPaterno, apellidoMaterno, telefono, idDataAcces]);
-            res.redirect('/Login')
+            res.redirect('/Iniciar_sesion')
         }
     }else{
         res.render('Cliente/RegistroCliente',{alert: true, title:"Error", text: resultValid.messages , icon: "Error"})
