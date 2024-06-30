@@ -12,13 +12,10 @@ const validacion = require('../Validators/Validator')
 exports.VistaRegistroEmpleado = (req, res)=>{
    res.render('Empleado/RegistroEmpleado',{alert: false})
 }
-
 /////////////////////////Advertencia de segundo paso de registro de empleado/////////////////////////////
 exports.VistaAdvLogeoEmpleado = (req, res)=>{
     res.render('Empleado/adviceLogeo',{alert: false})
 }
-
-
 /////////////////////////Registro de empleado en la base de datos/////////////////////////////
 exports.AuthRegitrarEmpleado = async (req, res) => {
     
@@ -45,15 +42,12 @@ exports.AuthRegitrarEmpleado = async (req, res) => {
     }
     
 }
-
 /////////////////////////Mostrar apartado de registro de empleado/////////////////////////////
 exports.VistaMisTrabajos = async (req, res) => {   
     //renderizar sus trabajos actuales
     console.log('entro a la vista de trabajos actuales')
     res.send('En desarrollo').json({message: 'En desarrollo'});
 }
-
-
 /////////////////////////Ruta para subir los archivos de validacion de expediente y pruebas psicometricas/////////////////////////////
 exports.VistaValidacionEmpleado = async (req, res) => {
     //obtenemos los documentos si es que hay alguno que falta
@@ -88,9 +82,7 @@ exports.VistaValidacionEmpleado = async (req, res) => {
     console.log(docs)
     res.render('Empleado/validacionEmpleado',{docs: docs, alert: false});
 }
-
 /////////////////////////Subir archivos a la base de datos/////////////////////////////
-
 exports.AuthSubirDocumentos = async (req, res) => {
     //obtenemos el id de la cuenta del empleado
     let id_datacc = req.userData.id_datacc;

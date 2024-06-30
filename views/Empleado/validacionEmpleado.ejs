@@ -186,9 +186,9 @@
         <%}%>
       </form>
 
-      <% if(docs.pruebas === null){ %>
+      <% if(docs.pruebas == null || docs.prueba == 'Reaplicando'){ %>
         <p class="mt-4">*Una vez que hayas subido tus documentos, realiza tus pruebas psicométricas:</p>
-        <button class="btn btn-lg btn-secondary" onclick="location.href='pruebas_psicometricas.html'">Realizar Pruebas Psicométricas</button>
+        <button class="btn btn-lg btn-secondary" onclick="location.href='/TestPsicometrico'">Realizar Pruebas Psicométricas</button>
       <% } %>
     </div>
   <%}%>

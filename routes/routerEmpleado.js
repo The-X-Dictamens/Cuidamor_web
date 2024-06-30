@@ -2,6 +2,7 @@ const express = require('express')
 const routerE = express.Router()
 const empleado = require('../Controllers/ControllerEmpleado/empleadoController')
 const verifyToken = require('../Controllers/Validators/authsession')
+const testPsyco = require('../Controllers/ControllerEmpleado/TestPsycometricController');
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage()});
 
@@ -17,6 +18,10 @@ routerE.get('/MenuEmpleado',verifyToken.verifyTokenLogedEmployee,empleado.VistaM
 routerE.get('/validacionEmpleado',verifyToken.verifyTokenLogedEmployeeInvalid,empleado.VistaValidacionEmpleado);
 //registro de documentos de empleado
 routerE.post('/AuthEnviarDocuemntos',verifyToken.verifyTokenLogedEmployeeInvalid,upload.fields([{name: 'cedula',},{name: 'fotografia'},{name:'certificados'},{name:'comprobanteDomicilio'},{name:'ine'}]),empleado.AuthSubirDocumentos);
+//ruta para la visualizacu¿ion de el test psicometrico
+routerE.get('/TestPsicometrico',verifyToken.verifyTokenLogedEmployeeInvalid,testPsyco.getfirstPrueba);
+//ruta de obtencion de resultados de test psicometrico
+routerE.post('/AuthTestPsicometrico',verifyToken.verifyTokenLogedEmployeeInvalid,testPsyco.postPrueba);
 
 
 module.exports = routerE
