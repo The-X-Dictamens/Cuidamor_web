@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Continuar Registro - Cuidamor</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .form-signin-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 30px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      height: 70px;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .back-button img {
+      height: 40px;
+    }
+
+    .form-label-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .custom-file {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      margin-bottom: 1rem;
+    }
+
+    .custom-file-input {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      margin: 0;
+      opacity: 0;
+    }
+
+    .custom-file-label {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+    }
+
+    .custom-file-label::after {
+      content: "Seleccionar archivo";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+      display: block;
+      height: 100%;
+      padding: .375rem .75rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #e9ecef;
+      border-left: inherit;
+      border-radius: 0 .25rem .25rem 0;
+    }
+
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="imgs/logo.png" alt="Cuidamor Logo">
+  </div>
+  <%if(docs.foto !== null && docs.cedula !== null && docs.ine !== null && docs.certificados !== null && docs.Comprobante !== null && docs.pruebas !== null && docs.pruebas !== 'Reaplicando'){%>
+    <!--Vista para todo respondido pero no validado-->
+    <div class="form-signin-container">
+      <div class="status-container">
+        <h1 class="h3 mb-3 font-weight-normal">Validación en Proceso</h1>
+        <p>Tus documentos han sido subidos correctamente y has completado las pruebas psicométricas.</p>
+        <p>Por favor, espera a que validemos tu usuario. Te notificaremos cuando puedas comenzar a trabajar.</p>
+        <button class="btn btn-lg btn-primary" onclick="location.href='/logOut'">Cerrar Sesión</button>
+      </div>
+    </div>
+  <%}else{%>
+    <!--Vista para cuando no se ha subido algun documento-->
+    <div class="form-signin-container">
+      <h1 class="h3 mb-3 font-weight-normal">Continuar Registro</h1>
+      
+      <% if(docs.foto === null && docs.cedula === null && docs.ine === null && docs.certificados === null && docs.Comprobante === null){ %>
+        <p>Por favor sube los documentos faltantes para completar tu registro:</p>
+      <%}%>
+
+      <form id="document-form" enctype="multipart/form-data">
+        <% if(docs.cedula === null){ %>
+          <div class="form-label-group">
+            <p>Cédula Profesional</p>
+            <input type="text" name="cedula" id="cedula" class="form-control" placeholder="Cédula Profesional" required>
+          </div>
+        <% } %>
+
+        <% if(docs.foto === null){ %>
+          <div class="form-label-group custom-file">
+            <p>Fotografía</p>
+            <input type="file" name="fotografia" id="fotografia" class="custom-file-input" accept="image/*" required>
+            <label class="custom-file-label" for="fotografia">Fotografía </label>
+          </div>
+        <% } %>
+
+        <% if(docs.certificados === null){ %>
+          <div class="form-label-group custom-file">
+            <p>Certificados</p>
+            <input type="file" name="certificados" id="certificados" class="custom-file-input" accept="application/pdf" required>
+            <label class="custom-file-label" for="certificados">Certificados (pdf)</label>
+          </div>
+        <% } %>
+        
+        <% if(docs.comprobante === null){ %>
+          <div class="form-label-group custom-file">
+            <p>Comprobante de Domicilio</p>
+            <input type="file" name="comprobanteDomicilio" id="comprobanteDomicilio" class="custom-file-input" accept="application/pdf" required>
+            <label class="custom-file-label" for="comprobanteDomicilio">Comprobante de Domicilio (pdf)</label>
+          </div>
+        <% } %>
+
+        <% if(docs.ine === null){ %>
+          <div class="form-label-group custom-file">
+            <p>INE</p>
+            <input type="file" name="ine" id="ine" class="custom-file-input" accept="application/pdf" required>
+            <label class="custom-file-label" for="ine">INE (pdf)</label>
+          </div>
+        <% } %>
+
+        <%if(docs.foto === null || docs.cedula === null || docs.ine === null || docs.certificados === null || docs.Comprobante === null){%>
+          <button class="btn btn-lg btn-primary" type="submit">Enviar Documentos</button>
+        <%}%>
+      </form>
+
+      <% if(docs.pruebas == null || docs.pruebas == 'Reaplicando'){ %>
+        <p class="mt-4">*Una vez que hayas subido tus documentos, realiza tus pruebas psicométricas:</p>
+        <button class="btn btn-lg btn-secondary" onclick="location.href='/TestPsicometrico'">Realizar Pruebas Psicométricas</button>
+      <% } %>
+    </div>
+  <%}%>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script>
+    document.querySelectorAll('.custom-file-input').forEach(input => {
+      input.addEventListener('change', event => {
+        const fileName = event.target.files[0].name;
+        const label = event.target.nextElementSibling;
+        label.classList.add('selected');
+        label.innerHTML = fileName;
+      });
+    });
+
+    document.getElementById('document-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+
+      try {
+        const response = await fetch('/AuthEnviarDocuemntos', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200 && result.valid) {
+          window.location.reload();
+        } else if (response.status === 400 && !result.valid) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al subir los documentos. Por favor, inténtalo de nuevo.'
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al subir los documentos. Por favor, inténtalo de nuevo.'
+        });
+      }
+    });
+  </script>
+</body>
+</html>
