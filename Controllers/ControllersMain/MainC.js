@@ -36,9 +36,17 @@ exports.Login = async (req, res) => {
 
                 if(rol_acc == 'Cliente'){
                     //obtenemos los datos del cliente
-                    const userClient = await query('SELECT * FROM user WHERE id_datacc = ?',[Id_acc]);
+                    const userClient = await query('SELECT * FROM user WHERE id_datacc = ?', [Id_acc]);
+                    const id_user = userClient[0].id_us;
                     const nom_user = userClient[0].nom_us;
-                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc}, process.env.JWT_SECRET, {
+                    console.log(id_user )
+                    const token = jwt.sign({
+                        id_datacc: Id_acc,
+                        id_us: id_user,
+                        nom_us: nom_user,
+                        cor_datacc: userEmail,
+                        rol: rol_acc
+                    }, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_EXPIRES_IN
                     });
                     const cookieOptions = {
@@ -49,7 +57,8 @@ exports.Login = async (req, res) => {
                     }
                     res.cookie('jwt', token, cookieOptions);
                     //aun no hay donde redirigir
-                    res.redirect('/MenuCliente')
+                    console.log('entro a cliente')
+                    res.redirect('/Tablero')////////////
                 }else{
                     //obtenemos los datos del empleado
                     const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);

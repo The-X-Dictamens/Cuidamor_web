@@ -44,7 +44,7 @@ exports.verifyTokenLogedClient = (req, res, next) => {
         default:
           return res.status(403).redirect('/Iniciar_sesion');
       }
-    }
+    }//nombrde de la galleta
     req.userData = decoded;
     next();
   });
@@ -135,7 +135,7 @@ exports.verifyTokenUnLoged = (req, res, next) => {
         console.log(`redireccionando, se encontro token valido ${decoded.rol}`);
         switch(decoded.rol){
             case 'Cliente':
-                return res.status(403).redirect('/MenuCliente');
+                return res.status(403).redirect('/Tablero');
             case 'Enfermero':
                 return res.status(403).redirect('/MenuEmpleado');
             case 'Cuidador':
