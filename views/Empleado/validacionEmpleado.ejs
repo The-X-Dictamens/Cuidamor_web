@@ -122,14 +122,14 @@
   <div class="header">
     <img src="imgs/logo.png" alt="Cuidamor Logo">
   </div>
-  <%if(docs.foto !== null && docs.cedula !== null && docs.ine !== null && docs.certificados !== null && docs.Comprobante !== null && docs.pruebas !== null){%>
+  <%if(docs.foto !== null && docs.cedula !== null && docs.ine !== null && docs.certificados !== null && docs.Comprobante !== null && docs.pruebas !== null && docs.pruebas !== 'Reaplicando'){%>
     <!--Vista para todo respondido pero no validado-->
     <div class="form-signin-container">
       <div class="status-container">
         <h1 class="h3 mb-3 font-weight-normal">Validación en Proceso</h1>
         <p>Tus documentos han sido subidos correctamente y has completado las pruebas psicométricas.</p>
         <p>Por favor, espera a que validemos tu usuario. Te notificaremos cuando puedas comenzar a trabajar.</p>
-        <button class="btn btn-lg btn-primary" onclick="location.href='index.html'">Volver a la Página Principal</button>
+        <button class="btn btn-lg btn-primary" onclick="location.href='/logOut'">Cerrar Sesión</button>
       </div>
     </div>
   <%}else{%>
@@ -186,7 +186,7 @@
         <%}%>
       </form>
 
-      <% if(docs.pruebas == null || docs.prueba == 'Reaplicando'){ %>
+      <% if(docs.pruebas == null || docs.pruebas == 'Reaplicando'){ %>
         <p class="mt-4">*Una vez que hayas subido tus documentos, realiza tus pruebas psicométricas:</p>
         <button class="btn btn-lg btn-secondary" onclick="location.href='/TestPsicometrico'">Realizar Pruebas Psicométricas</button>
       <% } %>
