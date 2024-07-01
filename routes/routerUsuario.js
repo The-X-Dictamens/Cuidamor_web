@@ -76,8 +76,12 @@ routerU.get('/RegistroDomicilio', (req, res)=>{
     res.render('./Usuario/RegistroDomicilio',{user:req.userData,alert:false})
 })
 //Info Vacante                                          para verificar              para checarle el permiso
-routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (req, res)=>{
+routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (req, res) => {
+    
 })
+
+// Ruta para procesar la edición de la solicitud
+router.post('/solicitudes/editar/:id', VacantesM.editarSolicitud);
 
 
 routerU.post('/registerF',AuthSs.verifyTokenLogedClient, Pacientes.registrarPac);

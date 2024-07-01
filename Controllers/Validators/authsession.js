@@ -39,7 +39,8 @@ exports.verifyTokenLogedClient = (req, res, next) => {
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
     //si el token no es de un cliente se redirecciona a la ruta corrspondiente
-    if(decoded.rol != 'Cliente'){
+    if (decoded.rol != 'Cliente') {
+      
       switch(decoded.rol){
         case 'Enfermero':
           return res.status(403).redirect('/MenuEmpleado');

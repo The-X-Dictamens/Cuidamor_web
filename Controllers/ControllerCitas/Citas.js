@@ -7,7 +7,7 @@ const query = promisify(conexionD.query).bind(conexionD);
 exports.PostularVacantes1 = async (req, res) => {
     
     try {
-        const { paciente, TipoS, DI, DF, HI, HF, descripSoli, dias } = req.body;
+        const { paciente, TipoS, DI, DF, HI, HF, desc, dias,precio } = req.body;
     console.log(req.body)
         idUs = req.userData.id_us
         idDir = req.userData.id_direc
@@ -22,7 +22,7 @@ exports.PostularVacantes1 = async (req, res) => {
     let InsClock = await query("INSERT INTO dia_horario (horini_dh , horfin_dh, dia_dh, id_hor) VALUES (?,?,?,?)", [HI,HF,diasStr,idHor]);
         console.log('si se  insertaron los dias '+InsClock)
     // Insertar la solicitud y obtener el ID de la solicitud insertada
-    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?,?, ?,?)", [descripSoli, TipoS, 'Espera', 5, idHor, idUs, paciente, null,idDir]);
+    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?,?, ?,?)", [desc, TipoS, 'Espera', precio, idHor, idUs, paciente, null,idDir]);
         let idSolicitud = solicitud.insertId;
 
     res.redirect('/Tablero');  

@@ -11,17 +11,20 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Descripción: <%= solicitud.des_sol %></h5>
-                <p class="card-text">Tipo: <%= solicitud.tipo_sol === 'cuid' ? 'Cuidador' : 'Enfermero' %></p>
+                <p class="card-text">Tipo: <%= solicitud.tipo_sol === 'Cuidador' ? 'Cuidador' : 'Enfermero' %></p>
                 <p class="card-text">Estado: <%= solicitud.est_sol %></p>
+                <p class="card-text">Costo: <%= solicitud.cost_sol %></p>
+                <p class="card-text">Fecha de Inicio: <%= new Date(solicitud.fecini_hor).toISOString().slice(0, 10) %></p>
+                <p class="card-text">Fecha de Fin: <%= new Date(solicitud.fecfin_hor).toISOString().slice(0, 10) %></p>
+                <p class="card-text">Hora de Inicio: <%= solicitud.horini_dh %></p>
+                <p class="card-text">Hora de Fin: <%= solicitud.horfin_dh %></p>
+                <p class="card-text">Días: <%= solicitud.dia_dh %></p>
                 
+                <p class="card-text">Paciente: <%= solicitud.nom_pac %></p>
             </div>
         </div>
         <a href="/solicitudes" class="btn btn-link">Volver a la lista</a>
-        <form action="/aceptar" method="POST">
-            <input type="hidden" name="idSolicitud" id="idSolicitud" value="<%= solicitud.id_sol %>">
-            <button type="submit" class="btn btn-primary">Aceptar</button>
-        </form>
-
+        <a href="/solicitudes/editar/<%= solicitud.id_sol %>" class="btn btn-warning">Editar</a>
     </div>
 </body>
 </html>
