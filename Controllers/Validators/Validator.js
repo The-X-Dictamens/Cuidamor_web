@@ -187,3 +187,83 @@ exports.ValidacionRegistroEmpleado2 = function validacion(cedula, fotografia, ce
         return { valid: true };
     }
 }
+
+//funcion de validacion de actualizacionde foto de perfil
+exports.ValidacionActualizarFotoPerfil = function validacion(fotografia){
+    const errors = [];
+
+    // Validación de fotografía
+    if(fotografia !== null){
+        // Validar que la fotografía sea un archivo de imagen
+        if ('image' !== fotografia.mimetype.split('/')[0]) {
+            errors.push("Fotografía inválida: debe ser un archivo de imagen.");
+        }
+        if (fotografia.size > 5242880) {
+            errors.push("Fotografía inválida: debe ser menor a 10MB.");
+        }
+    }
+    
+
+    if (errors.length > 0) {
+        return { valid: false, messages: errors };
+    } else {
+        return { valid: true };
+    }
+}
+
+//funcion de validacion de actualizacion de datos personales
+exports.ValidacionActualizarDatosPersonales = function validacion(nombre, apellidoMaterno, apellidoPaterno, telefono, correo){
+    const errors = [];
+
+    // Validación de nombres con espacios
+    if (!/^[a-zA-Z\s]{2,}$/.test(nombre)) {
+        errors.push("Nombre inválido: debe contener solo letras y tener al menos 2 caracteres.");
+    }
+    
+
+    // Validación de apellido paterno
+    if (!/^[a-zA-Z]{2,}$/.test(apellidoPaterno)) {
+        errors.push("Apellido paterno inválido: debe contener solo letras y tener al menos 2 caracteres.");
+    }
+
+    // Validación de apellido materno
+    if (!/^[a-zA-Z]{2,}$/.test(apellidoMaterno)) {
+        errors.push("Apellido materno inválido: debe contener solo letras y tener al menos 2 caracteres.");
+    }
+    
+    if (!/^\d{10}$/.test(telefono)) { // Asegúrate de que el teléfono tiene 10 dígitos, puedes ajustar según sea necesario
+        errors.push("Teléfono inválido: debe contener solo dígitos y tener 10 caracteres.");
+    }
+
+    // Validación de correo
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(correo)) {
+        errors.push("Correo electrónico inválido.");
+    }
+
+    if (errors.length > 0) {
+        return { valid: false, messages: errors };
+    } else {
+        return { valid: true };
+    }
+}
+
+//funcion de validacion de actualizacion de contraseña
+exports.ValidacionActualizarContrasena = function validacion(contrasena, confirmarContrasena){
+    const errors = [];
+
+    // Validación de contraseña
+    if (!/^.{8,}$/.test(contrasena)) {
+        errors.push("Contraseña inválida: debe tener al menos 8 caracteres.");
+    }
+
+    // Validación de confirmar contraseña
+    if (contrasena !== confirmarContrasena) {
+        errors.push("Las contraseñas no coinciden.");
+    }
+
+    if (errors.length > 0) {
+        return { valid: false, messages: errors };
+    } else {
+        return { valid: true };
+    }
+}

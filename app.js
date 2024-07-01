@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const app = express()
 
@@ -10,6 +11,8 @@ app.use(express.static('public'))
 //para procesar datos enviados desde forms
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 //seteamos las variables de entorno
 dotenv.config({ path: './env/.env' })
 //para poder trabajar con las cookies

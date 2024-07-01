@@ -34,33 +34,13 @@ exports.AuthRegitrarEmpleado = async (req, res) => {
             // Insertar datos en la base de datos
             let datacces = await query('INSERT INTO datos_acceso (cor_datacc, pas_datacc, rol_datacc) VALUES (?, ?, ?)', [correo, passwordHash, rol]);
             let datdireccion = await query('INSERT INTO direccion (calle_dir, del_dir, numExt_dir, numInt_dir, col_dir, cp_dir, ref_dir) VALUES (?, ?, ?, ?, ?, ?, ?)', [calle, delegacion, numeroExterior, numeroInterior, colonia, codigoPostal, null]);
-            let datempleado = await query('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, fot_emp, tel_emp, est_emp, id_datacc, id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellidoPaterno, apellidoMaterno , null , telefono, 'Proceso' , datacces.insertId, datdireccion.insertId]);
+            let datempleado = await query('INSERT INTO empleado (nom_emp, pat_emp, mat_emp, fot_emp, tel_emp, est_emp, cred_emp, id_datacc, id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombre, apellidoPaterno, apellidoMaterno , null , telefono, 'Proceso' , 0.0 , datacces.insertId, datdireccion.insertId]);
             res.status(200).json({message: 'success'});
         }
     }else{
         res.status(400).json({message: 'Algunos campos son inválidos.'});
     }
     
-}
-/////////////////////////Mostrar apartado de visualizacion de Trabajo actual/////////////////////////////
-exports.VistaMiTrabajoActual = async (req, res) => {   
-    //renderizar sus trabajos actuales
-    res.render('Empleado/inicio');
-}
-/////////////////////////Mostrar vacantes existentes/////////////////////////////
-exports.VistaVacantes = async (req, res) => {
-    //renderiza la vista de vacantes
-    res.render('Empleado/vacantes');
-}
-///////////////////////Mostrar apartado de trabajos anterirormente realizados/////////////////////////////
-exports.VistaTrabajosAnteriores = async (req, res) => {
-    //renderizar trabajos anteriores
-    res.render('Empleado/LastTrabajos');
-}
-/////////////////////////Mostrar apartado de configuracion de cuenta/////////////////////////////
-exports.VistaConfiguracionCuenta = async (req, res) => {
-    //renderizar configuracion de cuenta
-    res.render('Empleado/configuracion');
 }
 /////////////////////////Ruta para subir los archivos de validacion de expediente y pruebas psicometricas/////////////////////////////
 exports.VistaValidacionEmpleado = async (req, res) => {
@@ -155,6 +135,145 @@ exports.AuthSubirDocumentos = async (req, res) => {
     }
     
     
+}
+/////////////////////////Mostrar apartado de visualizacion de Trabajo actual/////////////////////////////
+exports.VistaMiTrabajoActual = async (req, res) => {
+    //obtenemos el id de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let cor_datacc = req.userData.cor_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //obtenemos la imagen de perfil
+    let foto = await cloudController.getUrl(empleado[0].fot_emp);
+    //
+    let perfilData = {correo: cor_datacc, foto: foto};
+    
+
+
+    //renderizar sus trabajos actuales
+    res.render('Empleado/inicio',{perfil: perfilData, alert: false});
+}
+/////////////////////////Mostrar vacantes existentes/////////////////////////////
+exports.VistaVacantes = async (req, res) => {
+    //obtenemos el id de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let cor_datacc = req.userData.cor_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //obtenemos la imagen de perfil
+    let foto = await cloudController.getUrl(empleado[0].fot_emp);
+    //
+    let perfilData = {correo: cor_datacc, foto: foto};
+    
+    //renderiza la vista de vacantes
+    res.render('Empleado/vacantes',{perfil: perfilData, alert: false});
+}
+///////////////////////Mostrar apartado de trabajos anterirormente realizados/////////////////////////////
+exports.VistaTrabajosAnteriores = async (req, res) => {
+    //obtenemos el id de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let cor_datacc = req.userData.cor_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //obtenemos la imagen de perfil
+    let foto = await cloudController.getUrl(empleado[0].fot_emp);
+    //
+    let perfilData = {correo: cor_datacc, foto: foto};
+
+    //renderizar trabajos anteriores
+    res.render('Empleado/LastTrabajos',{perfil: perfilData, alert: false});
+}
+/////////////////////////Mostrar apartado de configuracion de cuenta/////////////////////////////
+exports.VistaConfiguracionCuenta = async (req, res) => {
+    //obtenemos el id de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let cor_datacc = req.userData.cor_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //obtenemos la imagen de perfil
+    let foto = await cloudController.getUrl(empleado[0].fot_emp);
+    let perfilData = {correo: cor_datacc, foto: foto, nombre: empleado[0].nom_emp, paterno: empleado[0].pat_emp, materno: empleado[0].mat_emp, telefono: empleado[0].tel_emp};
+
+    //renderizar configuracion de cuenta
+    res.render('Empleado/configuracion',{perfil: perfilData, alert: false});
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////Metodos de configuracion de cuenta///////////////////////////////////////////////////////
+exports.AuthActualizarFoto = async (req, res) => {
+    //obtenemos el id de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    let id = empleado[0].id_emp;
+    //obtenemos la foto del forms
+    let foto = !req.files.fotografia[0] ? null : req.files.fotografia[0];
+    //validamos la foto
+    const test = validacion.ValidacionActualizarFotoPerfil(foto);
+    if(test.valid){
+        //subimos la foto a la nube
+        let nomfot = 'foto_'+id+ foto.originalname.split('.')[1];
+        await cloudController.delete(empleado[0].fot_emp);
+        await cloudController.upload(foto, nomfot);
+        //actualizamos la foto en la base de datos
+        await query('UPDATE empleado SET fot_emp = ? WHERE id_emp = ?', [nomfot, id]);
+        res.status(200).json({valid:true, message: 'success'});
+    }else{
+        res.status(400).json({valid:false, message: test.messages[0]});
+    }
+}
+/////////////////////////Actualizar datos personales/////////////////////////////
+exports.AuthUpdatePersonData = async (req, res) => {
+    const { firstName, middleName, lastName, phone, email, currentPassword } = req.body;
+    //obtenemos la contraseña de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let datacc = await query('SELECT * FROM datos_acceso WHERE id_datacc = ?', [id_datacc]);
+    let pas_datacc = datacc[0].pas_datacc;
+    //comparamos la contraseña
+    const validpass = await bcryptjs.compare(currentPassword, pas_datacc);
+    
+    if(validpass){
+        let valid = validacion.ValidacionActualizarDatosPersonales(firstName, middleName, lastName, phone, email);
+        if(valid.valid){
+            //actualizamos los datos personales
+            await query('UPDATE empleado SET nom_emp = ?, pat_emp = ?, mat_emp = ?, tel_emp = ? WHERE id_datacc = ?', [firstName, lastName, middleName, phone, id_datacc]);
+            //actualizamos el correo
+            await query('UPDATE datos_acceso SET cor_datacc = ? WHERE id_datacc = ?', [email, id_datacc]);
+
+            res.status(200).json({valid:true, message: 'Finalizado, se cerra la sesion para aplicar los cambios.'});
+        }else{
+            res.status(400).json({valid:false, message: valid.messages[0]});
+        }
+    }else{
+        res.status(400).json({valid:false, message: 'Contraseña incorrecta.'});
+    }
+}
+/////////////////////////Actualizar contraseña/////////////////////////////
+exports.AuthUpdatePassword = async (req, res) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    //obtenemos la contraseña de datos de acceso
+    let id_datacc = req.userData.id_datacc;
+    let datacc = await query('SELECT * FROM datos_acceso WHERE id_datacc = ?', [id_datacc]);
+    let pas_datacc = datacc[0].pas_datacc;
+    //comparamos la contraseña
+    const validpass = await bcryptjs.compare(currentPassword, pas_datacc);
+    
+    if(validpass){
+        //validamos la nueva contraseña
+        const valid = validacion.ValidacionActualizarContrasena(newPassword, confirmPassword);
+        if(valid.valid){
+            //encriptamos la nueva contraseña
+            const passwordHash = await bcryptjs.hash(newPassword, 8);
+            //actualizamos la contraseña
+            await query('UPDATE datos_acceso SET pas_datacc = ? WHERE id_datacc = ?', [passwordHash, id_datacc]);
+            res.status(200).json({valid:true, message: 'Contraseña actualizada. Se cerrará la sesión para aplicar los cambios.'});
+        }else{
+            res.status(400).json({valid:false, message: valid.messages[0]});
+        }
+    }else{
+        res.status(400).json({valid:false, message: 'Contraseña incorrecta.'});
+    }
 }
 
 

@@ -28,9 +28,15 @@ routerE.get('/MenuEmpleado',verifyToken.verifyTokenLogedEmployee,empleado.VistaM
 routerE.get('/Vacantes',verifyToken.verifyTokenLogedEmployee,empleado.VistaVacantes);
 //view de trabajos anteriores
 routerE.get('/TrabajosAnteriores',verifyToken.verifyTokenLogedEmployee,empleado.VistaTrabajosAnteriores);
-
 //view de configuracion de cuenta
 routerE.get('/ConfiguracionDeCuneta',verifyToken.verifyTokenLogedEmployee,empleado.VistaConfiguracionCuenta);
 
+
+//rutas de la view de Configuracion de cuenta
+routerE.post('/AuthActualizarFoto',verifyToken.verifyTokenLogedEmployee,upload.fields([{name: 'fotografia'}]),empleado.AuthActualizarFoto);
+//ruta de actualizacion de datos personales
+routerE.post('/AuthUpdatePersonData',verifyToken.verifyTokenLogedEmployee,upload.none(),empleado.AuthUpdatePersonData);
+//ruta de actualizacion de datos de contrasena
+routerE.post('/AuthUpdatePassword',verifyToken.verifyTokenLogedEmployee,upload.none(),empleado.AuthUpdatePassword);
 
 module.exports = routerE

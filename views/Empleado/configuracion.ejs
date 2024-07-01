@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configuración de Perfil - Cuidamor</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     body {
       background-color: #f5f5f5;
@@ -75,16 +76,7 @@
       margin-top: 10px;
     }
   </style>
-  <script>
-    function previewImage(event) {
-      var reader = new FileReader();
-      reader.onload = function() {
-        var output = document.getElementById('profilePhotoPreview');
-        output.src = reader.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
+  
 </head>
 <body>
   <!-- Navbar -->
@@ -117,8 +109,8 @@
         <ul class="components navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://via.placeholder.com/150" alt="User Photo" width="30" height="30" class="rounded-circle">
-              <span class="ms-2">correo@example.com</span>
+              <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
+              <span class="ms-2"><%= perfil.correo%></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
               <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
@@ -136,13 +128,13 @@
     <div class="offcanvas-header">
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="offcanvasAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://via.placeholder.com/150" alt="User Photo" width="30" height="30" class="rounded-circle">
-          <span class="ms-2">correo@example.com</span>
+            <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
+            <span class="ms-2"><%= perfil.correo%></span>
         </a>
         <ul class="components dropdown-menu" aria-labelledby="offcanvasAccountDropdown">
-          <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
+            <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
         </ul>
       </div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -151,14 +143,14 @@
       <!-- Center options for small screens -->
       <ul class="components navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/MenuEmpleado">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Vacantes">Vacantes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
-        </li>
+            <a class="nav-link" href="/MenuEmpleado">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Vacantes">Vacantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
+          </li>
       </ul>
     </div>
   </div>
@@ -168,7 +160,7 @@
     <!-- Profile Photo Section -->
     <div class="profile-photo-section">
         <div>
-            <img src="https://via.placeholder.com/150" alt="User Photo" class="profile-photo mb-3">
+            <img src="<%= perfil.foto %>" alt="User Photo" class="profile-photo mb-3">
         </div>
         <div>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePhotoModal">Cambiar</button>
@@ -181,26 +173,30 @@
         Información Personal
       </div>
       <div class="card-body">
-        <form>
+        <form id="personalInfoForm">
           <div class="form-group">
             <label for="firstName">Nombre</label>
-            <input type="text" class="form-control" id="firstName" placeholder="Nombre" value="Juan">
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Nombre" value="<%= perfil.nombre %>">
           </div>
           <div class="form-group">
             <label for="middleName">Apellido Materno</label>
-            <input type="text" class="form-control" id="middleName" placeholder="Apellido Materno" value="Pérez">
+            <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Apellido Materno" value="<%= perfil.materno %>">
           </div>
           <div class="form-group">
             <label for="lastName">Apellido Paterno</label>
-            <input type="text" class="form-control" id="lastName" placeholder="Apellido Paterno" value="García">
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Apellido Paterno" value="<%= perfil.paterno %>">
+          </div>
+          <div class="form-group">
+            <label for="phone">Teléfono</label>
+            <input type="number" class="form-control" id="phone" name="phone" placeholder="Teléfono" value="<%= perfil.telefono %>">
           </div>
           <div class="form-group">
             <label for="email">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" placeholder="Correo Electrónico" value="correo@example.com">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico" value="<%= perfil.correo %>">
           </div>
           <div class="form-group">
             <label for="currentPassword">Contraseña Actual</label>
-            <input type="password" class="form-control" id="currentPassword" placeholder="Contraseña Actual">
+            <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Contraseña Actual">
           </div>
           <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </form>
@@ -208,29 +204,29 @@
     </div>
 
     <!-- Change Password Section -->
-    <div class="card">
-      <div class="card-header">
-        Cambiar Contraseña
-      </div>
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <label for="currentPassword">Contraseña Actual</label>
-            <input type="password" class="form-control" id="currentPassword" placeholder="Contraseña Actual">
-          </div>
-          <div class="form-group">
-            <label for="newPassword">Nueva Contraseña</label>
-            <input type="password" class="form-control" id="newPassword" placeholder="Nueva Contraseña">
-          </div>
-          <div class="form-group">
-            <label for="confirmPassword">Confirmar Nueva Contraseña</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar Nueva Contraseña">
-          </div>
-          <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
-        </form>
-      </div>
+<div class="card">
+    <div class="card-header">
+      Cambiar Contraseña
+    </div>
+    <div class="card-body">
+      <form id="passwordChangeForm">
+        <div class="form-group">
+          <label for="currentPassword">Contraseña Actual</label>
+          <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Contraseña Actual">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">Nueva Contraseña</label>
+          <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Nueva Contraseña">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Nueva Contraseña</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Nueva Contraseña">
+        </div>
+        <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+      </form>
     </div>
   </div>
+  
 
   <!-- Modal for Changing Profile Photo -->
   <div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
@@ -242,10 +238,10 @@
         </div>
         <div class="modal-body text-center">
           <img src="https://via.placeholder.com/150" alt="User Photo" id="profilePhotoPreview" class="profile-photo mb-3">
-          <form>
+          <form onsubmit="submitPhoto(event)">
             <div class="form-group">
               <label for="newProfilePhoto">Subir nueva foto de perfil</label>
-              <input type="file" class="form-control-file" id="newProfilePhoto" onchange="previewImage(event)">
+              <input type="file" class="form-control-file" id="newProfilePhoto" name="fotografia" onchange="previewImage(event)">
             </div>
             <button type="submit" class="btn btn-primary btn-upload">Guardar Foto</button>
           </form>
@@ -255,5 +251,134 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function previewImage(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('profilePhotoPreview');
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+    async function submitPhoto(event) {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append('fotografia', document.getElementById('newProfilePhoto').files[0]);
+
+      const response = await fetch('/AuthActualizarFoto', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.valid) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: result.message,
+        }).then(() => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: result.message,
+        });
+      }
+    }
+
+    async function submitPersonalInfo(event) {
+      event.preventDefault();
+      const form = document.getElementById('personalInfoForm');
+      const formData = new FormData();
+      formData.append('firstName', form.firstName.value);
+      formData.append('middleName', form.middleName.value);
+      formData.append('lastName', form.lastName.value);
+      formData.append('phone', form.phone.value);
+      formData.append('email', form.email.value);
+      formData.append('currentPassword', form.currentPassword.value);
+      
+        console.log(formData);
+
+      try {
+        const response = await fetch('/AuthUpdatePersonData', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.valid) {
+          Swal.fire({
+            icon: 'Exito',
+            title: 'Éxito',
+            text: result.message,
+          }).then(() => {
+            //redireccionar a logOut
+            window.location.href = '/logOut';
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: result.message,
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrió un error al enviar la solicitud.',
+        });
+      }
+    }
+
+    document.getElementById('personalInfoForm').addEventListener('submit', submitPersonalInfo);
+    async function submitPasswordChange(event) {
+  event.preventDefault();
+  const form = document.getElementById('passwordChangeForm');
+  const formData = new FormData();
+  formData.append('currentPassword', form.currentPassword.value);
+  formData.append('newPassword', form.newPassword.value);
+  formData.append('confirmPassword', form.confirmPassword.value);
+
+  try {
+    const response = await fetch('/AuthUpdatePassword', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.valid) {
+      Swal.fire({
+        icon: 'Exito',
+        title: 'Éxito',
+        text: result.message,
+      }).then(() => {
+        // Redireccionar después de que el usuario haga clic en "OK" en el SweetAlert
+        window.location.href = '/logOut'; // Cambia '/ruta-deseada' por la URL a la que quieres redirigir
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.message,
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Ocurrió un error al enviar la solicitud.',
+    });
+  }
+}
+
+document.getElementById('passwordChangeForm').addEventListener('submit', submitPasswordChange);
+
+  </script>
 </body>
 </html>
