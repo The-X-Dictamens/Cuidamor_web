@@ -12,8 +12,6 @@ routerE.get('/RegistroEmpleado',verifyToken.verifyTokenUnLoged,empleado.VistaReg
 routerE.post('/AuthRegistrarEmpleado',verifyToken.verifyTokenUnLoged,empleado.AuthRegitrarEmpleado);
 //view advertencia de registro de empleado
 routerE.get('/AdvLogeoEmpleado',verifyToken.verifyTokenUnLoged,empleado.VistaAdvLogeoEmpleado);
-//view trabajos  de empleado
-routerE.get('/MenuEmpleado',verifyToken.verifyTokenLogedEmployee,empleado.VistaMisTrabajos);
 //view para prosegir el registro de empleado
 routerE.get('/validacionEmpleado',verifyToken.verifyTokenLogedEmployeeInvalid,empleado.VistaValidacionEmpleado);
 //registro de documentos de empleado
@@ -22,6 +20,17 @@ routerE.post('/AuthEnviarDocuemntos',verifyToken.verifyTokenLogedEmployeeInvalid
 routerE.get('/TestPsicometrico',verifyToken.verifyTokenLogedEmployeeInvalid,testPsyco.getfirstPrueba);
 //ruta de obtencion de resultados de test psicometrico
 routerE.post('/AuthTestPsicometrico',verifyToken.verifyTokenLogedEmployeeInvalid,testPsyco.postPrueba);
+
+
+//view de trabajo actual de empleado
+routerE.get('/MenuEmpleado',verifyToken.verifyTokenLogedEmployee,empleado.VistaMiTrabajoActual);
+//view de vacantes disponibles
+routerE.get('/Vacantes',verifyToken.verifyTokenLogedEmployee,empleado.VistaVacantes);
+//view de trabajos anteriores
+routerE.get('/TrabajosAnteriores',verifyToken.verifyTokenLogedEmployee,empleado.VistaTrabajosAnteriores);
+
+//view de configuracion de cuenta
+routerE.get('/ConfiguracionDeCuneta',verifyToken.verifyTokenLogedEmployee,empleado.VistaConfiguracionCuenta);
 
 
 module.exports = routerE

@@ -42,10 +42,25 @@ exports.AuthRegitrarEmpleado = async (req, res) => {
     }
     
 }
-/////////////////////////Mostrar apartado de registro de empleado/////////////////////////////
-exports.VistaMisTrabajos = async (req, res) => {   
+/////////////////////////Mostrar apartado de visualizacion de Trabajo actual/////////////////////////////
+exports.VistaMiTrabajoActual = async (req, res) => {   
     //renderizar sus trabajos actuales
     res.render('Empleado/inicio');
+}
+/////////////////////////Mostrar vacantes existentes/////////////////////////////
+exports.VistaVacantes = async (req, res) => {
+    //renderiza la vista de vacantes
+    res.render('Empleado/vacantes');
+}
+///////////////////////Mostrar apartado de trabajos anterirormente realizados/////////////////////////////
+exports.VistaTrabajosAnteriores = async (req, res) => {
+    //renderizar trabajos anteriores
+    res.render('Empleado/LastTrabajos');
+}
+/////////////////////////Mostrar apartado de configuracion de cuenta/////////////////////////////
+exports.VistaConfiguracionCuenta = async (req, res) => {
+    //renderizar configuracion de cuenta
+    res.render('Empleado/configuracion');
 }
 /////////////////////////Ruta para subir los archivos de validacion de expediente y pruebas psicometricas/////////////////////////////
 exports.VistaValidacionEmpleado = async (req, res) => {

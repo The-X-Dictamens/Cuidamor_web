@@ -34,6 +34,23 @@
       text-align: left;
     }
 
+    .components a {
+        color: #333;
+        padding: 10px;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .components a:hover {
+        background: #007bff;
+        border-radius: 20px;
+        color: #fff;
+    }
+
+    .components .dropdown-toggle::after {
+        display: none;
+    }
+
     .patient-photo {
       width: 100px;
       height: 100px;
@@ -70,28 +87,27 @@
 
       <!-- Center options for large screens -->
       <div class="collapse navbar-collapse d-none d-lg-flex">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <ul class="components navbar-nav mx-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">Inicio</a>
+            <a class="nav-link" href="/MenuEmpleado">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Vacantes</a>
+            <a class="nav-link" href="/Vacantes">Vacantes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pacientes</a>
+            <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto">
+        <ul class="components navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="imgs/user-photo.jpg" alt="User Photo" width="30" height="30" class="rounded-circle">
+              <img src="https://via.placeholder.com/150" alt="User Photo" width="30" height="30" class="rounded-circle">
               <span class="ms-2">correo@example.com</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-              <li><a class="dropdown-item" href="#">Perfil</a></li>
-              <li><a class="dropdown-item" href="#">Configuración</a></li>
+              <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+              <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
             </ul>
           </li>
         </ul>
@@ -104,31 +120,48 @@
     <div class="offcanvas-header">
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="offcanvasAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="imgs/user-photo.jpg" alt="User Photo" width="30" height="30" class="rounded-circle">
+          <img src="https://via.placeholder.com/150" alt="User Photo" width="30" height="30" class="rounded-circle">
           <span class="ms-2">correo@example.com</span>
         </a>
-        <ul class="dropdown-menu" aria-labelledby="offcanvasAccountDropdown">
-          <li><a class="dropdown-item" href="#">Perfil</a></li>
-          <li><a class="dropdown-item" href="#">Configuración</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+        <ul class="components dropdown-menu" aria-labelledby="offcanvasAccountDropdown">
+            <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
         </ul>
       </div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <!-- Center options for small screens -->
-      <ul class="navbar-nav">
+      <ul class="components navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Vacantes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pacientes</a>
-        </li>
+            <a class="nav-link" href="/MenuEmpleado">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Vacantes">Vacantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
+          </li>
       </ul>
+    </div>
+  </div>
+
+   <!-- Main Content -->
+   <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            Sin Contrato Activo
+          </div>
+          <div class="card-body">
+            <p class="no-contract-info">Actualmente no tienes un contrato activo.</p>
+            <p class="no-contract-info">Puedes explorar las vacantes disponibles y postularte para nuevos contratos.</p>
+            <a href="/Vacantes" class="btn btn-primary">Ver Vacantes Disponibles</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -207,7 +240,7 @@
           </div>
           <div class="card-body patient-info">
             <div class="d-flex align-items-center">
-              <img src="imgs/patient-photo.jpg" alt="Foto del Paciente" class="patient-photo">
+              <img src="https://via.placeholder.com/150" alt="Foto del Paciente" class="patient-photo">
               <div>
                 <p><strong>Nombre:</strong> Maria García</p>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientModal">
