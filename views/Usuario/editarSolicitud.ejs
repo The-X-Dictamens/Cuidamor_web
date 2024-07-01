@@ -34,11 +34,11 @@
             </div>
             <div class="form-label-group">
                 <label for="fecini_hor">Fecha de Inicio</label>
-                <input type="date" name="fecini_hor" id="fecini_hor" class="form-control" value="<%= new Date(solicitud.fecini_hor).toISOString().slice(0, 10) %>" required>
+                <input type="date" name="fecini_hor" id="fecini_hor" class="form-control" value="<%= solicitud.fecini_hor ? solicitud.fecini_hor.toISOString().slice(0, 10) : '' %>" required>
             </div>
             <div class="form-label-group">
                 <label for="fecfin_hor">Fecha de Fin</label>
-                <input type="date" name="fecfin_hor" id="fecfin_hor" class="form-control" value="<%= new Date(solicitud.fecfin_hor).toISOString().slice(0, 10) %>" required>
+                <input type="date" name="fecfin_hor" id="fecfin_hor" class="form-control" value="<%= solicitud.fecfin_hor ? solicitud.fecfin_hor.toISOString().slice(0, 10) : '' %>" required>
             </div>
             <div class="form-label-group">
                 <label for="horini_dh">Hora de Inicio</label>

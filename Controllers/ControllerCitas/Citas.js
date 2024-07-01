@@ -205,4 +205,30 @@ exports.AceptarSolici = async (req, res) => {
         console.log(error);
         
     }
- }
+}
+ 
+// Muestra el formulario de edición de la solicitud
+exports.formularioEditarSolicitud = async (req, res) => {
+    try {
+        const id = req.params.id; // Obtener el ID de la solicitud desde los parámetros de la URL
+        const solicitud = await query('SELECT * FROM solicitud WHERE id_sol = ?', [id]); // Consultar la solicitud en la base de datos
+        res.render('./Usuario/editarSolicitud', { solicitud: solicitud[0] }); // Renderizar la vista de edición con los datos de la solicitud
+    } catch (error) {
+        console.error(error); // Imprimir el error en la consola
+        res.status(500).send('Error al obtener la solicitud para editar'); // Enviar una respuesta de error al cliente
+    }
+};
+
+// Procesa la edición de la solicitud
+exports.editarSolicitud = async (req, res) => {
+    try {
+        const id = req.params.id; // Obtener el ID de la solicitud desde los parámetros de la URL
+        const { des_sol, tipo_sol, est_sol,  fecini_hor, fecfin_hor, horini_dh, horfin_dh, dia_dh, nom_pac } = req.body; // Obtener los datos del formulario desde el cuerpo de la solicitud
+        await query('UPDATE solicitud SET des_sol = ?, tipo_sol = ?, est_sol = ?, cost_sol = ?, fecini_hor = ?, fecfin_hor = ?, horini_dh = ?, horfin_dh = ?, dia_dh = ?, nom_pac = ? WHERE id_sol = ?', 
+                    [des_sol, tipo_sol, est_sol, fecini_hor, fecfin_hor, horini_dh, horfin_dh, dia_dh, nom_pac, id]); // Actualizar la solicitud en la base de datos con los nuevos datos
+        res.redirect(`/solicitudes/detalle/${id}`); // Redirigir al usuario a la página de detalles de la solicitud actualizada
+    } catch (error) {
+        console.error(error); // Imprimir el error en la consola
+        res.status(500).send('Error al editar la solicitud'); // Enviar una respuesta de error al cliente
+    }
+};

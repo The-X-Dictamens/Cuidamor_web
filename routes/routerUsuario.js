@@ -80,9 +80,11 @@ routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (r
     
 })
 
-// Ruta para procesar la edición de la solicitud
-router.post('/solicitudes/editar/:id', VacantesM.editarSolicitud);
+// Ruta para mostrar el formulario de edición de la solicitud
+routerU.get('/solicitudes/editar/:id', VacantesM.formularioEditarSolicitud);
 
+// Ruta para procesar la edición de la solicitud
+routerU.post('/solicitudes/editar/:id', VacantesM.editarSolicitud);
 
 routerU.post('/registerF',AuthSs.verifyTokenLogedClient, Pacientes.registrarPac);
 
