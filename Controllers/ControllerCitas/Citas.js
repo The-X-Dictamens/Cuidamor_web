@@ -8,13 +8,10 @@ exports.PostularVacantes1 = async (req, res) => {
     
     try {
         const { paciente, TipoS, DI, DF, HI, HF, descripSoli, dias } = req.body;
-        descripSolici = req.body.descripSoli;
-        console.log(descripSolici)
     console.log(req.body)
-    idUs = req.userData.id_us
-
+        idUs = req.userData.id_us
+        idDir = req.userData.id_direc
         //let idDi = await query("SELECT id_dir FROM datos_acceso WHERE id_us = ?", [idUs]);
-        
     let InsHora = await query("INSERT INTO horario (fecini_hor,fecfin_hor) VALUES (?,?)", [DI, DF]);
     console.log('si no salio mal aqui inicio ')
     console.log('si no salio mal aqui salio ' + InsHora)
@@ -25,9 +22,8 @@ exports.PostularVacantes1 = async (req, res) => {
     let InsClock = await query("INSERT INTO dia_horario (horini_dh , horfin_dh, dia_dh, id_hor) VALUES (?,?,?,?)", [HI,HF,diasStr,idHor]);
         console.log('si se  insertaron los dias '+InsClock)
     // Insertar la solicitud y obtener el ID de la solicitud insertada
-    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)", [descripSoli, TipoS, 'Espera', 5, idHor, idUs, paciente, null,15]);
+    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?,?, ?,?)", [descripSoli, TipoS, 'Espera', 5, idHor, idUs, paciente, null,idDir]);
         let idSolicitud = solicitud.insertId;
-
 
     res.redirect('/Tablero');  
     } catch (error) {
@@ -69,6 +65,35 @@ exports.getListarSolicitudesCuidador = (req, res) => {
         res.render('./Cuidador/VacantesC', { solicitudes: results });
     });
 }
+
+/////////////Mostrar Solicitudes Cliente////////////////////////
+exports.getListarSolicitudesCliente = async(req, res) => { 
+    const id_us = req.userData.id_us;
+    const queryL = ` SELECT s.*, h.fecini_hor 
+        FROM solicitud s
+        JOIN horario h ON s.id_hor = h.id_hor
+        WHERE h.fecini_hor >= CURDATE() 
+          AND (s.tipo_sol = 'Cuidador' OR s.tipo_sol = 'Enfermero')
+          AND s.id_us = ?
+          AND (s.est_sol = 'Espera' OR s.est_sol = 'Curso' OR s.est_sol = 'Final')
+        ORDER BY h.fecini_hor ASC`;
+    
+        try {
+            const results = await query(queryL, [id_us]);
+            // Dividir las solicitudes en aceptadas y en espera
+        const aceptadas = results.filter(solicitud => solicitud.est_sol === 'Curso');
+        const enEspera = results.filter(solicitud => solicitud.est_sol === 'Espera');
+        const FinishHim = results.filter(solicitud => solicitud.est_sol === 'Final');
+
+        
+        // Renderizar la vista con las solicitudes divididas
+        res.render('./Usuario/userIndex', { aceptadas, enEspera , FinishHim});;
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error en el servidor. porque ' +error.message });
+    }
+};
+
 /////////////Mostrar Solicitudes Generico////////////////////////
 exports.getListarSolicitudesGenerico = (req, res) => { 
     let tipo = req.params.tipo;////////Checar esto
@@ -127,6 +152,28 @@ exports.getSolicitudDetalleCuidador = (req, res) => {
         }
         if (results.length > 0) {
             res.render('./Cuidador/InfoVacanteC', { solicitud: results[0] });
+        } else {
+            res.status(404).send('No se encontró la solicitud con el ID especificado.');
+        }
+    });
+};
+
+/////////////Mostrar Solicitudes Cliente////////////////////////
+exports.getSolicitudDetalleCliente = (req, res) => {
+    const id = req.params.id;
+    const query = `
+        SELECT s.*, h.fecini_hor, h.fecfin_hor, dh.horini_dh, dh.horfin_dh, dh.dia_dh
+        FROM solicitud s
+        JOIN horario h ON s.id_hor = h.id_hor
+        JOIN dia_horario dh ON h.id_hor = dh.id_hor
+        WHERE s.id_sol = ?
+    `;
+    conexionD.query(query, [id], (error, results) => {
+        if (error) {
+            return res.status(500).send('Error al obtener los detalles de la solicitud: ' + error.message);
+        }
+        if (results.length > 0) {
+            res.render('./Usuario/InfoVacanteU', { solicitud: results[0] });
         } else {
             res.status(404).send('No se encontró la solicitud con el ID especificado.');
         }

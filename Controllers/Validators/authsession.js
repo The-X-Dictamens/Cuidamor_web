@@ -123,8 +123,6 @@ exports.verifyTokenLogedEmployeeInvalid = (req, res, next) => {
 
 }
 
-
-
 //Middleware para verificar que no hay alguna session activa
 exports.verifyTokenUnLoged = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -134,7 +132,7 @@ exports.verifyTokenUnLoged = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-        console.log('tocken invalido', err)
+        console.log('token invalido', err)
     }
     if(decoded){
         console.log(`redireccionando, se encontro token valido ${decoded.rol}`);
@@ -159,3 +157,24 @@ exports.verifyTokenUnLoged = (req, res, next) => {
   });
 }
 
+//Middleware para verificar que el Usuario  tenga una direccion
+exports.verifyTokenLogedUserDom = (req, res, next) => {
+  const token = req.cookies.jwt;
+  //si no existe ningun token se redirecciona a la pagina de login
+  if (!token) {
+    return res.status(403).redirect('/Iniciar_sesion'); 
+  }
+  //se verifica el token y se envia los datos del usuario Empleado
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).redirect('/Iniciar_sesion'); 
+    }
+    //verificar que este en proceso de registro
+    if(decoded.id_direc == 'null'){
+      return res.status(403).redirect('/RegistroDomicilio');
+    }
+    req.userData = decoded;
+    next();
+  });
+
+}

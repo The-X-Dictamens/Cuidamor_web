@@ -1,6 +1,6 @@
 const express = require('express')
 const routerE = express.Router()
-const metodosEnfermeras = require('../controllers_Acces/authEnfermera')
+const metodosEnfermeras = require('../Controllers/authEnfermera')
 //Registro
 routerE.get('/RegistrarmeE', (req, res) => {
     console.log('aqui pensando')

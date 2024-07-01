@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Enfermero/Cuidador</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+      flex-direction: column;
+    }
+
+    .form-signin-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .header img {
+      height: 70px;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .back-button img {
+      height: 40px;
+    }
+
+    .form-label-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label-group label {
+      margin-bottom: .5rem;
+    }
+
+    .form-label-group input {
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+    }
+
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="back-button">
+    <a href="javascript:history.back()">
+      <img src="https://img.icons8.com/ios-filled/50/000000/left.png" alt="Regresar">
+    </a>
+  </div>
+  <div class="header">
+    <img src="imgs/logo.png" alt="Cuidamor Logo">
+  </div>
+  <div class="form-signin-container">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Registro Usuario</h1>
+    
+    <div id="step2" class="step">
+        <form id="formStep2" method="post" onsubmit="return validateStep2()">
+          <div class="form-label-group">
+            <label for="calle">Calle</label>
+            <input type="text" name="calle" id="calle" class="form-control" placeholder="Calle" required autofocus>
+          </div>
+  
+          <div class="form-label-group">
+            <label for="numeroExterior">Número Exterior</label>
+            <input type="text" name="numeroExterior" id="numeroExterior" class="form-control" placeholder="Número Exterior" required>
+          </div>
+  
+          <div class="form-label-group">
+            <label for="numeroInterior">Número Interior</label>
+            <input type="text" name="numeroInterior" id="numeroInterior" class="form-control" placeholder="Número Interior">
+          </div>
+  
+          <div class="form-label-group">
+            <label for="colonia">Colonia</label>
+            <input type="text" name="colonia" id="colonia" class="form-control" placeholder="Colonia" required>
+          </div>
+  
+          <div class="form-label-group">
+            <label for="delegacion">Delegación/Municipio</label>
+            <input type="text" name="delegacion" id="delegacion" class="form-control" placeholder="Delegación/Municipio" required>
+          </div>
+  
+          <div class="form-label-group">
+            <label for="codigoPostal">Código Postal</label>
+            <input type="text" name="codigoPostal" id="codigoPostal" class="form-control" placeholder="Código Postal" required>
+          </div>
+  
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
+          <button class="btn btn-lg btn-secondary btn-block" type="button" onclick="prevStep()">Atrás</button>
+        </form>
+      </div>
+
+
+    <script>
+
+let formData = {};
+
+        function validateStep2() {
+      const form = document.getElementById('formStep2');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+      }
+           // Envía los datos combinados en una única solicitud POST
+           fetch('/AuthRegistrarEmpleado', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          // Manejar la respuesta aquí
+          if (data.message === 'success') {
+            window.location.href = '/AdvLogeoEmpleado';
+          } else if (data.message === 'correo'){
+            Swal.fire({
+              title: 'Error',
+              text: 'El correo ya ha sido registrado con anterioridad. Por favor, ingrese otro correo.',
+              icon: 'error',
+              showConfirmButton: true
+            });
+          }else{
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un problema al enviar el formulario.',
+              icon: 'error',
+              showConfirmButton: true
+            });
+          }
+        })
+        .catch(error => {
+          // Manejar los errores aquí
+          console.error('Error:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Hubo un problema al enviar el formulario.',
+            icon: 'error',
+            showConfirmButton: true
+          });
+        });
+
+      return false; // Previene el envío por defecto del formulario
+    }
+
+
+    </script>
+    <% if(alert) { %>
+        <script>
+          Swal.fire({
+            title: '<%= title %>',
+            html:'<%= text %>',
+            icon:'<%= icon %>',
+            showConfirmButton: true,
+          }).then(()=>{
+            window.history.back();
+          })
+          
+        </script>
+      <% } %>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

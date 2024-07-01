@@ -39,9 +39,13 @@ exports.Login = async (req, res) => {
                     const userClient = await query('SELECT * FROM user WHERE id_datacc = ?', [Id_acc]);
                     const id_user = userClient[0].id_us;
                     const nom_user = userClient[0].nom_us;
-                    console.log(id_user + 'id del useer');
+                    const id_dir = userClient[0].id_dir;
+
+                    console.log(id_dir + 'id del useer para su');
                     const token = jwt.sign({
+                        nom_us: nom_user,   
                         id_datacc: Id_acc,
+                        id_direc: id_dir,
                         id_us: id_user,
                         nom_us: nom_user,   
                         cor_datacc: userEmail,

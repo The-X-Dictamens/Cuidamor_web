@@ -64,13 +64,19 @@ routerU.get('/postular',AuthSs.verifyTokenLogedClient,Pacientes.mostrarPac, (req
     res.render('./Usuario/Postular', {user: req.userData, pacientes: req.pacientes });
 });
 
-routerU.get('/Tablero',(req, res)=>{
-    res.render('./Usuario/userIndex',{user: req.userData})
-})
+routerU.get('/Tablero', AuthSs.verifyTokenLogedClient, AuthSs.verifyTokenLogedUserDom, VacantesM.getListarSolicitudesCliente, (req, res) => {
+    res.render('./Usuario/userIndex', { user: req.userData })
+});
 
 
 routerU.get('/Tutorial', (req, res)=>{
     res.render('./Usuario/tutorial',{user:req.userData})
+})
+routerU.get('/RegistroDomicilio', (req, res)=>{
+    res.render('./Usuario/RegistroDomicilio',{user:req.userData,alert:false})
+})
+//Info Vacante                                          para verificar              para checarle el permiso
+routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (req, res)=>{
 })
 
 
