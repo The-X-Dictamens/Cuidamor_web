@@ -1,0 +1,60 @@
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 shadow-lg p-3 mb-5">
+
+              <div class="card border-primary">
+                <div class="card-header bg-primary text-white">Registrarse</div>
+                <div class="card-body text-primary">
+                  <form action="/registerF" method="POST">        
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre completo</label>
+                        <input id="nombre" name="nombre" type="text" class="form-control" aria-describedby="emailHelp">              
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Apellido Paterno</label>
+                        <input id="apellido_paterno" name="apellido_paterno" type="text" class="form-control" aria-describedby="emailHelp">              
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Apellido Materno</labe l>
+                        <input id="apellido_materno" name="apellido_materno" type="text" class="form-control" aria-describedby="emailHelp">              
+                    </div>
+                    <h2>Foto POL del Familiar</h2>
+                    <div class="mb-3 form-group">
+                      
+                                            
+                </div>
+                <h2>HIstorial Medico</h2>
+                <div class="mb-3">
+                  <label for="medi" class="form-label">Medicacion</label>
+                  <input id="medicam" name="medicam" type="text" class="form-control">
+              </div> 
+              <div class="mb-3">
+                <label for="desc" class="form-label">descripcion</label>
+                <input id="descrip" name="descrip" type="text" class="form-control">
+            </div>                     
+            <div class="mb-3">
+              <label for="trata" class="form-label">tratamiento</label>
+              <input id="tratami" name="tratami" type="text" class="form-control">
+          </div>          
+          <div class="mb-3">
+            <label for="rece" class="form-label">receta</label>
+            <input id="receta" name="receta" type="text" class="form-control">
+        </div>  
+
+          </div>
+                <div class="card-footer bg-transparent border-primary">
+                  <a href="/familiares" type="button" class="btn btn-secondary">Cancelar</a>
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+                </form>
+              </div>   
+        
+            </div>
+        </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,8 +1,9 @@
     const express = require('express')
 const routerU = express.Router()
-const MetodoJ = require('../controllers_Acces/AuthUser.js')
-const VacantesM = require('../CitasController/crearVacante.js')
-const Pacientes = require('../controllers_Acces/authPaciente.js')
+const MUsers = require('../Controllers/ControllerClient/clientController.js')
+const VacantesM = require('../Controllers/ControllerCitas/Citas.js')
+const Pacientes = require('../Controllers/ControllerPaciente/authPaciente.js')
+const AuthSs = require('../Controllers/Validators/authsession.js')
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 const jwt = require('jsonwebtoken');
@@ -55,37 +56,44 @@ routerU.get('/Servicios_disponibles', (req, res)=>{
     res.render('./Landin/servicios', {alert:false})
 })
 
-routerU.get('/familiar',MetodoJ.UserAuth, (req, res) => {
-    res.render('./Usuario/RegistrarFamiliarU',{user:req.user} )
+routerU.get('/familiar',AuthSs.verifyTokenLogedClient, (req, res) => {
+    res.render('./Usuario/RegistrarFamiliarU',{user: req.userData} )
 })
 
-routerU.get('/postular',MetodoJ.UserAuth,Pacientes.mostrarPac, (req, res) => {
-    res.render('./Usuario/Postular', { user: req.user, pacientes: req.pacientes });
+routerU.get('/postular',AuthSs.verifyTokenLogedClient,Pacientes.mostrarPac, (req, res) => {
+    res.render('./Usuario/Postular', {user: req.userData, pacientes: req.pacientes });
 });
 
-routerU.get('/Tablero',  MetodoJ.UserAuth, (req, res)=>{
-    res.render('./Usuario/userIndex',{user:req.user}
-    )
-})
+routerU.get('/Tablero', AuthSs.verifyTokenLogedClient, AuthSs.verifyTokenLogedUserDom, VacantesM.getListarSolicitudesCliente, (req, res) => {
+    res.render('./Usuario/userIndex', { user: req.userData })
+});
 
 
 routerU.get('/Tutorial', (req, res)=>{
-    res.render('./Usuario/tutorial',{user:req.user})
+    res.render('./Usuario/tutorial',{user:req.userData})
+})
+routerU.get('/RegistroDomicilio', (req, res)=>{
+    res.render('./Usuario/RegistroDomicilio',{user:req.userData,alert:false})
+})
+//Info Vacante                                          para verificar              para checarle el permiso
+routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (req, res) => {
+    
 })
 
+// Ruta para mostrar el formulario de edición de la solicitud
+routerU.get('/solicitudes/editar/:id', VacantesM.formularioEditarSolicitud);
+
+// Ruta para procesar la edición de la solicitud
+routerU.post('/solicitudes/editar/:id', VacantesM.editarSolicitud);
+
+routerU.post('/registerF',AuthSs.verifyTokenLogedClient, Pacientes.registrarPac);
 
 
-routerU.post('/registerU', MetodoJ.crearUsuario)
+//routerU.get('/Mis_vacantes', MUsers.VisualizarVacantes)
 
-routerU.post('/crearUsuario', MetodoJ.crearUsuario);
+//routerU.get('/Home', MUsers.VisualizarMenu)
 
-routerU.post('/IniciarSesionUsuario', MetodoJ.IniciarSesionUsuario)
-
-routerU.get('/Mis_vacantes', MetodoJ.VisualizarVacantes)
-
-routerU.get('/Home', MetodoJ.VisualizarMenu)
-
-routerU.post('/PostularT', MetodoJ.UserAuth,VacantesM.PostularVacantes1)
+routerU.post('/PostularT', AuthSs.verifyTokenLogedClient,VacantesM.PostularVacantes1)
 
 
 module.exports = routerU

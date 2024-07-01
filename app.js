@@ -34,6 +34,8 @@ app.use('/', require('./routes/routerMain'))
 app.use('/', require('./routes/routerClient'))
 //rutas de la pagina de empleado
 app.use('/', require('./routes/routerEmpleado'))
+//rutas de la pagina de usuario
+app.use('/', require('./routes/routerUsuario'))
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 

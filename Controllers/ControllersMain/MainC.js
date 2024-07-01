@@ -36,9 +36,21 @@ exports.Login = async (req, res) => {
 
                 if(rol_acc == 'Cliente'){
                     //obtenemos los datos del cliente
-                    const userClient = await query('SELECT * FROM user WHERE id_datacc = ?',[Id_acc]);
+                    const userClient = await query('SELECT * FROM user WHERE id_datacc = ?', [Id_acc]);
+                    const id_user = userClient[0].id_us;
                     const nom_user = userClient[0].nom_us;
-                    const token = jwt.sign({id_datacc: Id_acc, nom_us: nom_user, cor_datacc: userEmail, rol: rol_acc}, process.env.JWT_SECRET, {
+                    const id_dir = userClient[0].id_dir;
+
+                    console.log(id_dir + 'id del useer para su');
+                    const token = jwt.sign({
+                        nom_us: nom_user,   
+                        id_datacc: Id_acc,
+                        id_direc: id_dir,
+                        id_us: id_user,
+                        nom_us: nom_user,   
+                        cor_datacc: userEmail,
+                        rol: rol_acc
+                    }, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_EXPIRES_IN
                     });
                     const cookieOptions = {
@@ -49,13 +61,22 @@ exports.Login = async (req, res) => {
                     }
                     res.cookie('jwt', token, cookieOptions);
                     //aun no hay donde redirigir
-                    res.redirect('/MenuCliente')
+                    console.log('entro a cliente' + token)
+                    res.redirect('/Tablero')////////////
                 }else{
                     //obtenemos los datos del empleado
-                    const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?',[Id_acc]);
+                    const userEmployee = await query('SELECT * FROM empleado WHERE id_datacc = ?', [Id_acc]);
+                    const id_user = userEmployee[0].id_emp;
                     const nom_user = userEmployee[0].nom_emp;
                     const est_user = userEmployee[0].est_emp;
-                    const token = jwt.sign({id_datacc: Id_acc, nom_emp: nom_user, cor_datacc: userEmail, rol: rol_acc, est_emp:est_user}, process.env.JWT_SECRET, {
+                    const token = jwt.sign({
+                        id_datacc: Id_acc,
+                        id_emp: id_user,
+                        nom_us: nom_user,
+                        cor_datacc: userEmail,
+                        rol: rol_acc,
+                        estado: est_user
+                    }, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_EXPIRES_IN
                     });
                     const cookieOptions = {

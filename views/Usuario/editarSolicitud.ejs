@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Solicitud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-4">
+        <h1>Editar Solicitud: <%= solicitud.id_sol %></h1>
+        <form action="/solicitudes/editar/<%= solicitud.id_sol %>" method="POST">
+            <div class="form-label-group">
+                <label for="des_sol">Descripción</label>
+                <input type="text" name="des_sol" id="des_sol" class="form-control" value="<%= solicitud.des_sol %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="tipo_sol">Tipo</label>
+                <select name="tipo_sol" id="tipo_sol" class="form-control" required>
+                    <option value="Cuidador" <%= solicitud.tipo_sol === 'Cuidador' ? 'selected' : '' %>>Cuidador</option>
+                    <option value="Enfermero" <%= solicitud.tipo_sol === 'Enfermero' ? 'selected' : '' %>>Enfermero</option>
+                </select>
+            </div>
+            <div class="form-label-group">
+                <label for="est_sol">Estado</label>
+                <select name="est_sol" id="est_sol" class="form-control" required>
+                    <option value="Espera" <%= solicitud.est_sol === 'Espera' ? 'selected' : '' %>>Espera</option>
+                    <option value="Curso" <%= solicitud.est_sol === 'Curso' ? 'selected' : '' %>>Curso</option>
+                    <option value="Final" <%= solicitud.est_sol === 'Final' ? 'selected' : '' %>>Final</option>
+                </select>
+            </div>
+            <div class="form-label-group">
+                <label for="cost_sol">Costo</label>
+                <input type="number" name="cost_sol" id="cost_sol" class="form-control" value="<%= solicitud.cost_sol %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="fecini_hor">Fecha de Inicio</label>
+                <input type="date" name="fecini_hor" id="fecini_hor" class="form-control" value="<%= solicitud.fecini_hor ? solicitud.fecini_hor.toISOString().slice(0, 10) : '' %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="fecfin_hor">Fecha de Fin</label>
+                <input type="date" name="fecfin_hor" id="fecfin_hor" class="form-control" value="<%= solicitud.fecfin_hor ? solicitud.fecfin_hor.toISOString().slice(0, 10) : '' %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="horini_dh">Hora de Inicio</label>
+                <input type="time" name="horini_dh" id="horini_dh" class="form-control" value="<%= solicitud.horini_dh %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="horfin_dh">Hora de Fin</label>
+                <input type="time" name="horfin_dh" id="horfin_dh" class="form-control" value="<%= solicitud.horfin_dh %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="dia_dh">Días</label>
+                <input type="text" name="dia_dh" id="dia_dh" class="form-control" value="<%= solicitud.dia_dh %>" required>
+            </div>
+            <div class="form-label-group">
+                <label for="nom_pac">Paciente</label>
+                <input type="text" name="nom_pac" id="nom_pac" class="form-control" value="<%= solicitud.nom_pac %>" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/solicitudes/detalle/<%= solicitud.id_sol %>" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

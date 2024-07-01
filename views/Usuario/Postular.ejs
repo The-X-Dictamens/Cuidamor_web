@@ -1,83 +1,150 @@
-<!-- views/crearCitas.ejs -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear Citas</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/Postular.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Crear Citas</h1>
-  <form action="/PostularT" method="POST">
-
-    <h2>Bienvenido:
-      <% if (user) { %>
+  <div class="back-button">
+    <a href="javascript:history.back()">
+      <img src="https://img.icons8.com/ios-filled/50/000000/left.png" alt="Regresar">
+    </a>
+  </div>
+  <div class="header">
+    <img src="imgs/logo.png" alt="Cuidamor Logo">
+  </div>
+  <div class="form-signin-container">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Crear Citas</h1>
+    
+    <form id="citasForm" action="/PostularT" method="POST" onsubmit="return validarFormulario()">
+      <h2 class="text-center">
+        Bienvenido: <% if (user) { %>
         <span class="badge bg-success"><%= user.nom_us %></span>
-      <% } %>
-    </h2>
+        <% } %>
+      </h2>
+      <div class="form-label-group">
+        <label for="paciente">A quien Solicita</label>
+        <select name="paciente" id="paciente" class="form-control">
+          <% pacientes.forEach(paciente => { %>
+          <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
+          <% }); %>
+        </select>
+      </div>
 
-    <select name="paciente" id="paciente">
-      <h2>A quien Solicita</h2>
-      <% pacientes.forEach(paciente => { %>
-        <option value="<%= paciente.id_pac %>"><%= paciente.nom_pac %></option>
-      <% }); %>
-    </select>
-      
-      <select name="TipoS" id="TipoS">  
-        <option value="cuid">Cuidador</option>
-        <option value="enfe">Enfermera</option>
-      </select>
-      <br>
+      <div class="form-label-group">
+        <label for="TipoS">Tipo de Servicio</label>
+        <select name="TipoS" id="TipoS" class="form-control">
+          <option value="Cuidador">Cuidador</option>
+          <option value="Enfermero">Enfermero</option>
+        </select>
+      </div>
 
-      
-      <label for="Dia inicio">dia Inicio</label>
-      <input type="date" name="DI" id="DI">
-      
-    <label for="Dia fin">dia Fin</label>
-    <input type="date"name="DF" id="DF">
+      <div class="form-label-group">
+        <label for="DI">Día Inicio</label>
+        <input type="date" name="DI" id="DI" class="form-control">
+      </div>
 
+      <div class="form-label-group">
+        <label for="DF">Día Fin</label>
+        <input type="date" name="DF" id="DF" class="form-control">
+      </div>
 
-    <label for="horaI">Hora de inicio</label>
-    <input type="time" name="HI" id="HI">
+      <div class="form-label-group">
+        <label for="HI">Hora de Inicio</label>
+        <input type="time" name="HI" id="HI" class="form-control">
+      </div>
 
-    <label for="horaF">Hora final</label>
-    <input type="time" name="HF" id="HF">
+      <div class="form-label-group">
+        <label for="HF">Hora Final</label>
+        <input type="time" name="HF" id="HF" class="form-control">
+      </div>
 
-    <label> Descripcion General</Label>
-    <input type="text" name="descripSoli" id="descripSoli">
+      <div class="form-label-group">
+        <label for="desc">Descripción General</label>
+        <input type="text" name="desc" id="desc" class="form-control">
+      </div>
 
-    <label> Descripcion General</Label>
-      <input type="text" name="descripSolis" id="descripSolis">
-  
+      <h2 class="text-center">Días de la semana</h2>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Lu" name="dias[]" value="Lu">
+        <label class="form-check-label" for="Lu">Lunes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Ma" name="dias[]" value="Ma">
+        <label class="form-check-label" for="Ma">Martes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Mi" name="dias[]" value="Mi">
+        <label class="form-check-label" for="Mi">Miércoles</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Ju" name="dias[]" value="Ju">
+        <label class="form-check-label" for="Ju">Jueves</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Vi" name="dias[]" value="Vi">
+        <label class="form-check-label" for="Vi">Viernes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Sa" name="dias[]" value="Sa">
+        <label class="form-check-label" for="Sa">Sábado</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="Do" name="dias[]" value="Do">
+        <label class="form-check-label" for="Do">Domingo</label>
+      </div>
 
-    <h2>Días de la semana</h2>
-    <label for="Lu">Lunes</label>
-    <input type="checkbox" id="Lu" name="dias[]" value="Lu">
-    
-    <label for="Ma">Martes</label>
-    <input type="checkbox" id="Ma" name="dias[]" value="Ma">
-    
-    <label for="Mi">Miércoles</label>
-    <input type="checkbox" id="Mi" name="dias[]" value="Mi">
-    
-    <label for="Ju">Jueves</label>
-    <input type="checkbox" id="Ju" name="dias[]" value="Ju">
-    
-    <label for="Vi">Viernes</label>
-    <input type="checkbox" id="Vi" name="dias[]" value="Vi">
-    
-    <label for="Sa">Sábado</label>
-    <input type="checkbox" id="Sa" name="dias[]" value="Sa">
-    
-    <label for="Do">Domingo</label>
-    <input type="checkbox" id="Do" name="dias[]" value="Do">
+      <input type="hidden" name="precio" id="precio">
 
-    
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Insertar Citas</button>
+    </form>
+  </div>
 
-    <button type="submit">Insertar Citas</button>
-  </form>
+  <script>
+    function validarFormulario() {
+      const paciente = document.getElementById("paciente").value;
+      const tipoS = document.getElementById("TipoS").value;
+      const DI = document.getElementById("DI").value;
+      const DF = document.getElementById("DF").value;
+      const HI = document.getElementById("HI").value;
+      const HF = document.getElementById("HF").value;
+      const desc = document.getElementById("desc").value;
+      const dias = document.querySelectorAll('input[name="dias[]"]:checked');
 
+      // Verificar que todos los campos estén llenos
+      if (!paciente || !tipoS || !DI || !DF || !HI || !HF || !desc || dias.length === 0) {
+        alert("Por favor, complete todos los campos.");
+        return false;
+      }
+
+      // Verificar que la fecha de inicio sea menor a la fecha final
+      if (new Date(DI) > new Date(DF)) {
+        alert("La fecha de inicio debe ser menor a la fecha final.");
+        return false;
+      }
+
+      // Verificar que la hora de inicio sea menor a la hora final
+      if (HI >= HF) {
+        alert("La hora de inicio debe ser menor a la hora final.");
+        return false;
+      }
+
+      // Calcular el precio basado en las horas trabajadas (asumimos un costo por hora fijo, por ejemplo 10)
+      const horasTrabajadas = (new Date(`1970-01-01T${HF}:00Z`) - new Date(`1970-01-01T${HI}:00Z`)) / 3600000;
+      const costoPorHora = 10;
+      const precioTotal = horasTrabajadas * costoPorHora;
+
+      // Asignar el precio calculado al campo oculto
+      document.getElementById("precio").value = precioTotal;
+
+      return true;
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
