@@ -24,7 +24,7 @@ routerE.post('/AuthTestPsicometrico',verifyToken.verifyTokenLogedEmployeeInvalid
 
 
 //view de trabajo actual de empleado
-routerE.get('/MenuEmpleado',verifyToken.verifyTokenLogedEmployee,empleado.VistaMiTrabajoActual);
+routerE.get('/<MenuEmpleado>',verifyToken.verifyTokenLogedEmployee,empleado.VistaMiTrabajoActual);
 //view de vacantes disponibles
 routerE.get('/Vacantes',verifyToken.verifyTokenLogedEmployee,empleado.VistaVacantes);
 //view de trabajos anteriores

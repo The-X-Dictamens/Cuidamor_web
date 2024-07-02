@@ -165,7 +165,7 @@ exports.VistaMiTrabajoActual = async (req, res) => {
 
 
     //renderizar sus trabajos actuales
-    res.render('Empleado/inicio',{perfil: perfilData, trabajo: trabajo, alert: false});
+    res.render('Empleado/Inicio',{perfil: perfilData, trabajo: trabajo, alert: false});
 }
 /////////////////////////Most-rar vacantes existentes/////////////////////////////
 exports.VistaVacantes = async (req, res) => {
