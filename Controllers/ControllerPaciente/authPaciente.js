@@ -18,10 +18,10 @@ exports.registrarPac = async (req, res) => {
     const idUs = req.userData.id_us;
         try {
 
-            let { nombre, apellido_paterno, apellido_materno, fotoPa, medicam, descrip, tratami, receta } = req.body;
+            let { nombre, apellido_paterno, apellido_materno, fotoPa, medicam, descrip, tratami, receta ,edad} = req.body;
             let hm = await query("INSERT INTO historial_medico (med_hm, des_hm, trat_hm, rec_hm) VALUES (?,?,?,?)", [medicam, descrip, tratami, receta]);
             let idh = hm.insertId;
-            let P = await query("INSERT INTO paciente (nom_pac, pat_pac, mat_pac, fot_pac, id_hm,id_us) VALUES (?,?,?,'N/A',?,?)", [nombre, apellido_paterno, apellido_materno, idh, idUs]);
+            let P = await query("INSERT INTO paciente (nom_pac, pat_pac, mat_pac, fot_pac, id_hm,id_us,nat_pac) VALUES (?,?,?,'N/A',?,?,?)", [nombre, apellido_paterno, apellido_materno, idh, idUs,edad]);
             let idpac = P.insertId;
             //redireccion a la pagina de empleados en proceso
             res.redirect("/Tablero");

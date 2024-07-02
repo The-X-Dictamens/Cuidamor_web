@@ -1,5 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Citas</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/Postular.css" rel="stylesheet">
+</head>
+<body>
+  <style>
+    /* General container styles */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
 
-    <div class="container">
+/* Row styling */
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+/* Column styling */
+.col-lg-12 {
+    padding: 0;
+}
+
+/* Card styles */
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+/* Form element styles */
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/* Button styles */
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+/* Shadow for the card */
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+/* Padding and margin adjustments */
+.p-3 {
+    padding: 1rem !important;
+}
+
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    .card-header, .card-footer {
+        text-align: center;
+    }
+    .card-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+  </style>
+<div class="container">
         <div class="row">
             <div class="col-lg-12 shadow-lg p-3 mb-5">
 
@@ -21,6 +129,12 @@
                         <label for="name" class="form-label">Apellido Materno</labe l>
                         <input id="apellido_materno" name="apellido_materno" type="text" class="form-control" aria-describedby="emailHelp">              
                     </div>
+
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Edad del bro</labe l>
+                      <input id="edad" name="edad" type="date" class="edad" aria-describedby="emailHelp">              
+                  </div>
+
                     <h2>Foto POL del Familiar</h2>
                     <div class="mb-3 form-group">
                       
