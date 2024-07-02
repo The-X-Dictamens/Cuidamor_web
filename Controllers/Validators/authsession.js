@@ -68,17 +68,18 @@ exports.verifyTokenLogedEmployee = (req, res, next) => {
 
   //se verifica el token y se envia los datos del usuario Empleado
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    console.log('verificando token', decoded);
     if (err) {
       //si el token no es valido se redirecciona a la pagina de login
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
     //verificar su estado de la cuenta NO ESTE EN PROCESO
-    if(decoded.est_emp === 'Proceso'){
+    if(decoded.estado === 'Proceso'){
       console.log('redireccionando a validacionEmpleado no se porque', decoded);
       return res.status(403).redirect('/validacionEmpleado');
     }
     //VERIFICAR QUE NO ESTE RECHAZADO
-    if(decoded.est_emp === 'Rechazado'){
+    if(decoded.estado === 'Rechazado'){
       return res.status(403).redirect('/RechazoEmpleado');
     }
     //si el token no es de un cliente se redirecciona a la ruta corrspondiente
@@ -109,8 +110,8 @@ exports.verifyTokenLogedEmployeeInvalid = (req, res, next) => {
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
     //verificar que este en proceso de registro
-    if(decoded.est_emp !== 'Proceso'){
-      switch(decoded.est_emp){
+    if(decoded.estado !== 'Proceso'){
+      switch(decoded.estado){
         case 'Rechazado':
           return res.status(403).redirect('/RechazoEmpleado');
         case 'Aceptado':
