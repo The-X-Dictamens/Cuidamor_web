@@ -140,6 +140,11 @@
       <p><strong>Créditos en la App:</strong> <%= perfil.credit %></p>
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal">Transferir a mi cuenta</button>
     </div>
+    <% if(trabajos.length === 0){ %>
+      <div class="alert alert-info" role="alert">
+        No tienes trabajos anteriores
+      </div>
+    <% } %>
 
     <!-- Previous Work Card Example (Paid) -->
     <% trabajos.forEach(trabajo => { %>

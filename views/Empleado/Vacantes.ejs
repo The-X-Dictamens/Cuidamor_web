@@ -95,8 +95,8 @@
         <ul class="components navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
-              <span class="ms-2"><%= perfil.correo%></span>
+              <img src="<%= perfil.foto %>" alt="User Photo" width="30" height="30" class="rounded-circle">
+              <span class="ms-2"><%= perfil.correo %></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
               <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
@@ -114,8 +114,8 @@
     <div class="offcanvas-header">
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="offcanvasAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
-            <span class="ms-2"><%= perfil.correo%></span>
+            <img src="<%= perfil.foto %>" alt="User Photo" width="30" height="30" class="rounded-circle">
+            <span class="ms-2"><%= perfil.correo %></span>
         </a>
         <ul class="components dropdown-menu" aria-labelledby="offcanvasAccountDropdown">
             <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
@@ -143,62 +143,62 @@
 
   <!-- Main Content -->
   <div class="container">
-    <!-- Vacancy Card Example -->
-    <div class="card">
-      <div class="card-header">
-        Vacante Disponible
+    <% if (vacantes.length === 0) {%>
+      <div class="alert alert-warning" role="alert">
+        No hay vacantes disponibles en este momento.
       </div>
-      <div class="card-body vacancy-info">
-        <p><strong>Cliente:</strong> Juan Pérez</p>
-        <p><strong>Nombre del Paciente:</strong> Maria García</p>
-        <p><strong>Fecha de Inicio:</strong> 01/01/2024</p>
-        <p><strong>Fecha de Fin:</strong> 31/12/2024</p>
-        <p><strong>Horario:</strong></p>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Día</th>
-              <th>Hora de Entrada</th>
-              <th>Hora de Salida</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Lunes</td>
-              <td>08:00</td>
-              <td>16:00</td>
-            </tr>
-            <tr>
-              <td>Martes</td>
-              <td>08:00</td>
-              <td>16:00</td>
-            </tr>
-            <tr>
-              <td>Miércoles</td>
-              <td>08:00</td>
-              <td>16:00</td>
-            </tr>
-            <tr>
-              <td>Jueves</td>
-              <td>08:00</td>
-              <td>16:00</td>
-            </tr>
-            <tr>
-              <td>Viernes</td>
-              <td>08:00</td>
-              <td>16:00</td>
-            </tr>
-          </tbody>
-        </table>
-        <p><strong>Tipo de Servicio:</strong> Cuidador</p>
-        <p><strong>Descripción:</strong> Maria García es una paciente con necesidades especiales que requiere atención constante y especializada para sus tratamientos diarios.</p>
-        <p><strong>Paga Final:</strong> $15,000 MXN</p>
-        <a href="#" class="btn btn-primary">Aceptar</a>
+   <% } %>
+    <% vacantes.forEach(vacante => { %>
+      <div class="card">
+        <div class="card-header">
+          Vacante Disponible
+        </div>
+        <div class="card-body vacancy-info">
+          <p><strong>Cliente:</strong> <%= vacante.client.nom_us %> <%= vacante.client.pat_us %> <%= vacante.client.mat_us %></p>
+          <p><strong>Nombre del Paciente:</strong> <%= vacante.pacient.nom_pac %></p>
+          <p><strong>Fecha de Inicio:</strong> <%= new Date(vacante.vacant.fecini_hor).toLocaleDateString() %></p>
+          <p><strong>Fecha de Fin:</strong> <%= new Date(vacante.vacant.fecfin_hor).toLocaleDateString() %></p>
+          <p><strong>Horario:</strong></p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Hora de Entrada</th>
+                <th>Hora de Salida</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% vacante.days.forEach(day => { %>
+                <tr>
+                  <td><%= day.dia %></td>
+                  <td><%= day.horaini %></td>
+                  <td><%= day.horafin %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <p><strong>Tipo de Servicio:</strong> <%= vacante.vacant.tip_serv %></p>
+          <p><strong>Descripción:</strong> <%= vacante.vacant.des_sol %></p>
+          <p><strong>Paga Final:</strong> $<%= vacante.vacant.cost_sol %> MXN</p>
+          <a href="/AcceptWork?id=<%= vacante.vacant.id_sol%>" class="btn btn-primary">Aceptar</a>
+        </div>
       </div>
-    </div>
-    <!-- Add more cards for additional vacancies -->
+    <% }) %>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if(alert) { %>
+    <script>
+      Swal.fire({
+        title: 'Error',
+        text:'ya tiene un contrato activo',
+        icon:'denied',
+        showConfirmButton: true,
+      }).then(()=>{
+        window.location.href = '/MenuEmpleado';
+      })
+    </script>
+  <% } %>
 </body>
 </html>

@@ -42,6 +42,9 @@ routerE.post('/AuthUpdatePassword',verifyToken.verifyTokenLogedEmployee,upload.n
 
 //ruta de pago de empleado
 routerE.post('/transferir',verifyToken.verifyTokenLogedEmployee,PayPalController.AuthpagarEmpleado);
-routerE.get('/AgregarCreditos',verifyToken.verifyTokenLogedEmployee,empleado.VistaAgregarCreditos);
+routerE.get('/AgregarCreditos',verifyToken.verifyTokenLogedEmployee,empleado.AuthAgregarCreditos);
+
+//ruta de aceptar vacante
+routerE.post('/AuthAceptarVacante',verifyToken.verifyTokenLogedEmployee,empleado.AuthAceptarVacante);
 
 module.exports = routerE

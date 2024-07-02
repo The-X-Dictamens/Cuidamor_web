@@ -9,48 +9,39 @@
     body {
       background-color: #f5f5f5;
     }
-
     .container {
       margin-top: 30px;
     }
-
     .card {
       margin-bottom: 20px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     }
-
     .card-header {
       background-color: #007bff;
       color: white;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       border-bottom: 2px solid #0056b3;
     }
-
     .card-body {
       text-align: center;
     }
-
     .contract-info, .patient-info {
       text-align: left;
     }
-
     .components a {
-        color: #333;
-        padding: 10px;
-        display: block;
-        transition: 0.3s;
+      color: #333;
+      padding: 10px;
+      display: block;
+      transition: 0.3s;
     }
-
     .components a:hover {
-        background: #007bff;
-        border-radius: 20px;
-        color: #fff;
+      background: #007bff;
+      border-radius: 20px;
+      color: #fff;
     }
-
     .components .dropdown-toggle::after {
-        display: none;
+      display: none;
     }
-
     .patient-photo {
       width: 100px;
       height: 100px;
@@ -58,13 +49,11 @@
       border-radius: 50%;
       margin-right: 20px;
     }
-
     .equal-height {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
     .navbar {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -79,12 +68,10 @@
         <img src="imgs/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
         <span class="ms-2">Cuidamor</span>
       </a>
-
       <!-- Toggler for small screens -->
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <!-- Center options for large screens -->
       <div class="collapse navbar-collapse d-none d-lg-flex">
         <ul class="components navbar-nav mx-auto mb-2 mb-lg-0">
@@ -101,8 +88,8 @@
         <ul class="components navbar-nav ms-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
-              <span class="ms-2"><%= perfil.correo%></span>
+              <img src="<%= perfil.foto %>" alt="User Photo" width="30" height="30" class="rounded-circle">
+              <span class="ms-2"><%= perfil.correo %></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
               <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
@@ -120,13 +107,13 @@
     <div class="offcanvas-header">
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="offcanvasAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<%= perfil.foto%>" alt="User Photo" width="30" height="30" class="rounded-circle">
-            <span class="ms-2"><%= perfil.correo%></span>
+          <img src="<%= perfil.foto %>" alt="User Photo" width="30" height="30" class="rounded-circle">
+          <span class="ms-2"><%= perfil.correo %></span>
         </a>
         <ul class="components dropdown-menu" aria-labelledby="offcanvasAccountDropdown">
-            <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
+          <li><a class="dropdown-item" href="/ConfiguracionDeCuneta">Configuración</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/logOut">Cerrar sesión</a></li>
         </ul>
       </div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -135,125 +122,109 @@
       <!-- Center options for small screens -->
       <ul class="components navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="/MenuEmpleado">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Vacantes">Vacantes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
-          </li>
+          <a class="nav-link" href="/MenuEmpleado">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Vacantes">Vacantes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/TrabajosAnteriores">Trabajos Anteriores</a>
+        </li>
       </ul>
-    </div>
-  </div>
-
-   <!-- Main Content -->
-   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            Sin Contrato Activo
-          </div>
-          <div class="card-body">
-            <p class="no-contract-info">Actualmente no tienes un contrato activo.</p>
-            <p class="no-contract-info">Puedes explorar las vacantes disponibles y postularte para nuevos contratos.</p>
-            <a href="/Vacantes" class="btn btn-primary">Ver Vacantes Disponibles</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="container">
-    <div class="row">
-      <!-- Contract Dates and Schedule -->
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            Información del Contrato
-          </div>
-          <div class="card-body contract-info">
-            <p><strong>Fecha de Inicio:</strong> 01/01/2024</p>
-            <p><strong>Fecha de Fin:</strong> 31/12/2024</p>
-            <p><strong>Horario:</strong></p>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Día</th>
-                  <th>Hora de Entrada</th>
-                  <th>Hora de Salida</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Lunes</td>
-                  <td>08:00</td>
-                  <td>16:00</td>
-                </tr>
-                <tr>
-                  <td>Martes</td>
-                  <td>08:00</td>
-                  <td>16:00</td>
-                </tr>
-                <tr>
-                  <td>Miércoles</td>
-                  <td>08:00</td>
-                  <td>16:00</td>
-                </tr>
-                <tr>
-                  <td>Jueves</td>
-                  <td>08:00</td>
-                  <td>16:00</td>
-                </tr>
-                <tr>
-                  <td>Viernes</td>
-                  <td>08:00</td>
-                  <td>16:00</td>
-                </tr>
-              </tbody>
-            </table>
+    <% if (trabajo.vacant) { %>
+      <div class="row">
+        <!-- Contract Dates and Schedule -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              Información del Contrato
+            </div>
+            <div class="card-body contract-info">
+              <p><strong>Fecha de Inicio:</strong> <%= new Date(trabajo.vacant.fecini_hor).toLocaleDateString() %></p>
+              <p><strong>Fecha de Fin:</strong> <%= new Date(trabajo.vacant.fecfin_hor).toLocaleDateString() %></p>
+              <p><strong>Horario:</strong></p>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Día</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Salida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% trabajo.days.forEach(day => { %>
+                    <tr>
+                      <td><%= day.dia %></td>
+                      <td><%= day.horaini %></td>
+                      <td><%= day.horafin %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mt-3">
-      <!-- Current Contract Information -->
-      <div class="col-md-6">
-        <div class="card equal-height">
-          <div class="card-header">
-            Información del Cliente
-          </div>
-          <div class="card-body contract-info">
-            <p><strong>Cliente:</strong> Juan Pérez</p>
-            <p><strong>Dirección:</strong> Calle Falsa 123, Ciudad</p>
-            <p><strong>Teléfono:</strong> (555) 555-5555</p>
+      <div class="row mt-3">
+        <!-- Current Contract Information -->
+        <div class="col-md-6">
+          <div class="card equal-height">
+            <div class="card-header">
+              Información del Cliente
+            </div>
+            <div class="card-body contract-info">
+              <p><strong>Cliente:</strong> <%= trabajo.client.nom_us %> <%= trabajo.client.pat_us %> <%= trabajo.client.mat_us %></p>
+              <p><strong>Dirección:</strong> <%= trabajo.direction.calle %>, <%= trabajo.direction.ciudad %></p>
+              <p><strong>Teléfono:</strong> <%= trabajo.client.tel_us %></p>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Patient Information -->
-      <div class="col-md-6">
-        <div class="card equal-height">
-          <div class="card-header">
-            Información del Paciente
-          </div>
-          <div class="card-body patient-info">
-            <div class="d-flex align-items-center">
-              <img src="https://via.placeholder.com/150" alt="Foto del Paciente" class="patient-photo">
-              <div>
-                <p><strong>Nombre:</strong> Maria García</p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientModal">
-                  Ver Más
-                </button>
+        <!-- Patient Information -->
+        <div class="col-md-6">
+          <div class="card equal-height">
+            <div class="card-header">
+              Información del Paciente
+            </div>
+            <div class="card-body patient-info">
+              <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/150" alt="Foto del Paciente" class="patient-photo">
+                <div>
+                  <p><strong>Nombre:</strong> <%= trabajo.pacient.nom_pac %></p>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientModal">
+                    Ver Más
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <% } else { %>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              Sin Contrato Activo
+            </div>
+            <div class="card-body">
+              <div class="alert alert-warning" role="alert">
+                Actualmente no tienes un contrato activo.
+              </div>
+              <p class="no-contract-info">Puedes explorar las vacantes disponibles y postularte para nuevos contratos.</p>
+              <a href="/Vacantes" class="btn btn-primary">Ver Vacantes Disponibles</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
   </div>
 
+  <%if(trabajo.vacant){%>
   <!-- Patient Modal -->
   <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -263,7 +234,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p><strong>Nombre:</strong> Maria García</p>
+          <p><strong>Nombre:</strong> <%= trabajo.pacient.nom_pac %></p>
           <p><strong>Medicación:</strong> Paracetamol 500mg, Ibuprofeno 200mg</p>
           <p><strong>Tratamientos:</strong> Fisioterapia, Terapia Ocupacional</p>
           <p><strong>Descripción:</strong> Maria García es una paciente con necesidades especiales que requiere atención constante y especializada para sus tratamientos diarios.</p>
@@ -274,6 +245,9 @@
       </div>
     </div>
   </div>
+  <%}%>
+  
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
   <script>

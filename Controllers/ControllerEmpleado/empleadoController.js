@@ -141,32 +141,74 @@ exports.VistaMiTrabajoActual = async (req, res) => {
     //obtenemos el id de datos de acceso
     let id_datacc = req.userData.id_datacc;
     let cor_datacc = req.userData.cor_datacc;
+    let id = req.userData.id_emp;
     //obtenemos el id de empleado
     let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
     //obtenemos la imagen de perfil
     let foto = await cloudController.getUrl(empleado[0].fot_emp);
     //
     let perfilData = {correo: cor_datacc, foto: foto};
+
+    let solicitud = await query(`SELECT * FROM solicitud s JOIN horario h ON s.id_hor = h.id_hor WHERE s.est_sol = 'Curso' AND s.id_emp = ?`,[id]);
+    let trabajo = {}
+    if(solicitud.length != 0){
+        let cliente = await query('SELECT * FROM user WHERE id_us = ?', [solicitud[0].id_us]);
+        let paciente = await query('SELECT * FROM paciente WHERE id_pac = ?', [solicitud[0].id_pac]);
+        let direccion = await query('SELECT * FROM direccion WHERE id_dir = ?', [paciente[0].id_dir]);
+        let dia_horario = await query('SELECT * FROM dia_horario WHERE id_hor = ?', [solicitud[0].id_hor]);
+        trabajo = {vacant: solicitud[0], client: cliente[0], pacient: paciente[0], direction: direccion[0], days: dia_horario};
+    }
+    
+
+    
     
 
 
     //renderizar sus trabajos actuales
-    res.render('Empleado/inicio',{perfil: perfilData, alert: false});
+    res.render('Empleado/inicio',{perfil: perfilData, trabajo: trabajo, alert: false});
 }
-/////////////////////////Mostrar vacantes existentes/////////////////////////////
+/////////////////////////Most-rar vacantes existentes/////////////////////////////
 exports.VistaVacantes = async (req, res) => {
     //obtenemos el id de datos de acceso
     let id_datacc = req.userData.id_datacc;
     let cor_datacc = req.userData.cor_datacc;
+    let rol = req.userData.rol_datacc;
     //obtenemos el id de empleado
     let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
     //obtenemos la imagen de perfil
     let foto = await cloudController.getUrl(empleado[0].fot_emp);
     //
     let perfilData = {correo: cor_datacc, foto: foto};
+    let vacanetes = []
+
+    //obtenemos las vacantes disponibles
+    let solicitud = await query(`SELECT * FROM solicitud s JOIN horario h ON s.id_hor = h.id_hor WHERE s.est_sol = 'Espera' AND s.cobr_sol = 'Pagado' ORDER BY h.fecini_hor ASC`,[]);
     
-    //renderiza la vista de vacantes
-    res.render('Empleado/vacantes',{perfil: perfilData, alert: false});
+    for(let i = 0; i < solicitud.length; i++){
+        let cliente = await query('SELECT * FROM user WHERE id_us = ?', [solicitud[i].id_us]);
+        let paciente = await query('SELECT * FROM paciente WHERE id_pac = ?', [solicitud[i].id_pac]);
+        let direccion = await query('SELECT * FROM direccion WHERE id_dir = ?', [paciente[0].id_dir]);
+        let dia_horario = await query('SELECT * FROM dia_horario WHERE id_hor = ?', [solicitud[i].id_hor]);
+
+        if(rol == 'Cuidador'){
+            if(rol == solicitud[i].rol_sol){
+                let obgVacante = {vacant: solicitud[i], client: cliente[0], pacient: paciente[0], direction: direccion[0], days: dia_horario, rol: rol};
+                vacanetes.push(obgVacante);
+            }
+        }else{
+            let obgVacante = {vacant: solicitud[i], client: cliente[0], pacient: paciente[0], direction: direccion[0], days: dia_horario, rol: rol};
+            vacanetes.push(obgVacante);
+        }
+    }
+
+    console.log(req.query.alert)
+    if(req.query.alert){
+       res.render('Empleado/vacantes',{perfil: perfilData, alert: true, vacantes: vacanetes});
+    }else{
+        //renderiza la vista de vacantes
+        res.render('Empleado/vacantes',{perfil: perfilData, alert: false, vacantes: vacanetes});
+    }
+    
 }
 ///////////////////////Mostrar apartado de trabajos anterirormente realizados/////////////////////////////
 exports.VistaTrabajosAnteriores = async (req, res) => {
@@ -213,7 +255,7 @@ exports.VistaConfiguracionCuenta = async (req, res) => {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////Metodos de configuracion de cuenta///////////////////////////////////////////////////////
+////////////////////////Metodos de configuracion de cuenta///////////////////////////////////////////////////////
 exports.AuthActualizarFoto = async (req, res) => {
     //obtenemos el id de datos de acceso
     let id_datacc = req.userData.id_datacc;
@@ -291,12 +333,12 @@ exports.AuthUpdatePassword = async (req, res) => {
 
 
 //////////////////////////////////////////////////////////////////////////////////
-exports.VistaAgregarCreditos = async (req, res) => {
+exports.AuthAgregarCreditos = async (req, res) => {
     let id_sol = req.query.id
     let id_datacc = req.userData.id_datacc;
     //obtenemos el id de empleado
     let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
-    //
+    //obtenemos la imagen de perfil
     let solicitud = await query('SELECT * FROM solicitud WHERE id_sol = ? AND id_emp = ? AND cobr_sol = ?', [id_sol, empleado[0].id_emp, 'Pagado']);
     if(solicitud.length == 0){
         res.redirect('/TrabajosAnteriores');
@@ -314,6 +356,32 @@ exports.VistaAgregarCreditos = async (req, res) => {
         res.redirect('/TrabajosAnteriores');
     }
 
+}
+
+/////////////////////////Aceptar vacante/////////////////////////////
+exports.AuthAceptarVacante = async (req, res) => {
+    let id_sol = req.query.id
+    let id_datacc = req.userData.id_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //verificamos que la bacante este en espera y que no tenga empleado
+    let solicitud = await query('SELECT * FROM solicitud WHERE id_sol = ? AND est_sol = ? AND id_emp IS NULL', [id_sol, 'Espera']);
+    if(solicitud.length == 0){
+        res.redirect('/Vacantes');
+    }else{
+        //se verifica que el empleado notenga trabajo actual
+        let trabajo = await query('SELECT * FROM solicitud WHERE id_emp = ? AND est_sol = ?', [empleado[0].id_emp, 'Curso']);
+        if(trabajo.length != 0){
+            //actualizamos la solicitud para que tenga empleado
+            await query('UPDATE solicitud SET id_emp = ?, est_sol = ? WHERE id_sol = ?', [empleado[0].id_emp, 'Curso', id_sol]);
+            res.redirect('/MenuEmpleado');
+        }else{
+            res.redirect('/Vacantes?alert=true');
+        }
+
+
+        
+    }
 }
 
 
