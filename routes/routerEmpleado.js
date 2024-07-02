@@ -3,6 +3,7 @@ const routerE = express.Router()
 const empleado = require('../Controllers/ControllerEmpleado/empleadoController')
 const verifyToken = require('../Controllers/Validators/authsession')
 const testPsyco = require('../Controllers/ControllerEmpleado/TestPsycometricController');
+const PayPalController = require('../Controllers/ControllersMain/paymentController');
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage()});
 
@@ -38,5 +39,9 @@ routerE.post('/AuthActualizarFoto',verifyToken.verifyTokenLogedEmployee,upload.f
 routerE.post('/AuthUpdatePersonData',verifyToken.verifyTokenLogedEmployee,upload.none(),empleado.AuthUpdatePersonData);
 //ruta de actualizacion de datos de contrasena
 routerE.post('/AuthUpdatePassword',verifyToken.verifyTokenLogedEmployee,upload.none(),empleado.AuthUpdatePassword);
+
+//ruta de pago de empleado
+routerE.post('/transferir',verifyToken.verifyTokenLogedEmployee,PayPalController.AuthpagarEmpleado);
+routerE.get('/AgregarCreditos',verifyToken.verifyTokenLogedEmployee,empleado.VistaAgregarCreditos);
 
 module.exports = routerE

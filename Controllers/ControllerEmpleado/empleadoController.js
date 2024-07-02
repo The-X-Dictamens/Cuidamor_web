@@ -177,11 +177,24 @@ exports.VistaTrabajosAnteriores = async (req, res) => {
     let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
     //obtenemos la imagen de perfil
     let foto = await cloudController.getUrl(empleado[0].fot_emp);
+    let credit = empleado[0].cred_emp;
     //
-    let perfilData = {correo: cor_datacc, foto: foto};
+    let perfilData = {correo: cor_datacc, foto: foto, credit: credit};
+
+    //ontendremos los datos para cada trabajo anterior
+    let trabajos = await query(`SELECT s.id_sol AS IDTrabajo, e.nom_emp AS NombreEmpleado, s.des_sol AS DescripcionSolicitud, s.cost_sol AS Costo, s.est_sol AS EstadoSolicitud,
+           CASE WHEN s.est_sol = 'Final' THEN 'Pagado' ELSE 'No Pagado' END AS EstadoCobro, 
+           u.nom_us AS NombreCliente, u.pat_us AS ApellidoPaternoCliente, u.mat_us AS ApellidoMaternoCliente
+    FROM empleado e
+    JOIN solicitud s ON e.id_emp = s.id_emp
+    JOIN user u ON s.id_us = u.id_us
+    WHERE s.est_sol = 'Final' AND e.id_emp = ?`, [empleado[0].id_emp]);
+
+    console.log(trabajos)
+
 
     //renderizar trabajos anteriores
-    res.render('Empleado/LastTrabajos',{perfil: perfilData, alert: false});
+    res.render('Empleado/LastTrabajos',{perfil: perfilData, trabajos: trabajos, alert: false});
 }
 /////////////////////////Mostrar apartado de configuracion de cuenta/////////////////////////////
 exports.VistaConfiguracionCuenta = async (req, res) => {
@@ -274,6 +287,33 @@ exports.AuthUpdatePassword = async (req, res) => {
     }else{
         res.status(400).json({valid:false, message: 'Contraseña incorrecta.'});
     }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+exports.VistaAgregarCreditos = async (req, res) => {
+    let id_sol = req.query.id
+    let id_datacc = req.userData.id_datacc;
+    //obtenemos el id de empleado
+    let empleado = await query('SELECT * FROM empleado WHERE id_datacc = ?', [id_datacc]);
+    //
+    let solicitud = await query('SELECT * FROM solicitud WHERE id_sol = ? AND id_emp = ? AND cobr_sol = ?', [id_sol, empleado[0].id_emp, 'Pagado']);
+    if(solicitud.length == 0){
+        res.redirect('/TrabajosAnteriores');
+    }else{
+        let credits = empleado[0].cred_emp;
+        let costo = solicitud[0].cost_sol;
+
+        let credit2 = parseFloat(credits);
+        let costo2 = parseFloat(costo);
+
+        let sumacreditos = credit2 + costo2;
+
+        await query('UPDATE empleado SET cred_emp = ? WHERE id_datacc = ?', [sumacreditos, id_datacc]);
+
+        res.redirect('/TrabajosAnteriores');
+    }
+
 }
 
 
