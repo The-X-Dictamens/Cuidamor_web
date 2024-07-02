@@ -97,14 +97,14 @@
                 <div class="col-md-4">
                     <div class="card mb-4 text-white bg-danger">
                         <div class="card-body">
-                            <h5 class="card-title">Solicitud <%= solicitud.id_sol %></h5>
+                           <h5 class="card-title">Solicitud <%= solicitud.id_sol %></h5>
                             <p class="card-text">Tipo: <%= solicitud.tipo_sol === 'Cuidador' ? 'Cuidador' : 'Enfermero' %></p>
                             <p class="card-text">Descripción: <%= solicitud.des_sol %></p>
                             <p class="card-text">Inicio: <%= new Date(solicitud.fecini_hor).toISOString().slice(0, 10) %></p>
                             <p class="card-text">Estado: <%= solicitud.est_sol %></p>
                             <a href="/solicitudes/detalle/<%= solicitud.id_sol %>" class="btn btn-light">Ver Detalles</a>
                         </div>
-                        
+
                     </div>
                 </div>
             <% }); %>

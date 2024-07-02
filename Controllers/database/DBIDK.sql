@@ -175,11 +175,10 @@ CREATE TABLE `user` (
   CONSTRAINT `fk_user_direccion1` FOREIGN KEY (`id_dir`) REFERENCES `direccion` (`id_dir`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
--- Crear tabla de tickets
-DROP TABLE IF EXISTS `tickets`;
 CREATE TABLE `tickets` (
   `id_ticket` int NOT NULL AUTO_INCREMENT,
   `num_rastreo` varchar(45) NOT NULL,
+  `tipo` enum('Sugerencia', 'Reporte') NOT NULL,
   `descripcion` text NOT NULL,
   `prioridad` enum('Baja', 'Media', 'Alta') NOT NULL,
   `estatus` enum('Abierto', 'En Proceso', 'Resuelto', 'Cerrado') NOT NULL,
@@ -188,7 +187,6 @@ CREATE TABLE `tickets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Crear tabla de asignaciones de tickets
-DROP TABLE IF EXISTS `ticket_asignacion`;
 CREATE TABLE `ticket_asignacion` (
   `id_asignacion` int NOT NULL AUTO_INCREMENT,
   `id_ticket` int NOT NULL,
@@ -201,7 +199,7 @@ CREATE TABLE `ticket_asignacion` (
   CONSTRAINT `fk_ticket_asignacion_user` FOREIGN KEY (`id_us`) REFERENCES `user` (`id_us`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Crear trigger para generar número de rastreo
+-- Crear trigger para generar número de rastreo y asignar prioridad
 DELIMITER //
 
 CREATE TRIGGER `before_insert_ticket` 
@@ -215,9 +213,17 @@ BEGIN
 
   -- Generar el número de rastreo en el formato TRK001, TRK002, etc.
   SET NEW.num_rastreo = CONCAT('TRK', LPAD(max_id, 3, '0'));
+
+  -- Asignar prioridad en función del tipo de ticket
+  IF NEW.tipo = 'Reporte' THEN
+    SET NEW.prioridad = 'Alta';
+  ELSE
+    SET NEW.prioridad = 'Baja';
+  END IF;
 END//
 
 DELIMITER ;
+
 
 -- Insertar datos de prueba en la tabla admin
 INSERT INTO `admin` (`corr_adm`, `pass_adm`) VALUES

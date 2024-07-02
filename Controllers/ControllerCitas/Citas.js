@@ -1,7 +1,8 @@
 const conexionD = require('../database/db');
 const { promisify } = require('util');
 const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { finished } = require('stream');
 const query = promisify(conexionD.query).bind(conexionD);
 
 exports.PostularVacantes1 = async (req, res) => {
@@ -22,7 +23,7 @@ exports.PostularVacantes1 = async (req, res) => {
     let InsClock = await query("INSERT INTO dia_horario (horini_dh , horfin_dh, dia_dh, id_hor) VALUES (?,?,?,?)", [HI,HF,diasStr,idHor]);
         console.log('si se  insertaron los dias '+InsClock)
     // Insertar la solicitud y obtener el ID de la solicitud insertada
-    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir,cobr_est) VALUES (?, ?, ?, ?, ?, ?,?, ?,?)", [desc, TipoS, 'Espera', precio, idHor, idUs, paciente, null,idDir,'Pendiente']);
+    let solicitud = await query("INSERT INTO solicitud (des_sol, tipo_sol, est_sol, cost_sol, id_hor, id_us, id_pac, id_emp,id_dir) VALUES (?, ?, ?, ?, ?, ?,?,?, ?)", [desc, TipoS, 'Espera', precio, idHor, idUs, paciente, null,idDir]);
         let idSolicitud = solicitud.insertId;
 
     res.redirect('/Tablero');  

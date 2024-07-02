@@ -87,118 +87,48 @@
   <div class="form-signin-container">
     <h1 class="h3 mb-3 font-weight-normal text-center">Registro Usuario</h1>
     
-    <div id="step2" class="step">
-        <form id="formStep2" method="post" onsubmit="return validateStep2()">
-          <div class="form-label-group">
-            <label for="calle">Calle</label>
-            <input type="text" name="calle" id="calle" class="form-control" placeholder="Calle" required autofocus>
-          </div>
-  
-          <div class="form-label-group">
-            <label for="numeroExterior">Número Exterior</label>
-            <input type="text" name="numeroExterior" id="numeroExterior" class="form-control" placeholder="Número Exterior" required>
-          </div>
-  
-          <div class="form-label-group">
-            <label for="numeroInterior">Número Interior</label>
-            <input type="text" name="numeroInterior" id="numeroInterior" class="form-control" placeholder="Número Interior">
-          </div>
-  
-          <div class="form-label-group">
-            <label for="colonia">Colonia</label>
-            <input type="text" name="colonia" id="colonia" class="form-control" placeholder="Colonia" required>
-          </div>
-  
-          <div class="form-label-group">
-            <label for="delegacion">Delegación/Municipio</label>
-            <input type="text" name="delegacion" id="delegacion" class="form-control" placeholder="Delegación/Municipio" required>
-          </div>
-  
-          <div class="form-label-group">
-            <label for="codigoPostal">Código Postal</label>
-            <input type="text" name="codigoPostal" id="codigoPostal" class="form-control" placeholder="Código Postal" required>
-          </div>
-  
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
-          <button class="btn btn-lg btn-secondary btn-block" type="button" onclick="prevStep()">Atrás</button>
-        </form>
-      </div>
+    <div id="step2" class="step active">
+      <form id="formStep2" action="/RegisterDom" method="post" >
+        <div class="form-label-group">
+          <label for="calle">Calle</label>
+          <input type="text" name="calle" id="calle" class="form-control" placeholder="Calle" required autofocus>
+        </div>
 
+        <div class="form-label-group">
+          <label for="numeroExterior">Número Exterior</label>
+          <input type="text" name="numeroExterior" id="numeroExterior" class="form-control" placeholder="Número Exterior" required>
+        </div>
 
-    <script>
+        <div class="form-label-group">
+          <label for="numeroInterior">Número Interior</label>
+          <input type="text" name="numeroInterior" id="numeroInterior" class="form-control" placeholder="Número Interior">
+        </div>
 
-let formData = {};
+        <div class="form-label-group">
+          <label for="colonia">Colonia</label>
+          <input type="text" name="colonia" id="colonia" class="form-control" placeholder="Colonia" required>
+        </div>
 
-        function validateStep2() {
-      const form = document.getElementById('formStep2');
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return false;
-      }
-           // Envía los datos combinados en una única solicitud POST
-           fetch('/AuthRegistrarEmpleado', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          // Manejar la respuesta aquí
-          if (data.message === 'success') {
-            window.location.href = '/AdvLogeoEmpleado';
-          } else if (data.message === 'correo'){
-            Swal.fire({
-              title: 'Error',
-              text: 'El correo ya ha sido registrado con anterioridad. Por favor, ingrese otro correo.',
-              icon: 'error',
-              showConfirmButton: true
-            });
-          }else{
-            Swal.fire({
-              title: 'Error',
-              text: 'Hubo un problema al enviar el formulario.',
-              icon: 'error',
-              showConfirmButton: true
-            });
-          }
-        })
-        .catch(error => {
-          // Manejar los errores aquí
-          console.error('Error:', error);
-          Swal.fire({
-            title: 'Error',
-            text: 'Hubo un problema al enviar el formulario.',
-            icon: 'error',
-            showConfirmButton: true
-          });
-        });
+        <div class="form-label-group">
+          <label for="delegacion">Delegación/Municipio</label>
+          <input type="text" name="delegacion" id="delegacion" class="form-control" placeholder="Delegación/Municipio" required>
+        </div>
 
-      return false; // Previene el envío por defecto del formulario
-    }
+        <div class="form-label-group">
+          <label for="codigoPostal">Código Postal</label>
+          <input type="text" name="codigoPostal" id="codigoPostal" class="form-control" placeholder="Código Postal" required>
+        </div>
 
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
+        <button class="btn btn-lg btn-secondary btn-block" type="button" onclick="prevStep()">Atrás</button>
+      </form>
+    </div>
+  </div>
 
-    </script>
-    <% if(alert) { %>
-        <script>
-          Swal.fire({
-            title: '<%= title %>',
-            html:'<%= text %>',
-            icon:'<%= icon %>',
-            showConfirmButton: true,
-          }).then(()=>{
-            window.history.back();
-          })
-          
-        </script>
-      <% } %>
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

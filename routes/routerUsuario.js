@@ -72,8 +72,8 @@ routerU.get('/Tablero', AuthSs.verifyTokenLogedClient, AuthSs.verifyTokenLogedUs
 routerU.get('/Tutorial', (req, res)=>{
     res.render('./Usuario/tutorial',{user:req.userData})
 })
-routerU.get('/RegistroDomicilio', (req, res)=>{
-    res.render('./Usuario/RegistroDomicilio',{user:req.userData,alert:false})
+routerU.get('/RegistroDomicilio', AuthSs.verifyTokenLoged, (req, res) => {
+    res.render('./Usuario/RegistroDomicilio', { user: req.userData, alert: false });
 })
 //Info Vacante                                          para verificar              para checarle el permiso
 routerU.get('/solicitudes/detalle/:id', VacantesM.getSolicitudDetalleCliente, (req, res) => {
@@ -95,5 +95,6 @@ routerU.post('/registerF',AuthSs.verifyTokenLogedClient, Pacientes.registrarPac)
 
 routerU.post('/PostularT', AuthSs.verifyTokenLogedClient,VacantesM.PostularVacantes1)
 
+routerU.post('/RegisterDom',AuthSs.verifyTokenLoged, MUsers.AuthRegitrarDomicilioUser)
 
 module.exports = routerU
