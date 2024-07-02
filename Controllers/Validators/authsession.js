@@ -7,17 +7,14 @@ exports.verifyTokenLoged = (req, res, next) => {
     console.log('no token')
     return res.status(403).redirect('/Iniciar_sesion'); 
   }
-
   //se verifica el token y se envia los datos del usuario Cliente
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if(err){
       return res.status(403).redirect('/')
     }
     console.log(req.userData+ 'userData');
-
     req.userData = decoded;
     console.log(decoded);
-
     next();
   })
 }
@@ -31,7 +28,6 @@ exports.verifyTokenLogedClient = (req, res, next) => {
     console.log('no token')
     return res.status(403).redirect('/Iniciar_sesion'); 
   }
-
   //se verifica el token y se envia los datos del usuario Cliente
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
@@ -40,11 +36,9 @@ exports.verifyTokenLogedClient = (req, res, next) => {
     }
     //si el token no es de un cliente se redirecciona a la ruta corrspondiente
     if (decoded.rol != 'Cliente') {
-      
       switch(decoded.rol){
         case 'Enfermero':
           return res.status(403).redirect('/MenuEmpleado');
-        
         case 'Cuidador':
           return res.status(403).redirect('/MenuEmpleado');
         default:

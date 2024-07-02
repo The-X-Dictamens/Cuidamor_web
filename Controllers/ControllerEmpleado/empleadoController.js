@@ -310,7 +310,7 @@ exports.VistaAgregarCreditos = async (req, res) => {
         let sumacreditos = credit2 + costo2;
 
         await query('UPDATE empleado SET cred_emp = ? WHERE id_datacc = ?', [sumacreditos, id_datacc]);
-
+        await query('UPDATE solicitud SET cobr_sol = ? WHERE id_sol = ?', ['Cobrado', id_sol]);
         res.redirect('/TrabajosAnteriores');
     }
 
