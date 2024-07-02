@@ -203,10 +203,10 @@ exports.VistaVacantes = async (req, res) => {
 
     console.log(req.query.alert)
     if(req.query.alert){
-       res.render('Empleado/vacantes',{perfil: perfilData, alert: true, vacantes: vacanetes});
+       res.render('Empleado/Vacantes',{perfil: perfilData, alert: true, vacantes: vacanetes});
     }else{
         //renderiza la vista de vacantes
-        res.render('Empleado/vacantes',{perfil: perfilData, alert: false, vacantes: vacanetes});
+        res.render('Empleado/Vacantes',{perfil: perfilData, alert: false, vacantes: vacanetes});
     }
     
 }
