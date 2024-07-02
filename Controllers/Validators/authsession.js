@@ -30,10 +30,14 @@ exports.verifyTokenLogedClient = (req, res, next) => {
   }
   //se verifica el token y se envia los datos del usuario Cliente
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    console.log(decoded);
     if (err) {
       //si el token no es valido se redirecciona a la pagina de login
       return res.status(401).redirect('/Iniciar_sesion'); 
     }
+    if (decoded.id_direc === null) {
+      return res.redirect('/RegistroDomicilio')
+    } 
     //si el token no es de un cliente se redirecciona a la ruta corrspondiente
     if (decoded.rol != 'Cliente') {
       switch(decoded.rol){
@@ -88,9 +92,7 @@ exports.verifyTokenLogedEmployee = (req, res, next) => {
     req.userData = decoded;
     next();
   });
-
 };
-
 //Middleware para verificar que el empleado no este en proceso de registro
 exports.verifyTokenLogedEmployeeInvalid = (req, res, next) => {
   const token = req.cookies.jwt;
