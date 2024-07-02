@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deplo": "node app.js",
-    "run": "npm install && npm deplo"
+    "start": "npm install && npm deplo"
   },
   "keywords": [],
   "author": "Alejandro Vazquez Santiago & Juan Pablo Jimenez Zea",
